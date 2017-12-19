@@ -1,0 +1,18 @@
+Code,Name,Category Code,Unit,Size,Cost,Price,Alert Quantity, Tax Rate Name,Color,Shelf Code
+PCFL-001,Chicken Drumstick,FI-001,Pcs,R,90,90,50, No Tax,Red,DIFT-001
+PCFL-002,Chicken Breast ,FI-001,Pcs,R,100,100,50, No Tax,Red,DIFT-002
+PCFL-003,Chicken wings ,FI-001,Pcs,R,70,70,50, No Tax,Red,DIFT-003
+PCFL-004,Chicken Thigh ,FI-001,Pcs,R,80,80,50, No Tax,Red,DIFT-004
+PCFL-005,Chicken Nuggets ,FI-001,Pcs,R,50,50,50, No Tax,Red,DIFT-005
+PCFL-006,Chicken Meat Ball,FI-001,Pcs,R,60,60,50, No Tax,Red,DIFT-006
+PCFL-007,Sausage ,FI-001,Pcs,R,25,25,50, No Tax,Red,DIFT-007
+PCFL-008,Chicken Strips,FI-001,Pcs,R,60,60,50, No Tax,Red,DIFT-008
+PCFL-009,Burger Patty ,FI-001,Pcs,R,120,120,50, No Tax,Red,DIFT-009
+PCFL-010,Sub burger,FI-001,Pcs,R,150,150,50, No Tax,Red,DIFT-010
+PCFL-011,Hot Dog ,FI-001,Pcs,R,80,80,50, No Tax,Red,DIFT-011
+PCFL-012,Chicken Liver Singara ,FI-001,Pcs,R,20,20,50, No Tax,Red,DIFT-012
+PCFL-013,Chicken Mini Samosa ,FI-001,Pcs,R,20,20,50, No Tax,Red,DIFT-013
+PCFL-014,Chicken Mini Spring Roll ,FI-001,Pcs,R,25,25,50, No Tax,Red,DIFT-014
+PCFL-015,Chicken Samosa,FI-001,Pcs,R,20,20,50, No Tax,Red,DIFT-015
+PCFL-016,Chicken Spring Roll,FI-001,Pcs,R,20,20,50, No Tax,Red,DIFT-016
+PCFL-017,DalPuri,FI-001,Pcs,R,10,10,50, No Tax,Red,DIFT-017
