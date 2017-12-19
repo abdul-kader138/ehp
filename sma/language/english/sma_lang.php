@@ -818,6 +818,16 @@ $lang['level_name_exist_buildings'] 	= "Level name already exist.";
 $lang['list_level_buildings'] 		    = "List Building Details";
 $lang['alert_x_level_buildings'] 		= "You are going to remove this Building Details. Press OK to proceed and Cancel to Go Back";
 
+$lang['new_vendor']		                 = "New Vendor";
+$lang['add_vendor']		                 = "Add Vendor";
+$lang['edit_vendor']		             = "Edit Vendor";
+$lang['delete_vendor']		             = "Delete Vendor";
+$lang['vendor']		                     = "List Vendor";
+$lang['vendor_added']		             = "Vendor Successfully Added.";
+$lang['vendor_updated']		             = "Vendor Successfully Updated.";
+$lang['vendor_deleted']		             = "Vendor Successfully Deleted.";
+$lang['alert_x_vendor'] 				 = "You are going to remove this Vendor. Press OK to proceed and Cancel to Go Back";
+
 
 
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */

@@ -89,27 +89,7 @@ class Customers_model extends CI_Model
 	
 	public function addCustomer($data = array())
 	{
-		
-		// Customer data
-		$customerData = array(
-		    'name'	     	   => $data['name'],
-		    'email'   			  => $data['email'],
-			'company'      		=> $data['company'],
-		    'address' 			=> $data['address'],
-			'city'	     	   => $data['city'],
-		    'state'   			  => $data['state'],
-		    'postal_code'   	    => $data['postal_code'],
-		    'country' 			=> $data['country'],
-			'phone'	     	  => $data['phone'],
-			'cf1'      			=> $data['cf1'],
-			'cf2'      			=> $data['cf2'],
-			'cf3'      			=> $data['cf3'],
-			'cf4'      			=> $data['cf4'],
-			'cf5'      			=> $data['cf5'],
-			'cf6'      			=> $data['cf6']
-		);
-
-		if($this->db->insert('customers', $customerData)) {
+		if($this->db->insert('customers', $data)) {
 			return true;
 		} else {
 			return false;
@@ -119,27 +99,7 @@ class Customers_model extends CI_Model
 	public function updateCustomer($id, $data = array())
 	{
 		
-		// Customer data
-		$customerData = array(
-		    'name'	     	   => $data['name'],
-		    'email'   			  => $data['email'],
-			'company'      		=> $data['company'],
-		    'address' 			=> $data['address'],
-			'city'	     	   => $data['city'],
-		    'state'   			  => $data['state'],
-		    'postal_code'   	    => $data['postal_code'],
-		    'country' 			=> $data['country'],
-			'phone'	     	  => $data['phone'],
-			'cf1'      			=> $data['cf1'],
-			'cf2'      			=> $data['cf2'],
-			'cf3'      			=> $data['cf3'],
-			'cf4'      			=> $data['cf4'],
-			'cf5'      			=> $data['cf5'],
-			'cf6'      			=> $data['cf6']
-		);
-		
-		$this->db->where('id', $id);
-		if($this->db->update('customers', $customerData)) {
+		if($this->db->update('customers', $data)) {
 			return true;
 		} else {
 			return false;

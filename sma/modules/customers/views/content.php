@@ -48,7 +48,9 @@
 					  null,
 					  null,
 					  null,
-					  null, 
+					  null,
+					  null,
+					  null,
 					  null,
 
 					  { "bSortable": false }
@@ -63,6 +65,8 @@
 															{ type: "text", bRegex:true },
 															{ type: "text", bRegex:true },
 															{ type: "text", bRegex:true },
+															null,
+															null,
 															null,
 															null
                                                             
@@ -82,33 +86,24 @@
 	<table id="fileData" cellpadding=0 cellspacing=10 class="table table-bordered table-hover table-striped">
 		<thead>
         <tr>
+			<th><?php echo $this->lang->line("code"); ?></th>
 			<th><?php echo $this->lang->line("name"); ?></th>
-			<th><?php echo $this->lang->line("company"); ?></th>
+            <th>Email</th>
             <th><?php echo $this->lang->line("phone"); ?></th>
-            <th><?php echo $this->lang->line("email_address"); ?></th>
-			<th>Card Number</th>
-            <th>Discount Set</th>
-            <th>Duscount Amount</th>
+			<th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Join date</th>
             <th style="width:45px;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>
 		<tbody>
 			<tr>
-            	<td colspan="8" class="dataTables_empty">Loading data from server</td>
+            	<td colspan="10" class="dataTables_empty">Loading data from server</td>
 			</tr>
         </tbody>
-        <tfoot>
-        <tr>
-			<th><?php echo $this->lang->line("name"); ?></th>
-			<th><?php echo $this->lang->line("company"); ?></th>
-            <th><?php echo $this->lang->line("phone"); ?></th>
-            <th><?php echo $this->lang->line("email_address"); ?></th>
-			<th>Card Number</th>
-            <th>Discount Set</th>
-            <th>Duscount Amount</th>
-            <th style="width:45px;"><?php echo $this->lang->line("actions"); ?></th>
-		</tr>
-        </tfoot>
+
 	</table>
 	
 	<p><a href="<?php echo site_url('module=customers&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_customer"); ?></a></p>

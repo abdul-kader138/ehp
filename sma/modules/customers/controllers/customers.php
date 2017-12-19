@@ -44,8 +44,8 @@ class Customers extends MX_Controller
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         $data['success_message'] = $this->session->flashdata('success_message');
 
-        $meta['page_title'] = $this->lang->line("customers");
-        $data['page_title'] = $this->lang->line("customers");
+        $meta['page_title'] = $this->lang->line("vendor");
+        $data['page_title'] = $this->lang->line("vendor");
         $this->load->view('commons/header', $meta);
         $this->load->view('content', $data);
         $this->load->view('commons/footer');
@@ -58,16 +58,16 @@ class Customers extends MX_Controller
         $this->load->library('datatables');
         if ($userHasAuthority) {
             $this->datatables
-                ->select("id, name, company, phone, email, cf4, cf1, cf2")
+                ->select("id, code,name,email,phone, address, city,state,country,date_of_join")
                 ->from("customers")
                 ->add_column("Actions",
-                    "<center>			<a class=\"tip\" title='" . $this->lang->line("edit_customer") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
-							    <a class=\"tip\" title='" . $this->lang->line("delete_customer") . "' href='index.php?module=customers&amp;view=delete&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_customer') . "')\"><i class=\"icon-remove\"></i></a></center>", "id")
+                    "<center>			<a class=\"tip\" title='" . $this->lang->line("edit_vendor") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
+							    <a class=\"tip\" title='" . $this->lang->line("delete_vendor") . "' href='index.php?module=customers&amp;view=delete&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_vendor') . "')\"><i class=\"icon-remove\"></i></a></center>", "id")
                 ->unset_column('id');
 
         } else {
             $this->datatables
-                ->select("id, name, company, phone, email, cf4, cf1, cf2")
+                ->select("id, code,name,email,phone, address, city,state,country,date_of_join")
                 ->from("customers")
                 ->add_column("Actions",
                     "")
@@ -89,47 +89,39 @@ class Customers extends MX_Controller
 
 
         //validate form input
+        $this->form_validation->set_rules('code', $this->lang->line("code"), 'required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("name"), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'required|valid_email');
-        $this->form_validation->set_rules('company', $this->lang->line("company"), 'required|xss_clean');
-
-        $this->form_validation->set_rules('cf2', $this->lang->line("ccf5"), 'xss_clean');
-        $this->form_validation->set_rules('cf6', $this->lang->line("ccf6"), 'xss_clean');
         $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean');
-
-        $this->form_validation->set_rules('cf1', 'Discount set is required', 'required|xss_clean');
-        $this->form_validation->set_rules('cf5', 'Discount amount is required', 'required|xss_clean');
-        $this->form_validation->set_rules('cf3', 'Customer Group is required ', 'required|xss_clean');
-        $this->form_validation->set_rules('cf4', 'Customer Group', 'required|xss_clean');
-
+        $this->form_validation->set_rules('city', $this->lang->line("city"), 'required|xss_clean');
+        $this->form_validation->set_rules('state', $this->lang->line("state"), 'required|xss_clean');
+        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
+        $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
-
-        $getDiscount = $this->customers_model->getDiscountByID($this->input->post('cf5'));
 
 
         if ($this->form_validation->run() == true) {
 
             $data = array('name' => $this->input->post('name'),
+                'code' => $this->input->post('code'),
                 'email' => $this->input->post('email'),
-                'company' => $this->input->post('company'),
-                'cf1' => $this->input->post('cf1'),
-                'cf2' => $getDiscount->discount,
-                'cf3' => $this->input->post('cf3'),
-                'cf4' => $this->input->post('cf4'),
-                'cf5' => $this->input->post('cf5'),
-                'cf6' => $this->input->post('cf6'),
                 'address' => $this->input->post('address'),
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
+                'nid' => $this->input->post('nid'),
+                'date_of_join' => date('Y-m-d'),
                 'country' => $this->input->post('country'),
-                'phone' => $this->input->post('phone')
+                'phone' => $this->input->post('phone'),
+                'created_by' => USER_NAME,
+                'created_date' => date('Y-m-d H:i:s')
             );
         }
 
         if ($this->form_validation->run() == true && $this->customers_model->addCustomer($data)) { //check to see if we are creating the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("customer_added"));
+            $this->session->set_flashdata('success_message', $this->lang->line("vendor_added"));
             redirect("module=customers", 'refresh');
         } else { //display the create customer form
             //set the flash data error message if there is one
@@ -145,76 +137,9 @@ class Customers extends MX_Controller
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('email'),
             );
-            $data['company'] = array('name' => 'company',
-                'id' => 'company',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('company'),
-            );
-            $data['cui'] = array('name' => 'cui',
-                'id' => 'cui',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cui', '-'),
-            );
-            $data['reg'] = array('name' => 'reg',
-                'id' => 'reg',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('reg', '-'),
-            );
-            $data['cnp'] = array('name' => 'cnp',
-                'id' => 'cnp',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cnp', '-'),
-            );
-            $data['serie'] = array('name' => 'serie',
-                'id' => 'serie',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('serie', '-'),
-            );
-            $data['account_no'] = array('name' => 'account_no',
-                'id' => 'account_no',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('account_no', '-'),
-            );
-            $data['bank'] = array('name' => 'bank',
-                'id' => 'bank',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('bank', '-'),
-            );
-            $data['address'] = array('name' => 'address',
-                'id' => 'address',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('address'),
-            );
-            $data['cf1'] = array('name' => 'cf1',
-                'id' => 'cf1',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cf1'),
-            );
-            $data['cf2'] = array('name' => 'cf2',
-                'id' => 'cf2',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cf2'),
-            );
-            $data['cf3'] = array('name' => 'cf3',
-                'id' => 'cf3',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cf3'),
-            );
-            $data['cf4'] = array('name' => 'cf3',
-                'id' => 'cf3',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('cf3'),
-            );
-            $data['phone'] = array('name' => 'phone',
-                'id' => 'phone',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('phone'),
-            );
 
-
-            $meta['page_title'] = $this->lang->line("new_customer");
-            $data['page_title'] = $this->lang->line("new_customer");
-            $data['discounts'] = $this->customers_model->getAllDiscounts();
+            $meta['page_title'] = $this->lang->line("new_vendor");
+            $data['page_title'] = $this->lang->line("new_vendor");
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
@@ -227,7 +152,7 @@ class Customers extends MX_Controller
         if ($this->input->get('id')) {
             $id = $this->input->get('id');
         }
-        $groups = array('owner', 'admin', 'salesman');
+        $groups = array('owner', 'admin');
         if (!$this->ion_auth->in_group($groups)) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
@@ -236,54 +161,47 @@ class Customers extends MX_Controller
 
 
         //validate form input
+        $this->form_validation->set_rules('code', $this->lang->line("code"), 'required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("name"), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'required|valid_email');
-        $this->form_validation->set_rules('company', $this->lang->line("company"), 'required|xss_clean');
-        $this->form_validation->set_rules('cf2', $this->lang->line("ccf5"), 'xss_clean');
-        $this->form_validation->set_rules('cf6', $this->lang->line("ccf6"), 'xss_clean');
         $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean');
-
-        $this->form_validation->set_rules('cf1', 'Discount set is required', 'required|xss_clean');
-        $this->form_validation->set_rules('cf5', 'Discount amount is required', 'required|xss_clean');
-        $this->form_validation->set_rules('cf3', 'Customer Group is required ', 'required|xss_clean');
-        $this->form_validation->set_rules('cf4', 'Customer Group', 'required|xss_clean');
-
+        $this->form_validation->set_rules('city', $this->lang->line("city"), 'required|xss_clean');
+        $this->form_validation->set_rules('state', $this->lang->line("state"), 'required|xss_clean');
+        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
+        $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
 
-        $getDiscount = $this->customers_model->getDiscountByID($this->input->post('cf5'));
 
         if ($this->form_validation->run() == true) {
 
             $data = array('name' => $this->input->post('name'),
+                'code' => $this->input->post('code'),
                 'email' => $this->input->post('email'),
-                'company' => $this->input->post('company'),
-                'cf1' => $this->input->post('cf1'),
-                'cf2' => $getDiscount->discount,
-                'cf3' => $this->input->post('cf3'),
-                'cf4' => $this->input->post('cf4'),
-                'cf5' => $this->input->post('cf5'),
-                'cf6' => $this->input->post('cf6'),
                 'address' => $this->input->post('address'),
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
+                'nid' => $this->input->post('nid'),
                 'country' => $this->input->post('country'),
-                'phone' => $this->input->post('phone')
+                'phone' => $this->input->post('phone'),
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s')
             );
         }
 
+
         if ($this->form_validation->run() == true && $this->customers_model->updateCustomer($id, $data)) {
-            $this->session->set_flashdata('success_message', $this->lang->line("customer_updated"));
+            $this->session->set_flashdata('success_message', $this->lang->line("vendor_updated"));
             redirect("module=customers", 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
             $data['customer'] = $this->customers_model->getCustomerByID($id);
-            $data['discounts'] = $this->customers_model->getAllDiscounts();
 
-            $meta['page_title'] = $this->lang->line("update_customer");
+            $meta['page_title'] = $this->lang->line("edit_vendor");
             $data['id'] = $id;
-            $data['page_title'] = $this->lang->line("update_customer");
+            $data['page_title'] = $this->lang->line("edit_vendor");
             $this->load->view('commons/header', $meta);
             $this->load->view('edit', $data);
             $this->load->view('commons/footer');
@@ -402,7 +320,7 @@ class Customers extends MX_Controller
         }
 
         if ($this->customers_model->deleteCustomer($id)) {
-            $this->session->set_flashdata('success_message', $this->lang->line("customer_deleted"));
+            $this->session->set_flashdata('success_message', $this->lang->line("vendor_deleted"));
             redirect("module=customers", 'refresh');
         }
 

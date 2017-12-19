@@ -271,10 +271,10 @@
             </li>
             <li class="divider"></li>
             <li>
-                <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('list_customers'); ?></a>
+                <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('vendor'); ?></a>
             </li>
             <li>
-                <a href="<?php echo base_url(); ?>index.php?module=customers&amp;view=add"><?php echo $this->lang->line('new_customer'); ?></a>
+                <a href="<?php echo base_url(); ?>index.php?module=customers&amp;view=add"><?php echo $this->lang->line('new_vendor'); ?></a>
             </li>
             <li>
                 <a href="<?php echo base_url(); ?>index.php?module=customers&amp;view=add_by_csv"><?php echo $this->lang->line('add_customers_by_csv'); ?></a>
