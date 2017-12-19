@@ -274,7 +274,7 @@ class Buildings extends MX_Controller
             $object = array(
                 'building_name' => strtolower($this->input->post('buildings_name')),
                 'level_name' => $this->input->post('level_name'),
-                'no_of_room' => $this->input->post('total_bed_qty'),
+                'no_of_room' => $this->input->post('total_room_qty'),
                 'no_of_bed' => $this->input->post('total_bed_qty'),
                 'total_occupied_bed' => 0,
                 'created_by' => USER_NAME,
@@ -308,6 +308,39 @@ class Buildings extends MX_Controller
         }
 
     }
+
+
+    function building_details()
+    {
+
+
+        $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $data['success_message'] = $this->session->flashdata('success_message');
+
+        $meta['page_title'] = $this->lang->line("list_level_buildings");
+        $data['page_title'] = $this->lang->line("list_level_buildings");
+        $this->load->view('commons/header', $meta);
+        $this->load->view('building_details', $data);
+        $this->load->view('commons/footer');
+    }
+
+    function getDataTableAjaxForDetails()
+    {
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("id,building_name,level_name,no_of_room,no_of_bed,total_occupied_bed")
+            ->from("building_details")
+            ->add_column("Actions",
+                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("level_updated_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("level_deleted_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+            ->unset_column('id');
+
+        echo $this->datatables->generate();
+
+    }
+
+
+
 }
 
 /* End of file level.php */

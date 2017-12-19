@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/bphn_ehp/';
+$config['base_url']	= 'http://localhost/ehp/';
 
 /*
 |--------------------------------------------------------------------------

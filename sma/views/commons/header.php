@@ -325,6 +325,12 @@
                     <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add"><?php echo $this->lang->line('new_buildings'); ?></a>
                 </li>
                 <li class="divider"></li>
+
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_details"><?php echo $this->lang->line('list_level_buildings'); ?></a>
+                </li>
+                <li class="divider"></li>
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add_building_details"><?php echo $this->lang->line('new_level_buildings'); ?></a>
                 </li>

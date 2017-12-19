@@ -38,7 +38,7 @@
 <p><?php echo $this->lang->line("enter_product_info"); ?></p>
 
 <?php $attrib = array('class' => 'form-horizontal');
-echo form_open_multipart("module=buildings&view=add_building_info", $attrib); ?>
+echo form_open_multipart("module=buildings&view=add_building_details", $attrib); ?>
 
 
 <div class="control-group">
@@ -72,7 +72,7 @@ echo form_open_multipart("module=buildings&view=add_building_info", $attrib); ?>
 </div>
 
 <div class="control-group">
-    <label class="control-label" for="size"><?php echo $this->lang->line("total_room_qty"); ?></label>
+    <label class="control-label" for="size"><?php echo $this->lang->line("total_bed_qty"); ?></label>
 
     <div
         class="controls"> <?php echo form_input('total_bed_qty', (isset($_POST['total_bed_qty']) ? $_POST['total_bed_qty'] : ""), 'class="span4 tip" id="total_bed_qty" title="' . $this->lang->line("total_bed_qty") . '"'); ?> </div>
@@ -80,6 +80,6 @@ echo form_open_multipart("module=buildings&view=add_building_info", $attrib); ?>
 
 <div class="control-group">
     <div
-        class="controls"> <?php echo form_submit('submit', $this->lang->line("add_product"), 'class="btn btn-primary"'); ?> </div>
+        class="controls"> <?php echo form_submit('submit', $this->lang->line("add_level_buildings"), 'class="btn btn-primary"'); ?> </div>
 </div>
 <?php echo form_close(); ?>
