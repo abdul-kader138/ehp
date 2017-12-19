@@ -283,7 +283,7 @@ class Buildings extends MX_Controller
 
         if ($this->form_validation->run() == true && $this->buildings_model->addBuildingDetails($object)){
             $this->session->set_flashdata('success_message', $this->lang->line("level_added_buildings"));
-            redirect('module=buildings', 'refresh');
+            redirect('module=module=buildings&view=building_details', 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
@@ -332,7 +332,7 @@ class Buildings extends MX_Controller
             ->select("id,building_name,level_name,no_of_room,no_of_bed,total_occupied_bed")
             ->from("building_details")
             ->add_column("Actions",
-                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("level_updated_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("level_deleted_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
             ->unset_column('id');
 
         echo $this->datatables->generate();
@@ -340,6 +340,92 @@ class Buildings extends MX_Controller
     }
 
 
+    function edit_building_details($id = NULL)
+
+    {
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+
+        $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('total_room_qty', $this->lang->line("total_room_qty"), 'required|max_length[200]|xss_clean');
+        $this->form_validation->set_rules('total_bed_qty', 'total_bed_qty', 'required|xss_clean');
+
+        if ($this->form_validation->run() == true) {
+            $object = array(
+                'building_name' => strtolower($this->input->post('buildings_name')),
+                'level_name' => $this->input->post('level_name'),
+                'no_of_room' => $this->input->post('total_room_qty'),
+                'no_of_bed' => $this->input->post('total_bed_qty'),
+                'total_occupied_bed' => 0,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s'));
+        }
+
+        if ($this->form_validation->run() == true && $this->buildings_model->updateBuildingDetails($id, $object)) {
+            $this->session->set_flashdata('success_message', $this->lang->line("level_updated_buildings"));
+            redirect("module=buildings&view=building_details", 'refresh');
+        } else {
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+            $data['name'] = array('name' => 'name',
+                'id' => 'name',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('name'),
+            );
+            $data['code'] = array('name' => 'code',
+                'id' => 'code',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('code'),
+            );
+
+            $data['buildings'] = $this->buildings_model->getAllBuildings();
+            $data['levels'] = $this->buildings_model->getAllLevels();
+            $data['building_details'] = $this->buildings_model->getBuildingDetailsById($id);
+
+            $meta['page_title'] = $this->lang->line("edit_level_buildings");
+            $data['id'] = $id;
+            $data['page_title'] = $this->lang->line("edit_level_buildings");
+            $this->load->view('commons/header', $meta);
+            $this->load->view('edit_building_details', $data);
+            $this->load->view('commons/footer');
+
+        }
+    }
+
+    function delete_building_details($id = NULL)
+    {
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+        if ($this->buildings_model->deleteBuildingDetails($id)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("delete_level_buildings"));
+            redirect("module=buildings&view=building_details", 'refresh');
+        }
+
+    }
 
 }
 

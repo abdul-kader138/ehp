@@ -62,6 +62,16 @@ class Buildings_model extends CI_Model
         return FALSE;
     }
 
+    public function getBuildingDetailsById($id)
+    {
+        $q = $this->db->get_where('building_details', array('id' => $id), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
 
 
 
@@ -113,6 +123,26 @@ class Buildings_model extends CI_Model
 
         return FALSE;
     }
+
+    public function updateBuildingDetails($id, $data = array())
+    {
+        if ($this->db->update("building_details", $data,array('id'=>$id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function deleteBuildingDetails($id)
+    {
+        if($this->db->delete("building_details", array('id' => $id))) {
+            return true;
+        }
+        return FALSE;
+    }
+
+
 }
 
 /* End of file calegories_model.php */
