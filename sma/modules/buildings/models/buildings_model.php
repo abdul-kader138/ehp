@@ -142,6 +142,18 @@ class Buildings_model extends CI_Model
         return FALSE;
     }
 
+    public function getRQNextAI()
+    {
+        $this->db->select_max('id');
+        $q = $this->db->get('building');
+        if ($q->num_rows() > 0) {
+            $row = $q->row();
+            return "B" . "-" . sprintf("%09s", $row->id + 1);
+        }
+
+        return FALSE;
+
+    }
 
 }
 

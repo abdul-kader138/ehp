@@ -129,6 +129,7 @@ class Level extends MX_Controller {
 
             $meta['page_title'] = $this->lang->line("new_level");
             $data['page_title'] = $this->lang->line("new_level");
+            $data['rnumber'] = $this->level_model->getRQNextAI();
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');

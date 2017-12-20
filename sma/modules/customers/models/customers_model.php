@@ -99,7 +99,7 @@ class Customers_model extends CI_Model
 	public function updateCustomer($id, $data = array())
 	{
 		
-		if($this->db->update('customers', $data)) {
+		if($this->db->update('customers', $data,array('id'=>$id))) {
 			return true;
 		} else {
 			return false;
@@ -164,5 +164,18 @@ class Customers_model extends CI_Model
 		  return FALSE;
 
 	}
+
+    public function getRQNextAI()
+    {
+        $this->db->select_max('id');
+        $q = $this->db->get('customers');
+        if ($q->num_rows() > 0) {
+            $row = $q->row();
+            return "V" . "-" . sprintf("%08s", $row->id + 1);
+        }
+
+        return FALSE;
+
+    }
 
 }

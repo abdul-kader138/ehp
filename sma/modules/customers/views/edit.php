@@ -2,9 +2,16 @@
 <script type="text/javascript">
     $(function() {
         $('form').form();
+
+        $( "#join_date" ).datepicker({
+            format: "<?php echo JS_DATE; ?>",
+            autoclose: true
+        });
+
     });
 </script>
 
+<link href="<?php echo $this->config->base_url(); ?>assets/css/datepicker.css" rel="stylesheet">
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 
 
@@ -15,7 +22,7 @@
 
 <div class="control-group">
     <label class="control-label" for="code">Code</label>
-    <div class="controls"> <?php echo form_input('code', $customer->code, 'class="span4" id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
+    <div class="controls"> <?php echo form_input('code', $customer->code, 'class="span4" id="code" readonly="readonly" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
 
@@ -25,6 +32,15 @@
     <div class="controls"> <?php echo form_input('name', $customer->name, 'class="span4" id="name" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("name").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
+
+<div class="control-group">
+    <?php
+    $originalDate = $customer->date_of_join;
+    $newDate = date("d-m-Y", strtotime($originalDate));?>
+    <label class="control-label" for="start_date">Join Date</label>
+    <div class="controls"> <?php echo form_input('join_date', $newDate, 'class="span4" id="join_date"');?> </div>
+</div>
+
 
 <div class="control-group">
     <label class="control-label" for="email_address">Email</label>
@@ -70,6 +86,7 @@
     <div class="controls"> <?php echo form_input('country', $customer->country, 'class="span4" id="country" required="required" pattern=".{2,55}" data-error="'.$this->lang->line("country").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
+
 
 <div class="control-group">
     <div class="controls"> <?php echo form_submit('submit', $this->lang->line("edit_vendor"), 'class="btn btn-primary"');?> </div>

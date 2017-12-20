@@ -137,6 +137,7 @@ class Buildings extends MX_Controller
 
             $meta['page_title'] = $this->lang->line("new_buildings");
             $data['page_title'] = $this->lang->line("new_buildings");
+            $data['rnumber'] = $this->buildings_model->getRQNextAI();
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
@@ -283,7 +284,7 @@ class Buildings extends MX_Controller
 
         if ($this->form_validation->run() == true && $this->buildings_model->addBuildingDetails($object)){
             $this->session->set_flashdata('success_message', $this->lang->line("level_added_buildings"));
-            redirect('module=module=buildings&view=building_details', 'refresh');
+            redirect('module=buildings&view=building_details', 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 

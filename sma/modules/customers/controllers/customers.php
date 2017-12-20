@@ -98,6 +98,7 @@ class Customers extends MX_Controller
         $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'required|xss_clean');
         $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
         $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
+        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
 
 
@@ -114,6 +115,7 @@ class Customers extends MX_Controller
                 'date_of_join' => date('Y-m-d'),
                 'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
+                'date_of_join' =>$this->ion_auth->fsd($this->input->post('join_date')),
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s')
             );
@@ -140,6 +142,7 @@ class Customers extends MX_Controller
 
             $meta['page_title'] = $this->lang->line("new_vendor");
             $data['page_title'] = $this->lang->line("new_vendor");
+            $data['rnumber'] = $this->customers_model->getRQNextAI();
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
@@ -171,7 +174,7 @@ class Customers extends MX_Controller
         $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
         $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
-
+        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
 
@@ -185,6 +188,7 @@ class Customers extends MX_Controller
                 'nid' => $this->input->post('nid'),
                 'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
+                'date_of_join' =>$this->ion_auth->fsd($this->input->post('join_date')),
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s')
             );

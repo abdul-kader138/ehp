@@ -2,9 +2,16 @@
 <script type="text/javascript">
 $(function() {
 	$('form').form();
+    $( "#join_date" ).datepicker({
+        format: "<?php echo JS_DATE; ?>",
+        autoclose: true
+    });
+
 });
+
 </script>
 
+<link href="<?php echo $this->config->base_url(); ?>assets/css/datepicker.css" rel="stylesheet">
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 
 
@@ -15,7 +22,7 @@ $(function() {
 
 <div class="control-group">
     <label class="control-label" for="code">Code</label>
-    <div class="controls"> <?php echo form_input('code', (isset($_POST['code']) ? $_POST['code'] : ''), 'class="span4" id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
+    <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4" readonly="readonly"  id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
 
@@ -24,7 +31,13 @@ $(function() {
   <label class="control-label" for="name"><?php echo $this->lang->line("name"); ?></label>
   <div class="controls"> <?php echo form_input('name', (isset($_POST['name']) ? $_POST['name'] : ''), 'class="span4" id="name" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("name").' '.$this->lang->line("is_required").'"');?>
   </div>
-</div> 
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="start_date">Join Date</label>
+    <div class="controls"> <?php echo form_input('join_date', (isset($_POST['join_date']) ? $_POST['join_date'] : ""), 'class="span4" id="join_date"');?> </div>
+</div>
+
 
 <div class="control-group">
   <label class="control-label" for="email_address">Email</label>
@@ -69,7 +82,7 @@ $(function() {
   <label class="control-label" for="country"><?php echo $this->lang->line("country"); ?></label>
   <div class="controls"> <?php echo form_input('country', (isset($_POST['country']) ? $_POST['country'] : ''), 'class="span4" id="country" required="required" pattern=".{2,55}" data-error="'.$this->lang->line("country").' '.$this->lang->line("is_required").'"');?>
   </div>
-</div> 
+</div>
 
 <div class="control-group">
   <div class="controls"> <?php echo form_submit('submit', $this->lang->line("add_vendor"), 'class="btn btn-primary"');?> </div>
