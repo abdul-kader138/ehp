@@ -37,12 +37,18 @@ echo form_open_multipart("module=buildings&view=edit_building_details&id=".$id, 
 </div>
 
 
-<div class="control-group">
-    <label class="control-label" for="size"><?php echo $this->lang->line("total_room_qty"); ?></label>
 
-    <div
-        class="controls"> <?php echo form_input('total_room_qty', $building_details->no_of_room, 'class="span4 tip" required="required" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '" data-error="' . $this->lang->line("total_room_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+<div class="control-group">
+    <label class="control-label" for="room_name"><?php echo $this->lang->line("room_name"); ?></label>
+
+    <div class="controls">  <?php
+        $roomList[''] = "";
+        foreach ($rooms as $room) {
+            $roomList[$room->room_name] = $room->room_name;
+        }
+        echo form_dropdown('room_name', $roomList, $building_details->room_name, 'class="tip chzn-select span4 room_name" id="room_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("room_name") . '"  required="required" data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
+
 
 <div class="control-group">
     <label class="control-label" for="size"><?php echo $this->lang->line("total_bed_qty"); ?></label>

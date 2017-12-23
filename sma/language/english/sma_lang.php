@@ -790,6 +790,22 @@ $lang['list_level'] 				    = "List Level";
 $lang['alert_x_level'] 				    = "You are going to remove this Level. Press OK to proceed and Cancel to Go Back";
 
 
+
+$lang['add_room']		                = "Add Room";
+$lang['edit_room']		                = "Edit Room";
+$lang['delete_room']		            = "Delete Room";
+$lang['new_room'] 					    = "Add New Room";
+$lang['room_added'] 				    = "Room Successfully Added.";
+$lang['room_updated'] 				    = "Room Successfully Updated.";
+$lang['room_deleted'] 				    = "Room Successfully Deleted.";
+$lang['room_code'] 			    		= "Room Code";
+$lang['room_name'] 				    	= "Room Name";
+$lang['room_name_exist'] 			    = "Room name already exist.";
+$lang['list_room'] 				        = "List Room";
+$lang['alert_x_room'] 				    = "You are going to remove this Room. Press OK to proceed and Cancel to Go Back";
+
+
+
 $lang['location_buildings']		        = "Building Location";
 $lang['add_buildings']		            = "Add Building";
 $lang['edit_buildings']		            = "Edit Building";

@@ -7,7 +7,7 @@
             <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
             'bProcessing'    : true,
             'bServerSide'    : true,
-            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=level&view=getdatatableajax',
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=rooms&view=getdatatableajax',
             'fnServerData': function(sSource, aoData, fnCallback)
             {
                 aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
@@ -47,8 +47,8 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th><?php echo $this->lang->line("level_code"); ?></th>
-        <th><?php echo $this->lang->line("level_name"); ?></th>
+        <th><?php echo $this->lang->line("room_code"); ?></th>
+        <th><?php echo $this->lang->line("room_name"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
@@ -60,6 +60,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=level&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level"); ?></a></p>
+<p><a href="<?php echo site_url('module=rooms&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_room"); ?></a></p>
 	
 

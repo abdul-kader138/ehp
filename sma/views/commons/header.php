@@ -320,6 +320,16 @@
 
 
 <!--         abdul Kader       -->
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=rooms"><?php echo $this->lang->line('list_room'); ?></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=rooms&amp;view=add"><?php echo $this->lang->line('new_room'); ?></a>
+                </li>
+                <li class="divider"></li>
+
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=level"><?php echo $this->lang->line('list_level'); ?></a>
                 </li>

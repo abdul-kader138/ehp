@@ -97,7 +97,7 @@ class Buildings extends MX_Controller
 
             $name = $this->input->post('name');
             $data = array(
-                'building_name' => strtolower($this->input->post('name')),
+                'building_name' => $this->input->post('name'),
                 'building_code' => $this->input->post('code'),
                 'location' => $this->input->post('location'),
                 'hasMedicalSupport' => $this->input->post('hasMedicalSupport'),
@@ -170,7 +170,7 @@ class Buildings extends MX_Controller
         if ($this->form_validation->run() == true) {
 
             $obj = array(
-                'building_name' => strtolower($this->input->post('buildings_name')),
+                'building_name' => $this->input->post('buildings_name'),
                 'building_code' => $this->input->post('buildings_code'),
                 'location' => $this->input->post('location'),
                 'hasMedicalSupport' => $this->input->post('hasMedicalSupport'),
@@ -268,15 +268,15 @@ class Buildings extends MX_Controller
 
         $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('total_room_qty', $this->lang->line("total_room_qty"), 'required|max_length[200]|xss_clean');
+        $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|max_length[200]|xss_clean');
         $this->form_validation->set_rules('total_bed_qty', 'total_bed_qty', 'required|xss_clean');
         $this->form_validation->set_rules('bed_rent', 'bed_rent', 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
             $object = array(
-                'building_name' => strtolower($this->input->post('buildings_name')),
+                'building_name' => $this->input->post('buildings_name'),
                 'level_name' => $this->input->post('level_name'),
-                'no_of_room' => $this->input->post('total_room_qty'),
+                'room_name' => $this->input->post('room_name'),
                 'no_of_bed' => $this->input->post('total_bed_qty'),
                 'bed_rent' => $this->input->post('bed_rent'),
                 'total_occupied_bed' => 0,
@@ -303,6 +303,7 @@ class Buildings extends MX_Controller
 
             $data['buildings'] = $this->buildings_model->getAllBuildings();
             $data['levels'] = $this->buildings_model->getAllLevels();
+            $data['rooms'] = $this->buildings_model->getAllRooms();
             $meta['page_title'] = $this->lang->line("new_level_buildings");
             $data['page_title'] = $this->lang->line("new_level_buildings");
             $this->load->view('commons/header', $meta);
@@ -332,7 +333,7 @@ class Buildings extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("id,building_name,level_name,no_of_room,no_of_bed,total_occupied_bed,bed_rent")
+            ->select("id,building_name,level_name,room_name,no_of_bed,total_occupied_bed,bed_rent")
             ->from("building_details")
             ->add_column("Actions",
                 "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
@@ -359,15 +360,15 @@ class Buildings extends MX_Controller
 
         $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('total_room_qty', $this->lang->line("total_room_qty"), 'required|max_length[200]|xss_clean');
+        $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|max_length[200]|xss_clean');
         $this->form_validation->set_rules('total_bed_qty', 'total_bed_qty', 'required|xss_clean');
         $this->form_validation->set_rules('bed_rent', 'bed_rent', 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
             $object = array(
-                'building_name' => strtolower($this->input->post('buildings_name')),
+                'building_name' => $this->input->post('buildings_name'),
                 'level_name' => $this->input->post('level_name'),
-                'no_of_room' => $this->input->post('total_room_qty'),
+                'room_name' => $this->input->post('total_room_qty'),
                 'no_of_bed' => $this->input->post('total_bed_qty'),
                 'bed_rent' => $this->input->post('bed_rent'),
                 'total_occupied_bed' => 0,
@@ -394,6 +395,7 @@ class Buildings extends MX_Controller
 
             $data['buildings'] = $this->buildings_model->getAllBuildings();
             $data['levels'] = $this->buildings_model->getAllLevels();
+            $data['rooms'] = $this->buildings_model->getAllRooms();
             $data['building_details'] = $this->buildings_model->getBuildingDetailsById($id);
 
             $meta['page_title'] = $this->lang->line("edit_level_buildings");

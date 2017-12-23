@@ -119,6 +119,20 @@ class Buildings_model extends CI_Model
         return FALSE;
     }
 
+    public function getAllRooms()
+    {
+        $q = $this->db->get("rooms");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
     public function getAllVendors()
     {
         $q = $this->db->get("customers");
@@ -172,7 +186,7 @@ class Buildings_model extends CI_Model
         $q = $this->db->get('building');
         if ($q->num_rows() > 0) {
             $row = $q->row();
-            return "B" . "-" . sprintf("%09s", $row->id + 1);
+            return "BLD" . "-" . sprintf("%08s", $row->id + 1);
         }
 
         return FALSE;

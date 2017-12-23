@@ -36,10 +36,14 @@
 
 
 <div class="control-group">
-    <label class="control-label" for="size"><?php echo $this->lang->line("total_room_qty"); ?></label>
+    <label class="control-label" for="room_name"><?php echo $this->lang->line("room_name"); ?></label>
 
-    <div
-        class="controls"> <?php echo form_input('total_room_qty', (isset($_POST['total_room_qty']) ? $_POST['total_room_qty'] : ""), 'class="span4 tip" required="required" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '" data-error="' . $this->lang->line("total_room_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+    <div class="controls">  <?php
+        $roomList[''] = "";
+        foreach ($rooms as $room) {
+            $roomList[$room->room_name] = $room->room_name;
+        }
+        echo form_dropdown('room_name', $roomList, (isset($_POST['room_name']) ? $_POST['room_name'] : ""), 'class="tip chzn-select span4 room_name" id="room_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("room_name") . '"  required="required" data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 <div class="control-group">

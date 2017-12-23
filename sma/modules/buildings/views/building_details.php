@@ -53,7 +53,7 @@
     <tr>
         <th><?php echo $this->lang->line("buildings_name"); ?></th>
         <th><?php echo $this->lang->line("level_name"); ?></th>
-        <th>No. of <br/>Room</th>
+        <th><?php echo $this->lang->line("room_name"); ?></th>
         <th>No. of <br/>Bed</th>
         <th>Total <br/>Occupied</th>
         <th>Bed Rent<br/> (<?php echo CURRENCY_PREFIX; ?>)</th>
@@ -68,6 +68,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=buildings&view=add_building_allocation');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level_buildings"); ?></a></p>
+<p><a href="<?php echo site_url('module=buildings&view=add_building_details');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level_buildings"); ?></a></p>
 	
 

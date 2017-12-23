@@ -21,7 +21,7 @@
     */
 
 
-class Level_model extends CI_Model
+class Rooms_model extends CI_Model
 {
 
 
@@ -33,10 +33,10 @@ class Level_model extends CI_Model
 
 
 
-    public function addLevel($name, $code)
+    public function addRoom($name, $code)
     {
 
-        if($this->db->insert("level", array('level_code' => $code, 'level_name' => $name,'created_by'=>USER_NAME,'created_date'=>date('Y-m-d H:i:s')))) {
+        if($this->db->insert("rooms", array('room_code' => $code, 'room_name' => $name,'created_by'=>USER_NAME,'created_date'=>date('Y-m-d H:i:s')))) {
             return true;
         } else {
             return false;
@@ -45,9 +45,9 @@ class Level_model extends CI_Model
 
 
 
-    public function getLevelByName($name)
+    public function getRoomByName($name)
     {
-        $q = $this->db->get_where('level', array('level_name' => $name), 1);
+        $q = $this->db->get_where('rooms', array('room_name' => $name), 1);
         if ($q->num_rows() > 0) {
             return $q->row();
         }
@@ -58,19 +58,19 @@ class Level_model extends CI_Model
 
 
 
-    public function updateLevel($name, $data = array())
+    public function updateRoom($name, $data = array())
     {
 
 
         // Shelf data
         $levelData = array(
-            'level_code'=> $data['code'],
-            'level_name'=> $data['name'],
+            'room_code'=> $data['code'],
+            'room_name'=> $data['name'],
             'updated_by'=>USER_NAME,
             'updated_date'=>date('Y-m-d H:i:s')
         );
-        $this->db->where('level_name', $name);
-        if($this->db->update("level", $levelData)) {
+        $this->db->where('room_name', $name);
+        if($this->db->update("rooms", $levelData)) {
             return true;
         } else {
             return false;
@@ -82,7 +82,7 @@ class Level_model extends CI_Model
 
     public function deleteLevel($name)
     {
-        if($this->db->delete("level", array('level_name' => $name))) {
+        if($this->db->delete("rooms", array('room_name' => $name))) {
             return true;
         }
         return FALSE;
@@ -93,10 +93,10 @@ class Level_model extends CI_Model
     public function getRQNextAI()
     {
         $this->db->select_max('id');
-        $q = $this->db->get('level');
+        $q = $this->db->get('rooms');
         if ($q->num_rows() > 0) {
             $row = $q->row();
-            return "Level" . "-" . sprintf("%09s", $row->id + 1);
+            return "RM" . "-" . sprintf("%09s", $row->id + 1);
         }
 
         return FALSE;

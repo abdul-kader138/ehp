@@ -96,7 +96,7 @@ class Level_model extends CI_Model
         $q = $this->db->get('level');
         if ($q->num_rows() > 0) {
             $row = $q->row();
-            return "Level" . "-" . sprintf("%09s", $row->id + 1);
+            return "LV" . "-" . sprintf("%09s", $row->id + 1);
         }
 
         return FALSE;

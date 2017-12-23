@@ -33,13 +33,13 @@ class Rooms extends MX_Controller {
         }
 
         $this->load->library('form_validation');
-        $this->load->model('level_model');
+        $this->load->model('rooms_model');
         $groups = array('owner', 'admin');
         if (!$this->ion_auth->in_group($groups))
         {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-            redirect('module=level', 'refresh');
+            redirect('module=rooms', 'refresh');
         }
 
     }
@@ -56,10 +56,10 @@ class Rooms extends MX_Controller {
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         $data['success_message'] = $this->session->flashdata('success_message');
 
-        $meta['page_title'] = $this->lang->line("list_level");
-        $data['page_title'] = $this->lang->line("list_level");
+        $meta['page_title'] = $this->lang->line("list_room");
+        $data['page_title'] = $this->lang->line("list_room");
         $this->load->view('commons/header', $meta);
-        $this->load->view('levels', $data);
+        $this->load->view('rooms', $data);
         $this->load->view('commons/footer');
     }
 
@@ -68,10 +68,10 @@ class Rooms extends MX_Controller {
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("level_code,level_name")
-            ->from("level")
+            ->select("room_code,room_name")
+            ->from("rooms")
             ->add_column("Actions",
-                "<center><a href='index.php?module=level&amp;view=edit&amp;name=$2' class='tip' title='".$this->lang->line("edit_level")."'><i class=\"icon-edit\"></i></a> <a href='index.php?module=level&amp;view=delete&amp;name=$2' onClick=\"return confirm('". $this->lang->line('alert_x_level') ."')\" class='tip' title='".$this->lang->line("delete_level")."'><i class=\"icon-remove\"></i></a></center>", "level_code,level_name");
+                "<center><a href='index.php?module=rooms&amp;view=edit&amp;name=$2' class='tip' title='".$this->lang->line("edit_room")."'><i class=\"icon-edit\"></i></a> <a href='index.php?module=rooms&amp;view=delete&amp;name=$2' onClick=\"return confirm('". $this->lang->line('alert_x_room') ."')\" class='tip' title='".$this->lang->line("delete_room")."'><i class=\"icon-remove\"></i></a></center>", "room_code,room_name");
 
         echo $this->datatables->generate();
 
@@ -88,31 +88,31 @@ class Rooms extends MX_Controller {
             redirect('module=home', 'refresh');
         }
         //validate form input
-        $this->form_validation->set_rules('code', $this->lang->line("level_code"), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('name', $this->lang->line("level_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('code', $this->lang->line("room_code"), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
 
         if ($this->form_validation->run() == true)
         {
-            $name = strtolower($this->input->post('name'));
+            $name = $this->input->post('name');
             $code = $this->input->post('code');
 
         }
-
-        if($this->form_validation->run() == true && $this->level_model->getLevelByName(trim($name))){
-            $this->session->set_flashdata('message', $this->lang->line("level_name_exist"));
-            redirect("module=level", 'refresh');
+        if($this->form_validation->run() == true && $this->rooms_model->getRoomByName(trim($name))){
+            $this->session->set_flashdata('message', $this->lang->line("room_name_exist"));
+            redirect("module=rooms", 'refresh');
         }
 
 
-        if ( $this->form_validation->run() == true && $this->level_model->addLevel($name, $code))
+        if ( $this->form_validation->run() == true && $this->rooms_model->addRoom($name, $code))
         { //check to see if we are creating the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("level_added"));
-            redirect("module=level", 'refresh');
+            $this->session->set_flashdata('success_message', $this->lang->line("room_added"));
+            redirect("module=rooms", 'refresh');
         }
         else
         { //display the create customer form
             //set the flash data error message if there is one
+
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
             $data['name'] = array('name' => 'name',
@@ -127,9 +127,9 @@ class Rooms extends MX_Controller {
             );
 
 
-            $meta['page_title'] = $this->lang->line("new_level");
-            $data['page_title'] = $this->lang->line("new_level");
-            $data['rnumber'] = $this->level_model->getRQNextAI();
+            $meta['page_title'] = $this->lang->line("new_room");
+            $data['page_title'] = $this->lang->line("new_room");
+            $data['rnumber'] = $this->rooms_model->getRQNextAI();
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
@@ -151,24 +151,24 @@ class Rooms extends MX_Controller {
         if($this->input->get('name')) { $name = $this->input->get('name'); }
 
         //validate form input
-        $this->form_validation->set_rules('level_code', $this->lang->line("level_code"), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('level_code', $this->lang->line("level_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('room_code', $this->lang->line("room_code"), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
 
 
 
         if ($this->form_validation->run() == true)
         {
 
-            $data = array('code' => $this->input->post('level_code'),
-                'name' => $this->input->post('level_name')
+            $data = array('code' => $this->input->post('room_code'),
+                'name' => $this->input->post('room_name')
             );
         }
 
-        if ( $this->form_validation->run() == true && $this->level_model->updateLevel($name, $data))
+        if ( $this->form_validation->run() == true && $this->rooms_model->updateRoom($name, $data))
         { //check to see if we are updateing the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("level_updated"));
-            redirect("module=level", 'refresh');
+            $this->session->set_flashdata('success_message', $this->lang->line("room_updated"));
+            redirect("module=rooms", 'refresh');
         }
         else
         { //display the update form
@@ -187,11 +187,11 @@ class Rooms extends MX_Controller {
             );
 
 
-            $data['level'] = $this->level_model->getLevelByName($name);
+            $data['room'] = $this->rooms_model->getRoomByName($name);
 
-            $meta['page_title'] = $this->lang->line("edit_level");
+            $meta['page_title'] = $this->lang->line("edit_room");
             $data['name'] = $name;
-            $data['page_title'] = $this->lang->line("edit_level");
+            $data['page_title'] = $this->lang->line("edit_room");
             $this->load->view('commons/header', $meta);
             $this->load->view('edit', $data);
             $this->load->view('commons/footer');
@@ -216,11 +216,11 @@ class Rooms extends MX_Controller {
 //            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
 //            redirect("module=shelfs", 'refresh');
 //        }
-        if ( $this->level_model->deleteLevel($name) )
+        if ( $this->rooms_model->deleteLevel($name) )
         { //check to see if we are deleting the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("level_deleted"));
-            redirect("module=level", 'refresh');
+            $this->session->set_flashdata('success_message', $this->lang->line("room_deleted"));
+            redirect("module=rooms", 'refresh');
         }
 
     }
