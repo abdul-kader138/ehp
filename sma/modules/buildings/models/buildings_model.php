@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
 /*
@@ -32,10 +32,9 @@ class Buildings_model extends CI_Model
     }
 
 
-
     public function addBuilding($data)
     {
-        if($this->db->insert("building", $data)) {
+        if ($this->db->insert("building", $data)) {
             return true;
         } else {
             return false;
@@ -44,7 +43,7 @@ class Buildings_model extends CI_Model
 
     public function addBuildingDetails($data)
     {
-        if($this->db->insert("building_details", $data)) {
+        if ($this->db->insert("building_details", $data)) {
             return true;
         } else {
             return false;
@@ -73,23 +72,19 @@ class Buildings_model extends CI_Model
     }
 
 
-
-
     public function updateBuildings($name, $data = array())
     {
-            if ($this->db->update("building", $data,array('building_name'=>$name))) {
-                return true;
-            } else {
-                return false;
-            }
+        if ($this->db->update("building", $data, array('building_name' => $name))) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
 
 
     public function deleteBuildings($name)
     {
-        if($this->db->delete("building", array('building_name' => $name))) {
+        if ($this->db->delete("building", array('building_name' => $name))) {
             return true;
         }
         return FALSE;
@@ -124,9 +119,38 @@ class Buildings_model extends CI_Model
         return FALSE;
     }
 
+    public function getAllVendors()
+    {
+        $q = $this->db->get("customers");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+    public function getAllUnTaggedBuildings()
+    {
+        $q = $this->db->get_where("building", array('isTaggedWithVendor' => 'No'));
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+
     public function updateBuildingDetails($id, $data = array())
     {
-        if ($this->db->update("building_details", $data,array('id'=>$id))) {
+        if ($this->db->update("building_details", $data, array('id' => $id))) {
             return true;
         } else {
             return false;
@@ -136,7 +160,7 @@ class Buildings_model extends CI_Model
 
     public function deleteBuildingDetails($id)
     {
-        if($this->db->delete("building_details", array('id' => $id))) {
+        if ($this->db->delete("building_details", array('id' => $id))) {
             return true;
         }
         return FALSE;
@@ -154,6 +178,29 @@ class Buildings_model extends CI_Model
         return FALSE;
 
     }
+
+
+    public function addBuildingAllocation($data)
+    {
+        if ($this->db->insert("building_allocation", $data)) {
+            if ($this->db->update("building", array('isTaggedWithVendor' => 'Yes'), array('building_name' => $data['building_name'])))
+                return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getVendorDetailsById($id)
+    {
+        if ($this->db->get_where("customers", array('id' => $id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }
 

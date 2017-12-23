@@ -74,29 +74,29 @@ $(function() {
       <label class="radio">
         <input type="radio" name="role" id="optionsRadios2" value="2" <?php if($group->group_id == '2') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '2')) { echo "checked=\"yes\""; } ?>>
         <?php echo $this->lang->line("admin_role"); ?> </label>
-      <label class="radio">
-        <input type="radio" name="role" id="optionsRadios3" value="3" <?php if($group->group_id == '3') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '3')) { echo "checked=\"yes\""; } ?>>
-        <?php echo $this->lang->line("purchaser_role"); ?> </label>
-        
+<!--      <label class="radio">-->
+<!--        <input type="radio" name="role" id="optionsRadios3" value="3" --><?php //if($group->group_id == '3') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '3')) { echo "checked=\"yes\""; } ?><!-->
+<!--        --><?php //echo $this->lang->line("purchaser_role"); ?><!-- </label>-->
+        <?php ?>
         <label class="radio">
         <input type="radio" name="role" id="optionsRadios6" value="6" <?php if($group->group_id == '6') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '6')) { echo "checked=\"yes\""; } ?>>
-        Purchase Approver </label>
+        Role -1</label>
         
         <label class="radio">
         <input type="radio" name="role" id="optionsRadios7" value="7" <?php if($group->group_id == '7') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '7')) { echo "checked=\"yes\""; } ?>>
-        Purchase Checker </label>
+            Role -2</label>
         
         <label class="radio">
         <input type="radio" name="role" id="optionsRadios8" value="8" <?php if($group->group_id == '8') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '8')) { echo "checked=\"yes\""; } ?>>
-        Purchase Verifier </label>
+            Role -3 </label>
         
         
-        <label class="radio">
-        <input type="radio" name="role" id="optionsRadios4" value="4" <?php if($group->group_id == '4') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '4')) { echo "checked=\"yes\""; } ?>>
-        <?php echo $this->lang->line("salesman_role"); ?> </label>
-      <label class="radio">
-        <input type="radio" name="role" id="optionsRadios5" value="5" <?php if($group->group_id == '5') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '5')) { echo "checked=\"yes\""; } ?>>
-        <?php echo $this->lang->line("view_role"); ?> </label>
+<!--        <label class="radio">-->
+<!--        <input type="radio" name="role" id="optionsRadios4" value="4" --><?php //if($group->group_id == '4') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '4')) { echo "checked=\"yes\""; } ?><!-->
+<!--        --><?php //echo $this->lang->line("salesman_role"); ?><!-- </label>-->
+<!--      <label class="radio">-->
+<!--        <input type="radio" name="role" id="optionsRadios5" value="5" --><?php //if($group->group_id == '5') { echo "checked=\"yes\""; } if(isset($_POST['submit']) && ($_POST['role'] == '5')) { echo "checked=\"yes\""; } ?><!-->
+<!--        --><?php //echo $this->lang->line("view_role"); ?><!-- </label>-->
   </div>
 </div>  
 <!-- 

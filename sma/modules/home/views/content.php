@@ -45,7 +45,8 @@ $(function () {
 			  	enabled: false
 			},
             title: {
-                text: '<?php echo $this->lang->line("monthly_sales_purchases"); ?>'
+//                text: '<?php //echo $this->lang->line("monthly_sales_purchases"); ?>//'
+                text: 'Vendor Accommodation Service VS Client Occupied'
             },
             xAxis: {
                 categories: [<?php foreach($months as $month) {
@@ -74,29 +75,35 @@ $(function () {
             },
             series: [{
                 type: 'column',
-                name: '<?php echo $this->lang->line("sp_tax"); ?>',
-                data: [<?php 
+//                name: '<?php //echo $this->lang->line("sp_tax"); ?>//',
+                name: 'Total Vendor',
+                data: [<?php
 				echo implode(', ', $tax1);
 				?>]
             },
 			{
                 type: 'column',
-                name: '<?php echo $this->lang->line("tax2"); ?>',
-                data: [<?php 
+//                name: '<?php //echo $this->lang->line("tax2"); ?>//',
+                name: 'Total Client',
+                data: [<?php
 				echo implode(', ', $tax2);
 				?>]
             },
 			{
                 type: 'column',
-                name: '<?php echo $this->lang->line("sales"); ?>',
-                data: [<?php 
-				echo implode(', ', $sales);
+//                name: '<?php //echo $this->lang->line("sales"); ?>//',
+                name: 'Total Capacity',
+                data: [<?php
+//				echo implode(', ', $sales);
+				echo implode(', ', $t1);
 				?>]
             },  {
                 type: 'spline',
-                name: '<?php echo $this->lang->line("purchases"); ?>',
-                data: [<?php 
-				echo implode(', ', $purchases);
+//                name: '<?php //echo $this->lang->line("purchases"); ?>//',
+                name: 'Total Occupied',
+                data: [<?php
+//				echo implode(', ', $purchases);
+				echo implode(', ', $t2);
 				?>],
                 marker: {
                 	 lineWidth: 2,
@@ -110,8 +117,9 @@ $(function () {
                 }
             },  {
                 type: 'spline',
-                name: '<?php echo $this->lang->line("pp_tax"); ?>',
-                data: [<?php 
+//                name: '<?php //echo $this->lang->line("pp_tax"); ?>//',
+                name: '',
+                data: [<?php
 				echo implode(', ', $tax3);
 				?>],
                 marker: {
@@ -124,22 +132,24 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            }, {
-                type: 'pie',
-                name: '<?php echo $this->lang->line("stock_value"); ?>',
-                data: [
-				['',   0],
-				['',   0],
-                    ['<?php echo $this->lang->line("by_price"); ?>',   <?php echo $stock->stock_by_price; ?>],
-                    ['<?php echo $this->lang->line("by_cost"); ?>',   <?php echo $stock->stock_by_cost; ?>],
-                ],
-                center: [20, 0],
-                size: 80,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
+            },
+//                {
+//                type: 'pie',
+//                name: '<?php //echo $this->lang->line("stock_value"); ?>//',
+//                data: [
+//				['',   0],
+//				['',   0],
+//                    ['<?php //echo $this->lang->line("by_price"); ?>//',   <?php //echo $stock->stock_by_price; ?>//],
+//                    ['<?php //echo $this->lang->line("by_cost"); ?>//',   <?php //echo $stock->stock_by_cost; ?>//],
+//                ],
+//                center: [20, 0],
+//                size: 80,
+//                showInLegend: false,
+//                dataLabels: {
+//                    enabled: false
+//                }
+//            }
+            ]
         });
     });
 	
@@ -151,7 +161,8 @@ $(function () {
             plotShadow: false
         },
         title: {
-            text: '<?php echo $this->lang->line("best_sellers")." (".date('F Y').")"; ?>'
+//            text: '<?php //echo $this->lang->line("best_sellers")." (".date('F Y').")"; ?>//'
+            text: 'Best Vendor<?php echo " (".date('F Y').")"; ?>'
         },
         credits: {
 			  	enabled: false

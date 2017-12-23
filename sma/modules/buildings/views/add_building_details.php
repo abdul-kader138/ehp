@@ -1,55 +1,26 @@
-<style type="text/css">
-    .loader {
-        background-color: #CF4342;
-        color: white;
-        top: 30%;
-        left: 50%;
-        margin-left: -50px;
-        position: fixed;
-        padding: 3px;
-        width: 100px;
-        height: 100px;
-        background: url('<?php echo $this->config->base_url(); ?>assets/img/wheel.gif') no-repeat center;
-    }
-
-    .blackbg {
-        z-index: 5000;
-        background-color: #666;
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-        filter: alpha(opacity=20);
-        opacity: 0.2;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        position: absolute;
-    }
-</style>
-<link href="<?php echo $this->config->base_url(); ?>assets/css/bootstrap-fileupload.css" rel="stylesheet">
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
-
-
-<?php if ($message) {
-    echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>";
-} ?>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+//        $(".chosen-select").chosen();
+        $('form').form();
+    });
+</script>
+<?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 
 <h3 class="title"><?php echo $page_title; ?></h3>
 <p><?php echo $this->lang->line("enter_info"); ?></p>
-
-<?php $attrib = array('class' => 'form-horizontal');
-echo form_open_multipart("module=buildings&view=add_building_details", $attrib); ?>
+<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=buildings&view=add_building_details", $attrib);?>
 
 
 <div class="control-group">
-    <label class="control-label" for="building"><?php echo $this->lang->line("buildings_name"); ?></label>
+    <label class="control-label" for="buildings_name"><?php echo $this->lang->line("buildings_name"); ?></label>
 
-    <div class="controls">  <?php
+    <div class="controls"> <?php
         $buildingList[''] = "";
         foreach ($buildings as $building) {
             $buildingList[$building->building_name] = $building->building_code;
         }
-        echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), 'class="tip chzn-select span4" id="buildings_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("buildings_name") . '"  required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+        echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), 'id="tip chzn-select span4"  class="chosen-select" required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
 <div class="control-group">
@@ -60,7 +31,7 @@ echo form_open_multipart("module=buildings&view=add_building_details", $attrib);
         foreach ($levels as $level) {
             $levelList[$level->level_name] = $level->level_code;
         }
-        echo form_dropdown('level_name', $levelList, (isset($_POST['level_name']) ? $_POST['level_name'] : ""), 'class="tip chzn-select span4" id="level_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("level_name") . '"  required="required" data-error="' . $this->lang->line("level_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+        echo form_dropdown('level_name', $levelList, (isset($_POST['level_name']) ? $_POST['level_name'] : ""), 'class="tip chzn-select span4 level_name" id="level_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("level_name") . '"  required="required" data-error="' . $this->lang->line("level_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 
@@ -68,14 +39,21 @@ echo form_open_multipart("module=buildings&view=add_building_details", $attrib);
     <label class="control-label" for="size"><?php echo $this->lang->line("total_room_qty"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('total_room_qty', (isset($_POST['total_room_qty']) ? $_POST['total_room_qty'] : ""), 'class="span4 tip" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '"'); ?> </div>
+        class="controls"> <?php echo form_input('total_room_qty', (isset($_POST['total_room_qty']) ? $_POST['total_room_qty'] : ""), 'class="span4 tip" required="required" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '" data-error="' . $this->lang->line("total_room_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 <div class="control-group">
     <label class="control-label" for="size"><?php echo $this->lang->line("total_bed_qty"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('total_bed_qty', (isset($_POST['total_bed_qty']) ? $_POST['total_bed_qty'] : ""), 'class="span4 tip" id="total_bed_qty" title="' . $this->lang->line("total_bed_qty") . '"'); ?> </div>
+        class="controls"> <?php echo form_input('total_bed_qty', (isset($_POST['total_bed_qty']) ? $_POST['total_bed_qty'] : ""), 'class="span4 tip" required="required" id="total_bed_qty" title="' . $this->lang->line("total_bed_qty") . '" data-error="' . $this->lang->line("total_bed_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="size"><?php echo $this->lang->line("bed_rent"); ?></label>
+
+    <div
+        class="controls"> <?php echo form_input('bed_rent', (isset($_POST['bed_rent']) ? $_POST['bed_rent'] : ""), 'class="span4 tip" required="required" id="bed_rent" title="' . $this->lang->line("bed_rent") . '" data-error="' . $this->lang->line("bed_rent") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 <div class="control-group">

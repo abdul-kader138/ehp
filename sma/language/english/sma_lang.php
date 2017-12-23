@@ -804,9 +804,10 @@ $lang['buildings_name_exist'] 			= "Building name already exist.";
 $lang['list_buildings'] 				= "List Building";
 $lang['alert_x_buildings'] 				= "You are going to remove this Building. Press OK to proceed and Cancel to Go Back";
 
-
+$lang['min_10'] 						= "Minimum 10 Character";
 $lang['total_room_qty']		            = "No. of Room";
 $lang['total_bed_qty']		            = "No. of Bed";
+$lang['bed_rent']		                = "Bed Rent";
 $lang['add_level_buildings']		    = "Add Details";
 $lang['edit_level_buildings']		    = "Edit Details";
 $lang['delete_level_buildings']		    = "Delete Details";
@@ -829,6 +830,14 @@ $lang['vendor_deleted']		             = "Vendor Successfully Deleted.";
 $lang['alert_x_vendor'] 				 = "You are going to remove this Vendor. Press OK to proceed and Cancel to Go Back";
 
 
+$lang['building_allocation']		     = "Building Allocation";
+$lang['allocation_added']		         = "Building Allocation Successfully Added.";
+$lang['vendor_name']		             = "Vendor Name";
+$lang['new_building_allocation'] 		 = "Add Building Allocation";
+$lang['edit_building_allocation'] 		 = "Edit Building Allocation";
+$lang['delete_building_allocation']      = "Delete Building Allocation";
+$lang['alert_x_allocation'] 		     = "You are going to remove this Allocation. Press OK to proceed and Cancel to Go Back";
+$lang['list_building_allocation']		 = "List Building Allocation";
 
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */
 /*

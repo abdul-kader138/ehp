@@ -7,7 +7,7 @@
             <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
             'bProcessing'    : true,
             'bServerSide'    : true,
-            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=buildings&view=getDataTableAjaxForDetails',
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=level&view=getdatatableajax',
             'fnServerData': function(sSource, aoData, fnCallback)
             {
                 aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
@@ -24,15 +24,11 @@
             "oTableTools": {
                 "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
-                ]
+                             ]
             },
             "aoColumns": [
-                { "bSortable": true },
-                { "bSortable": true },
-                { "bSortable": true },
-                { "bSortable": true },
-                { "bSortable": true },
                 null,
+                { "bSortable": true },
                 null
             ]
 
@@ -51,23 +47,19 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th><?php echo $this->lang->line("buildings_name"); ?></th>
+        <th><?php echo $this->lang->line("level_code"); ?></th>
         <th><?php echo $this->lang->line("level_name"); ?></th>
-        <th>No. of <br/>Room</th>
-        <th>No. of <br/>Bed</th>
-        <th>Total <br/>Occupied</th>
-        <th>Bed Rent<br/> (<?php echo CURRENCY_PREFIX; ?>)</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="7" class="dataTables_empty">Loading data from server</td>
+        <td colspan="3" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=buildings&view=add_building_allocation');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level_buildings"); ?></a></p>
+<p><a href="<?php echo site_url('module=level&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level"); ?></a></p>
 	
 

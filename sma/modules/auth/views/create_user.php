@@ -50,17 +50,20 @@ $(function() {
       <div class="btn-group user-role" data-toggle="buttons-radio">
     <button type="button" value="1" class="btn"><?php echo $this->lang->line("owner"); ?></button>
     <button type="button" value="2" class="btn"><?php echo $this->lang->line("admin"); ?></button>
-    <button type="button" value="3" class="btn"><?php echo $this->lang->line("purchaser"); ?></button>
-	
-	<button type="button" value="6" class="btn">Purchase Approver</button>
-	
-	<button type="button" value="7" class="btn">Purchase Checker</button>
-	
-	<button type="button" value="8" class="btn">Purchase Verifier</button>
-	
-    <button type="button" value="4" class="btn"><?php echo $this->lang->line("salesman"); ?></button>
-    <button type="button" value="5" class="btn"><?php echo $this->lang->line("user"); ?></button>
-    </div>
+<!--    <button type="button" value="3" class="btn">--><?php //echo $this->lang->line("purchaser"); ?><!--</button>-->
+    <button type="button" value="3" class="btn">Role-1</button>
+
+	<button type="button" value="6" class="btn">Role-2</button>
+	<button type="button" value="6" class="btn">Role-3</button>
+	<button type="button" value="6" class="btn">Role-4</button>
+
+<!--	<button type="button" value="7" class="btn">Purchase Checker</button>-->
+<!--	-->
+<!--	<button type="button" value="8" class="btn">Purchase Verifier</button>-->
+<!--	-->
+<!--    <button type="button" value="4" class="btn">--><?php //echo $this->lang->line("salesman"); ?><!--</button>-->
+<!--    <button type="button" value="5" class="btn">--><?php //echo $this->lang->line("user"); ?><!--</button>-->
+<!--    </div>-->
     <input type="hidden" name="role" id="role" value="<?php /* echo $group->group_id; */ ?>">
   </div>
 </div>

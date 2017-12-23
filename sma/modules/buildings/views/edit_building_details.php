@@ -1,30 +1,3 @@
-<style type="text/css">
-    .loader {
-        background-color: #CF4342;
-        color: white;
-        top: 30%;
-        left: 50%;
-        margin-left: -50px;
-        position: fixed;
-        padding: 3px;
-        width: 100px;
-        height: 100px;
-        background: url('<?php echo $this->config->base_url(); ?>assets/img/wheel.gif') no-repeat center;
-    }
-
-    .blackbg {
-        z-index: 5000;
-        background-color: #666;
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-        filter: alpha(opacity=20);
-        opacity: 0.2;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        position: absolute;
-    }
-</style>
 <link href="<?php echo $this->config->base_url(); ?>assets/css/bootstrap-fileupload.css" rel="stylesheet">
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 
@@ -68,14 +41,21 @@ echo form_open_multipart("module=buildings&view=edit_building_details&id=".$id, 
     <label class="control-label" for="size"><?php echo $this->lang->line("total_room_qty"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('total_room_qty', $building_details->no_of_room, 'class="span4 tip" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '"'); ?> </div>
+        class="controls"> <?php echo form_input('total_room_qty', $building_details->no_of_room, 'class="span4 tip" required="required" id="total_room_qty" title="' . $this->lang->line("total_room_qty") . '" data-error="' . $this->lang->line("total_room_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 <div class="control-group">
     <label class="control-label" for="size"><?php echo $this->lang->line("total_bed_qty"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('total_bed_qty', $building_details->no_of_bed, 'class="span4 tip" id="total_bed_qty" title="' . $this->lang->line("total_bed_qty") . '"'); ?> </div>
+        class="controls"> <?php echo form_input('total_bed_qty', $building_details->no_of_bed, 'class="span4 tip" id="total_bed_qty" required="required" title="' . $this->lang->line("total_bed_qty") . '" data-error="' . $this->lang->line("total_bed_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="size"><?php echo $this->lang->line("bed_rent"); ?></label>
+
+    <div
+        class="controls"> <?php echo form_input('bed_rent', $building_details->bed_rent, 'class="span4 tip" required="required" id="bed_rent" title="' . $this->lang->line("bed_rent") . '" data-error="' . $this->lang->line("bed_rent") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 <div class="control-group">

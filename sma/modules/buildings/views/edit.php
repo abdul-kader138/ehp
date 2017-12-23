@@ -61,7 +61,7 @@
 <div class="control-group">
     <label class="control-label" for="location"><?php echo $this->lang->line("location_buildings"); ?></label>
     <div class="controls">
-        <?php echo form_textarea('location', (isset($_POST['location']) ? $_POST['location'] : html_entity_decode($buildings->location)), 'class="input-block-level" required="required" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"');?>
+        <?php echo form_textarea('location', (isset($_POST['location']) ? $_POST['location'] : html_entity_decode($buildings->location)), 'class="input-block-level" required="required" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px; " data-error="' . $this->lang->line("location_buildings") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_10") . '" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"');?>
     </div>
 </div>
 
