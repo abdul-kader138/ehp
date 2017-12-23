@@ -9,6 +9,7 @@
     echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>";
 } ?>
 
+
 <h3 class="title"><?php echo $page_title; ?></h3>
 <p><?php echo $this->lang->line("enter_info"); ?></p>
 <?php $attrib = array('class' => 'form-horizontal');
