@@ -68,7 +68,7 @@ class Rooms extends MX_Controller {
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("room_code,room_name")
+            ->select("room_code,room_name,total_bed_qty")
             ->from("rooms")
             ->add_column("Actions",
                 "<center><a href='index.php?module=rooms&amp;view=edit&amp;name=$2' class='tip' title='".$this->lang->line("edit_room")."'><i class=\"icon-edit\"></i></a> <a href='index.php?module=rooms&amp;view=delete&amp;name=$2' onClick=\"return confirm('". $this->lang->line('alert_x_room') ."')\" class='tip' title='".$this->lang->line("delete_room")."'><i class=\"icon-remove\"></i></a></center>", "room_code,room_name");
@@ -90,11 +90,13 @@ class Rooms extends MX_Controller {
         //validate form input
         $this->form_validation->set_rules('code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('total_bed_qty', $this->lang->line("total_bed_qty"), 'required|xss_clean');
 
         if ($this->form_validation->run() == true)
         {
             $name = $this->input->post('name');
             $code = $this->input->post('code');
+            $total_bed_qty = $this->input->post('total_bed_qty');
 
         }
         if($this->form_validation->run() == true && $this->rooms_model->getRoomByName(trim($name))){
@@ -103,7 +105,7 @@ class Rooms extends MX_Controller {
         }
 
 
-        if ( $this->form_validation->run() == true && $this->rooms_model->addRoom($name, $code))
+        if ( $this->form_validation->run() == true && $this->rooms_model->addRoom($name, $code,$total_bed_qty))
         { //check to see if we are creating the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("room_added"));
@@ -153,6 +155,7 @@ class Rooms extends MX_Controller {
         //validate form input
         $this->form_validation->set_rules('room_code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('total_bed_qty', $this->lang->line("total_bed_qty"), 'required|xss_clean');
 
 
 
@@ -160,7 +163,8 @@ class Rooms extends MX_Controller {
         {
 
             $data = array('code' => $this->input->post('room_code'),
-                'name' => $this->input->post('room_name')
+                'name' => $this->input->post('room_name'),
+                'total_bed_qty' => $this->input->post('total_bed_qty')
             );
         }
 

@@ -27,8 +27,9 @@
                              ]
             },
             "aoColumns": [
-                null,
                 { "bSortable": true },
+                { "bSortable": true },
+                null,
                 null
             ]
 
@@ -49,12 +50,13 @@
     <tr>
         <th><?php echo $this->lang->line("room_code"); ?></th>
         <th><?php echo $this->lang->line("room_name"); ?></th>
+        <th><?php echo $this->lang->line("total_bed_qty"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="3" class="dataTables_empty">Loading data from server</td>
+        <td colspan="4" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>
