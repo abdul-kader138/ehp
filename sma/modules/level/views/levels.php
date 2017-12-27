@@ -50,7 +50,7 @@
     <tr>
         <th><?php echo $this->lang->line("level_code"); ?></th>
         <th><?php echo $this->lang->line("level_name"); ?></th>
-        <th><?php echo $this->lang->line("room_name"); ?></th>
+        <th><?php echo $this->lang->line("room_code"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>

@@ -1,7 +1,13 @@
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(function() {
         $('form').form();
+
+        $( "#vacant_date" ).datepicker({
+            format: "<?php echo JS_DATE; ?>",
+            autoclose: true
+        });
+
     });
 </script>
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
@@ -19,9 +25,22 @@
     <div class="controls"> <?php echo form_input('room_name', $room->room_name, 'class="span4" id="name" required="required" data-error="'.$this->lang->line("room_name").' '.$this->lang->line("is_required").'"');?> </div>
 </div>
 <div class="control-group">
+    <label class="control-label" for="name"><?php echo $this->lang->line("room_rent"); ?></label>
+    <div class="controls"> <?php echo form_input('room_rent', $room->room_rent, 'class="span4" id="name" required="required" data-error="'.$this->lang->line("room_rent").' '.$this->lang->line("is_required").'"');?> </div>
+</div>
+<div class="control-group">
     <label class="control-label" for="name"><?php echo $this->lang->line("total_bed_qty"); ?></label>
     <div class="controls"> <?php echo form_input('total_bed_qty', $room->total_bed_qty, 'class="span4" id="name" required="required" data-error="'.$this->lang->line("total_bed_qty").' '.$this->lang->line("is_required").'"');?> </div>
 </div>
+
+<div class="control-group">
+    <?php
+    $originalDate = $room->vacant_date;
+    $newDate = date("d-m-Y", strtotime($originalDate));?>
+    <label class="control-label" for="start_date">Vacant From</label>
+    <div class="controls"> <?php echo form_input('vacant_date', $newDate, 'class="span4" id="vacant_date"');?> </div>
+</div>
+
 <div class="control-group">
     <div class="controls"> <?php echo form_submit('submit', $this->lang->line("edit_room"), 'class="btn btn-primary"');?> </div>
 </div>

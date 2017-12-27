@@ -72,9 +72,19 @@ class Buildings_model extends CI_Model
     }
 
 
+    public function getBuildingDetailsByNameAndLevel($name,$level_name)
+    {
+        $q = $this->db->get_where('building_details', array('building_code' => $name,'level_code' => $level_name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
     public function updateBuildings($name, $data = array())
     {
-        if ($this->db->update("building", $data, array('building_name' => $name))) {
+        if ($this->db->update("building", $data, array('building_code' => $name))) {
             return true;
         } else {
             return false;
@@ -84,7 +94,7 @@ class Buildings_model extends CI_Model
 
     public function deleteBuildings($name)
     {
-        if ($this->db->delete("building", array('building_name' => $name))) {
+        if ($this->db->delete("building", array('building_code' => $name))) {
             return true;
         }
         return FALSE;
@@ -108,6 +118,7 @@ class Buildings_model extends CI_Model
     public function getAllLevels()
     {
         $q = $this->db->get("level");
+//        $this->db->group_by("level_name");
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
@@ -197,11 +208,12 @@ class Buildings_model extends CI_Model
     public function addBuildingAllocation($data)
     {
         if ($this->db->insert("building_allocation", $data)) {
-            if ($this->db->update("building", array('isTaggedWithVendor' => 'Yes'), array('building_name' => $data['building_name'])))
+            if ($this->db->update("building",
+                array('isTaggedWithVendor' => 'Yes','updated_by' => USER_NAME,'updated_date' => date('Y-m-d H:i:s'),
+                    array('building_code' => $data['buildings_code']))))
                 return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
 

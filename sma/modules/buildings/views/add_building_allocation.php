@@ -34,9 +34,9 @@ echo form_open("module=buildings&view=add_building_allocation", $attrib); ?>
     <div class="controls"> <?php
         $buildingList[''] = "";
         foreach ($buildings as $building) {
-            $buildingList[$building->building_name] = $building->building_code;
+            $buildingList[$building->building_code] = $building->building_code;
         }
-        echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), 'id="tip chzn-select span4"  class="chosen-select" required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
+        echo form_dropdown('buildings_code', $buildingList, (isset($_POST['buildings_code']) ? $_POST['buildings_name'] : ""), 'id="tip chzn-select span4"  class="chosen-select" required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
 

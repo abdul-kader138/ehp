@@ -47,7 +47,7 @@ class Level_model extends CI_Model
 
     public function getLevelByName($name,$room_name)
     {
-        $q = $this->db->get_where('level', array('level_name' => $name,'room_name' => $room_name), 1);
+        $q = $this->db->get_where('level', array('level_name' => $name,'room_code' => $room_name), 1);
         if ($q->num_rows() > 0) {
             return $q->row();
         }

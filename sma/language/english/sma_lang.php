@@ -791,18 +791,18 @@ $lang['alert_x_level'] 				    = "You are going to remove this Level. Press OK t
 
 
 
-$lang['add_room']		                = "Add Room";
-$lang['edit_room']		                = "Edit Room";
-$lang['delete_room']		            = "Delete Room";
-$lang['new_room'] 					    = "Add New Room";
-$lang['room_added'] 				    = "Room Successfully Added.";
-$lang['room_updated'] 				    = "Room Successfully Updated.";
-$lang['room_deleted'] 				    = "Room Successfully Deleted.";
-$lang['room_code'] 			    		= "Room Code";
-$lang['room_name'] 				    	= "Room Name";
-$lang['room_name_exist'] 			    = "Room name already exist.";
-$lang['list_room'] 				        = "List Room";
-$lang['alert_x_room'] 				    = "You are going to remove this Room. Press OK to proceed and Cancel to Go Back";
+$lang['add_room']		                = "Add Apartment";
+$lang['edit_room']		                = "Edit Apartment";
+$lang['delete_room']		            = "Delete Apartment";
+$lang['new_room'] 					    = "Add New Apartment";
+$lang['room_added'] 				    = "Apartment Successfully Added.";
+$lang['room_updated'] 				    = "Apartment Successfully Updated.";
+$lang['room_deleted'] 				    = "Apartment Successfully Deleted.";
+$lang['room_code'] 			    		= "Apartment Code";
+$lang['room_name'] 				    	= "Apartment Name";
+$lang['room_name_exist'] 			    = "Apartment name already exist.";
+$lang['list_room'] 				        = "List Apartment";
+$lang['alert_x_room'] 				    = "You are going to remove this Apartment. Press OK to proceed and Cancel to Go Back";
 
 
 
@@ -821,9 +821,9 @@ $lang['list_buildings'] 				= "List Building";
 $lang['alert_x_buildings'] 				= "You are going to remove this Building. Press OK to proceed and Cancel to Go Back";
 
 $lang['min_10'] 						= "Minimum 10 Character";
-$lang['total_room_qty']		            = "No. of Room";
+$lang['total_room_qty']		            = "No. of Apartment";
 $lang['total_bed_qty']		            = "No. of Bed";
-$lang['bed_rent']		                = "Bed Rent";
+$lang['room_rent']		                = "Apartment Rent";
 $lang['add_level_buildings']		    = "Add Details";
 $lang['edit_level_buildings']		    = "Edit Details";
 $lang['delete_level_buildings']		    = "Delete Details";

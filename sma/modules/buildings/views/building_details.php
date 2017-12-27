@@ -30,8 +30,7 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
-                { "bSortable": true },
-                { "bSortable": true },
+                null,
                 null,
                 null
             ]
@@ -51,18 +50,17 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th><?php echo $this->lang->line("buildings_name"); ?></th>
-        <th><?php echo $this->lang->line("level_name"); ?></th>
-        <th><?php echo $this->lang->line("room_name"); ?></th>
-        <th>No. of <br/>Bed</th>
-        <th>Total <br/>Occupied</th>
-        <th>Bed Rent<br/> (<?php echo CURRENCY_PREFIX; ?>)</th>
+        <th><?php echo $this->lang->line("buildings_code"); ?></th>
+        <th><?php echo $this->lang->line("level_code"); ?></th>
+        <th>Total Apartment</th>
+        <th>Total <br/> Bed</th>
+        <th>Total <br/>Occupied Bed</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="7" class="dataTables_empty">Loading data from server</td>
+        <td colspan="6" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

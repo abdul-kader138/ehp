@@ -66,7 +66,7 @@ class Level extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("level_code,level_name,room_name")
+            ->select("level_code,level_name,room_code")
             ->from("level")
             ->add_column("Actions",
 //                "<center><a href='index.php?module=level&amp;view=edit&amp;name=$2' class='tip' title='" . $this->lang->line("edit_level") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=level&amp;view=delete&amp;name=$2' onClick=\"return confirm('" . $this->lang->line('alert_x_level') . "')\" class='tip' title='" . $this->lang->line("delete_level") . "'><i class=\"icon-remove\"></i></a></center>", "level_code,level_name");
@@ -106,12 +106,12 @@ class Level extends MX_Controller
 
                 $isExists = $this->level_model->getLevelByName(trim($name), trim($room_name));
                 if ($isExists) {
-                    $this->session->set_flashdata('message', "Level Name with room(". $room_name.") is already exists");
+                    $this->session->set_flashdata('message', "Level and Apartment(". $room_name.") is already exists");
                     redirect("module=level", 'refresh');
                 } else {
                     $data[] = array('level_code' => $code,
                         'level_name' => $name,
-                        'room_name' => $room_name,
+                        'room_code' => $room_name,
                         'created_by' => USER_NAME,
                         'created_date' => date('Y-m-d H:i:s')
                     );
@@ -177,7 +177,7 @@ class Level extends MX_Controller
 
             $data = array('code' => $this->input->post('level_code'),
                 'name' => $this->input->post('level_name'),
-                'room_name' => $this->input->post('room_name')
+                'room_code' => $this->input->post('room_name')
             );
         }
 

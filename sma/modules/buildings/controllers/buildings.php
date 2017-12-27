@@ -268,22 +268,20 @@ class Buildings extends MX_Controller
 
         $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|max_length[200]|xss_clean');
-        $this->form_validation->set_rules('total_bed_qty', 'total_bed_qty', 'required|xss_clean');
-        $this->form_validation->set_rules('bed_rent', 'bed_rent', 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
             $object = array(
-                'building_name' => $this->input->post('buildings_name'),
-                'level_name' => $this->input->post('level_name'),
-                'room_name' => $this->input->post('room_name'),
-                'no_of_bed' => $this->input->post('total_bed_qty'),
-                'bed_rent' => $this->input->post('bed_rent'),
+                'building_code' => $this->input->post('buildings_name'),
+                'level_code' => $this->input->post('level_name'),
                 'total_occupied_bed' => 0,
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s'));
         }
 
+        if ($this->form_validation->run() == true && $this->buildings_model->getBuildingDetailsByNameAndLevel(trim($object['building_code']),trim($object['level_code']))) {
+            $this->session->set_flashdata('message',"This Building and Level name are already tagged.");
+            redirect('module=buildings&view=building_details', 'refresh');
+        }
         if ($this->form_validation->run() == true && $this->buildings_model->addBuildingDetails($object)){
             $this->session->set_flashdata('success_message', $this->lang->line("level_added_buildings"));
             redirect('module=buildings&view=building_details', 'refresh');
@@ -303,7 +301,6 @@ class Buildings extends MX_Controller
 
             $data['buildings'] = $this->buildings_model->getAllBuildings();
             $data['levels'] = $this->buildings_model->getAllLevels();
-            $data['rooms'] = $this->buildings_model->getAllRooms();
             $meta['page_title'] = $this->lang->line("new_level_buildings");
             $data['page_title'] = $this->lang->line("new_level_buildings");
             $this->load->view('commons/header', $meta);
@@ -331,10 +328,14 @@ class Buildings extends MX_Controller
     function getDataTableAjaxForDetails()
     {
 
+        $pp = "(SELECT l.level_code,r.room_code,count(l.id) apt,sum(r.total_bed_qty) as tbq,sum(r.bed_occupied) as bc FROM level as l inner join rooms as r on l.room_code=r.room_code group by l.level_code ) PCosts";
+
         $this->load->library('datatables');
         $this->datatables
-            ->select("id,building_name,level_name,room_name,no_of_bed,total_occupied_bed,bed_rent")
-            ->from("building_details")
+            ->select("p.id as id,p.building_code,p.level_code,PCosts.apt,PCosts.tbq,PCosts.bc")
+            ->from("building_details p")
+            ->join($pp, 'p.level_code = PCosts.level_code', 'left')
+            ->group_by('p.level_code')
             ->add_column("Actions",
                 "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
             ->unset_column('id');
@@ -360,17 +361,11 @@ class Buildings extends MX_Controller
 
         $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|max_length[200]|xss_clean');
-        $this->form_validation->set_rules('total_bed_qty', 'total_bed_qty', 'required|xss_clean');
-        $this->form_validation->set_rules('bed_rent', 'bed_rent', 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
             $object = array(
-                'building_name' => $this->input->post('buildings_name'),
-                'level_name' => $this->input->post('level_name'),
-                'room_name' => $this->input->post('total_room_qty'),
-                'no_of_bed' => $this->input->post('total_bed_qty'),
-                'bed_rent' => $this->input->post('bed_rent'),
+                'building_code' => $this->input->post('buildings_name'),
+                'level_code' => $this->input->post('level_name'),
                 'total_occupied_bed' => 0,
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s'));
@@ -395,7 +390,6 @@ class Buildings extends MX_Controller
 
             $data['buildings'] = $this->buildings_model->getAllBuildings();
             $data['levels'] = $this->buildings_model->getAllLevels();
-            $data['rooms'] = $this->buildings_model->getAllRooms();
             $data['building_details'] = $this->buildings_model->getBuildingDetailsById($id);
 
             $meta['page_title'] = $this->lang->line("edit_level_buildings");
@@ -445,23 +439,22 @@ class Buildings extends MX_Controller
 
 
         $this->form_validation->set_rules('vendor_id', $this->lang->line("vendor_name"), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('buildings_code', $this->lang->line("buildings_code"), 'required|min_length[3]|xss_clean');
 
         if ($this->form_validation->run() == true) {
 
             $vendor_details=$this->buildings_model->getVendorDetailsById($this->input->post('vendor_id'));
             $object = array(
-                'building_name' => $this->input->post('buildings_name'),
+                'buildings_code' => $this->input->post('buildings_code'),
                 'vendor_id' => $this->input->post('vendor_id'),
-                'vendor_name'=>$vendor_details->name,
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s'));
         }
 
         if ($this->form_validation->run() == true && $this->buildings_model->addBuildingAllocation($object)){
             $this->session->set_flashdata('success_message', $this->lang->line("allocation_added"));
-//            redirect('module=buildings&view=building_details', 'refresh');
-            redirect('module=buildings', 'refresh');
+            redirect('module=buildings&view=building_allocation', 'refresh');
+//            redirect('module=buildings', 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
@@ -484,8 +477,9 @@ class Buildings extends MX_Controller
     {
         $this->load->library('datatables');
         $this->datatables
-            ->select("id,building_name,vendor_id")
-            ->from("building_allocation")
+            ->select("b.id as id,b.building_name,c.code,c.name,c.address")
+            ->from("building_allocation b")
+            ->join("customers c", 'b.vendor_id = c.id', 'left')
             ->add_column("Actions",
                 "<center><a href='index.php?module=buildings&amp;view=edit_building_allocation&amp;id=$1' class='tip' title='" . $this->lang->line("edit_building_allocation") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
             ->unset_column('id');

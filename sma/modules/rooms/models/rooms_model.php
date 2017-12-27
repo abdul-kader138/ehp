@@ -33,10 +33,11 @@ class Rooms_model extends CI_Model
 
 
 
-    public function addRoom($name, $code,$total_bed_qty)
+    public function addRoom($data)
     {
-
-        if($this->db->insert("rooms", array('room_code' => $code, 'room_name' => $name,'total_bed_qty'=>$total_bed_qty,'created_by'=>USER_NAME,'created_date'=>date('Y-m-d H:i:s')))) {
+//        var_dump($data);
+//
+        if($this->db->insert("rooms", $data)) {
             return true;
         } else {
             return false;
@@ -62,16 +63,8 @@ class Rooms_model extends CI_Model
     {
 
 
-        // Shelf data
-        $levelData = array(
-            'room_code'=> $data['code'],
-            'room_name'=> $data['name'],
-            'total_bed_qty'=> $data['total_bed_qty'],
-            'updated_by'=>USER_NAME,
-            'updated_date'=>date('Y-m-d H:i:s')
-        );
-        $this->db->where('room_name', $name);
-        if($this->db->update("rooms", $levelData)) {
+
+        if($this->db->update("rooms", $data,array('room_name'=>$name))) {
             return true;
         } else {
             return false;

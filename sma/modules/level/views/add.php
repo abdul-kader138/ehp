@@ -19,7 +19,7 @@
     <div class="controls"> <?php
 //        $roomList[''] = "";
         foreach ($rooms as $room) {
-            $roomList[$room->room_name] = $room->room_name;
+            $roomList[$room->room_code] = $room->room_name;
         }
         echo form_dropdown('room_names[]', $roomList, (isset($_POST['room_names[]']) ? $_POST['room_names[]'] : ""), ' multiple  data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>

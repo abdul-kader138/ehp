@@ -29,6 +29,8 @@
             "aoColumns": [
                 { "bSortable": true },
                 { "bSortable": true },
+                { "bSortable": true },
+                null,
                 null
             ]
 
@@ -47,14 +49,16 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th><?php echo $this->lang->line("vendor_name"); ?></th>
         <th><?php echo $this->lang->line("buildings_name"); ?></th>
+        <th>Vendor Code</th>
+        <th><?php echo $this->lang->line("vendor_name"); ?></th>
+        <th>Vendor Address</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="3" class="dataTables_empty">Loading data from server</td>
+        <td colspan="5" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

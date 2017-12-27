@@ -18,7 +18,7 @@
     <div class="controls"> <?php
         $buildingList[''] = "";
         foreach ($buildings as $building) {
-            $buildingList[$building->building_name] = $building->building_code;
+            $buildingList[$building->building_code] = $building->building_name;
         }
         echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), 'id="tip chzn-select span4"  class="chosen-select" required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
@@ -29,36 +29,11 @@
     <div class="controls">  <?php
         $levelList[''] = "";
         foreach ($levels as $level) {
-            $levelList[$level->level_name] = $level->level_code;
+            $levelList[$level->level_code] = $level->level_name;
         }
         echo form_dropdown('level_name', $levelList, (isset($_POST['level_name']) ? $_POST['level_name'] : ""), 'class="tip chzn-select span4 level_name" id="level_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("level_name") . '"  required="required" data-error="' . $this->lang->line("level_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
-
-<div class="control-group">
-    <label class="control-label" for="room_name"><?php echo $this->lang->line("room_name"); ?></label>
-
-    <div class="controls">  <?php
-        $roomList[''] = "";
-        foreach ($rooms as $room) {
-            $roomList[$room->room_name] = $room->room_name;
-        }
-        echo form_dropdown('room_name', $roomList, (isset($_POST['room_name']) ? $_POST['room_name'] : ""), 'class="tip chzn-select span4 room_name" id="room_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("room_name") . '"  required="required" data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
-</div>
-
-<div class="control-group">
-    <label class="control-label" for="size"><?php echo $this->lang->line("total_bed_qty"); ?></label>
-
-    <div
-        class="controls"> <?php echo form_input('total_bed_qty', (isset($_POST['total_bed_qty']) ? $_POST['total_bed_qty'] : ""), 'class="span4 tip" required="required" id="total_bed_qty" title="' . $this->lang->line("total_bed_qty") . '" data-error="' . $this->lang->line("total_bed_qty") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
-</div>
-
-<div class="control-group">
-    <label class="control-label" for="size"><?php echo $this->lang->line("bed_rent"); ?></label>
-
-    <div
-        class="controls"> <?php echo form_input('bed_rent', (isset($_POST['bed_rent']) ? $_POST['bed_rent'] : ""), 'class="span4 tip" required="required" id="bed_rent" title="' . $this->lang->line("bed_rent") . '" data-error="' . $this->lang->line("bed_rent") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
-</div>
 
 <div class="control-group">
     <div
