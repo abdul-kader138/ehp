@@ -852,7 +852,8 @@ $lang['vendor_name']		             = "Vendor Name";
 $lang['new_building_allocation'] 		 = "Add Building Allocation";
 $lang['edit_building_allocation'] 		 = "Edit Building Allocation";
 $lang['delete_building_allocation']      = "Delete Building Allocation";
-$lang['vendor_deleted']		             = "Vendor Successfully Deleted.";
+$lang['building_allocation_added']	 = "Building Allocation Successfully Added.";
+$lang['building_allocation_deleted']     = "Building Allocation Successfully Deleted.";
 $lang['alert_x_allocation'] 		     = "You are going to remove this Allocation. Press OK to proceed and Cancel to Go Back";
 $lang['list_building_allocation']		 = "List Building Allocation";
 

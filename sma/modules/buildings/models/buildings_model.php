@@ -72,9 +72,9 @@ class Buildings_model extends CI_Model
     }
 
 
-    public function getBuildingDetailsByNameAndLevel($name,$level_name)
+    public function getBuildingDetailsByNameAndLevel($name, $level_name)
     {
-        $q = $this->db->get_where('building_details', array('building_code' => $name,'level_code' => $level_name), 1);
+        $q = $this->db->get_where('building_details', array('building_code' => $name, 'level_code' => $level_name), 1);
         if ($q->num_rows() > 0) {
             return $q->row();
         }
@@ -207,11 +207,15 @@ class Buildings_model extends CI_Model
 
     public function addBuildingAllocation($data)
     {
+
         if ($this->db->insert("building_allocation", $data)) {
             if ($this->db->update("building",
-                array('isTaggedWithVendor' => 'Yes','updated_by' => USER_NAME,'updated_date' => date('Y-m-d H:i:s'),
-                    array('building_code' => $data['building_code']))))
+                array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                array('building_code' => trim($data['building_code'])))
+            ) {
                 return true;
+            }
+            return false;
         }
         return false;
     }
@@ -226,6 +230,36 @@ class Buildings_model extends CI_Model
         }
     }
 
+
+    public function getBuildingAllocationById($id)
+    {
+        $q = $this->db->get_where('building_allocation', array('id' => $id), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
+
+    public function deleteBuildingAllocation($id)
+    {
+        $buildingAllocation = $this->getBuildingAllocationById($id);
+        var_dump($buildingAllocation->building_code);
+        if ($buildingAllocation) {
+            if ($this->db->update("building",
+                array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                array('building_code' => trim($buildingAllocation->building_code)))
+            ) {
+                if ($this->db->delete("building_allocation", array('id' => $id))) {
+                    return true;
+                }
+                return FALSE;
+            }
+
+        } else return false;
+
+    }
 
 
 }

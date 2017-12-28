@@ -265,7 +265,6 @@ class Buildings extends MX_Controller
         }
 
 
-
         $this->form_validation->set_rules('level_name', $this->lang->line("level_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
 
@@ -278,11 +277,11 @@ class Buildings extends MX_Controller
                 'created_date' => date('Y-m-d H:i:s'));
         }
 
-        if ($this->form_validation->run() == true && $this->buildings_model->getBuildingDetailsByNameAndLevel(trim($object['building_code']),trim($object['level_code']))) {
-            $this->session->set_flashdata('message',"This Building and Level name are already tagged.");
+        if ($this->form_validation->run() == true && $this->buildings_model->getBuildingDetailsByNameAndLevel(trim($object['building_code']), trim($object['level_code']))) {
+            $this->session->set_flashdata('message', "This Building and Level name are already tagged.");
             redirect('module=buildings&view=building_details', 'refresh');
         }
-        if ($this->form_validation->run() == true && $this->buildings_model->addBuildingDetails($object)){
+        if ($this->form_validation->run() == true && $this->buildings_model->addBuildingDetails($object)) {
             $this->session->set_flashdata('success_message', $this->lang->line("level_added_buildings"));
             redirect('module=buildings&view=building_details', 'refresh');
         } else {
@@ -437,7 +436,6 @@ class Buildings extends MX_Controller
         }
 
 
-
         $this->form_validation->set_rules('vendor_id', $this->lang->line("vendor_name"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_code', $this->lang->line("buildings_code"), 'required|min_length[3]|xss_clean');
 
@@ -451,12 +449,11 @@ class Buildings extends MX_Controller
                 'created_date' => date('Y-m-d H:i:s'));
         }
 
-        if ($this->form_validation->run() == true && $this->buildings_model->addBuildingAllocation($object)){
+        if ($this->form_validation->run() == true && $this->buildings_model->addBuildingAllocation($object)) {
             $this->session->set_flashdata('success_message', $this->lang->line("allocation_added"));
             redirect('module=buildings&view=building_allocation', 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-
 
 
             $data['vendors'] = $this->buildings_model->getAllVendors();
@@ -469,7 +466,6 @@ class Buildings extends MX_Controller
         }
 
     }
-
 
 
     function getDataTableAjaxForAllocation()
@@ -502,31 +498,31 @@ class Buildings extends MX_Controller
         $this->load->view('commons/footer');
     }
 
-//    function delete_building_allocations($id = NULL)
-//    {
-//
-//        if ($this->input->get('id')) {
-//            $id = $this->input->get('id');
-//        }
-//        if (!$this->ion_auth->in_group('owner')) {
-//            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
-//            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-//            redirect('module=home', 'refresh');
-//        }
-//
-////        @todo need to implement later
-////
-////        if($this->level->getRackByShelfID($id)) {
-////            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
-////            redirect("module=shelfs", 'refresh');
-////        }
-//        if ($this->buildings_model->deleteBuildingAllocations($id)) { //check to see if we are deleting the customer
-//            //redirect them back to the admin page
-//            $this->session->set_flashdata('success_message', $this->lang->line("delete_level_buildings"));
-//            redirect("module=buildings&view=building_details", 'refresh');
-//        }
+    function delete_building_allocation($id = NULL)
+    {
 
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
 
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+        if ($this->buildings_model->deleteBuildingAllocation($id)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("building_allocation_added"));
+            redirect("module=buildings&view=building_details", 'refresh');
+        }
+
+    }
 }
 
 /* End of file level.php */
