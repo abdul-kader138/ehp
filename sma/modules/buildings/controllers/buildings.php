@@ -443,9 +443,9 @@ class Buildings extends MX_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $vendor_details=$this->buildings_model->getVendorDetailsById($this->input->post('vendor_id'));
+//            $vendor_details=$this->buildings_model->getVendorDetailsById($this->input->post('vendor_id'));
             $object = array(
-                'buildings_code' => $this->input->post('buildings_code'),
+                'building_code' => $this->input->post('buildings_code'),
                 'vendor_id' => $this->input->post('vendor_id'),
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s'));
@@ -454,7 +454,6 @@ class Buildings extends MX_Controller
         if ($this->form_validation->run() == true && $this->buildings_model->addBuildingAllocation($object)){
             $this->session->set_flashdata('success_message', $this->lang->line("allocation_added"));
             redirect('module=buildings&view=building_allocation', 'refresh');
-//            redirect('module=buildings', 'refresh');
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
@@ -477,7 +476,7 @@ class Buildings extends MX_Controller
     {
         $this->load->library('datatables');
         $this->datatables
-            ->select("b.id as id,b.building_name,c.code,c.name,c.address")
+            ->select("b.id as id,b.building_code,c.code,c.name,c.address")
             ->from("building_allocation b")
             ->join("customers c", 'b.vendor_id = c.id', 'left')
             ->add_column("Actions",
@@ -502,6 +501,30 @@ class Buildings extends MX_Controller
         $this->load->view('building_allocation', $data);
         $this->load->view('commons/footer');
     }
+
+//    function delete_building_allocations($id = NULL)
+//    {
+//
+//        if ($this->input->get('id')) {
+//            $id = $this->input->get('id');
+//        }
+//        if (!$this->ion_auth->in_group('owner')) {
+//            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+//            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+//            redirect('module=home', 'refresh');
+//        }
+//
+////        @todo need to implement later
+////
+////        if($this->level->getRackByShelfID($id)) {
+////            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+////            redirect("module=shelfs", 'refresh');
+////        }
+//        if ($this->buildings_model->deleteBuildingAllocations($id)) { //check to see if we are deleting the customer
+//            //redirect them back to the admin page
+//            $this->session->set_flashdata('success_message', $this->lang->line("delete_level_buildings"));
+//            redirect("module=buildings&view=building_details", 'refresh');
+//        }
 
 
 }

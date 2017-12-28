@@ -210,7 +210,7 @@ class Buildings_model extends CI_Model
         if ($this->db->insert("building_allocation", $data)) {
             if ($this->db->update("building",
                 array('isTaggedWithVendor' => 'Yes','updated_by' => USER_NAME,'updated_date' => date('Y-m-d H:i:s'),
-                    array('building_code' => $data['buildings_code']))))
+                    array('building_code' => $data['building_code']))))
                 return true;
         }
         return false;
