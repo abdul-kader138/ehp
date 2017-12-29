@@ -127,7 +127,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
 
 <div class="control-group">
     <label class="control-label" for="start_date"><?php echo $this->lang->line("move_in_date"); ?></label>
-    <div class="controls"> <?php echo form_input('move_in_date', (isset($_POST['move_in_date']) ? $_POST['move_in_date'] : ""), 'class="span4" required="required"  id="move_in_date"');?> </div>
+    <div class="controls"> <?php echo form_input('move_in_date', (isset($_POST['move_in_date']) ? $_POST['move_in_date'] : ""), 'class="span4" required="required"  id="move_in_date" data-error="' . $this->lang->line("move_in_date") . ' ' . $this->lang->line("is_required") . '"');?> </div>
 </div>
 
 

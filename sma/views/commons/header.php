@@ -315,6 +315,10 @@
                 <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=client_intake"><?php echo $this->lang->line('intake'); ?></a>
             </li>
             <li class="divider"></li>
+            <li>
+                <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=intake_list"><?php echo $this->lang->line('list_intake'); ?></a>
+            </li>
+            <li class="divider"></li>
             <!--            need to omit later-->
 
 <!--            <li>-->

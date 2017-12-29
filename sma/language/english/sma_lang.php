@@ -807,6 +807,7 @@ $lang['alert_x_room'] 				    = "You are going to remove this Apartment. Press O
 
 
 
+$lang['client_type']		            = "Add Client Type";
 $lang['add_type']		                = "Add Client Type";
 $lang['edit_type']		                = "Edit Client Type";
 $lang['delete_type']		            = "Delete Client Type";
@@ -877,6 +878,7 @@ $lang['alert_x_allocation'] 		     = "You are going to remove this Allocation. P
 $lang['list_building_allocation']		 = "List Building Allocation";
 
 
+$lang['client_name']		             = "Client Name";
 $lang['client_code']		             = "Client Code";
 $lang['clients']		                 = "List Clients";
 $lang['first_name']		                 = "First Name";
@@ -895,9 +897,9 @@ $lang['client_deleted']		             = "Client Successfully Deleted.";
 $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
 
 
-
+$lang['list_intake']		             = "List Client Intake";
 $lang['intake']		                     = "Client Intake";
-$lang['add_intake']		                 = "Client Intake";
+$lang['add_intake']		                 = "Add Client Intake";
 $lang['move_in_date']		             = "Date(Move In)";
 $lang['move_out_date']		             = "Date(Move Out)";
 $lang['email']		                     = "Email";
@@ -906,12 +908,13 @@ $lang['date_of_birth']		             = "Date Of Birth";
 $lang['ssn']		                     = "SSN";
 $lang['new_client']		                 = "Add New Client";
 $lang['edit_client']		             = "Edit Client";
-$lang['delete_client']		             = "Delete Client";
+$lang['delete_intake']		             = "Delete Client Intake";
 $lang['client_type']		             = "Client Type";
-$lang['client_intake_added']		             = "Client Intake Successfully.";
+$lang['client_intake_added']		     = "Client Intake Successfully added.";
+$lang['client_intake_deleted']		     = "Client Intake Successfully deleted.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
-$lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
+$lang['alert_x_intake'] 				 = "You are going to remove this Client Intake. Press OK to proceed and Cancel to Go Back";
 
 
 

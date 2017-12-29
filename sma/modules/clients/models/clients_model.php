@@ -214,6 +214,20 @@ class Clients_model extends CI_Model
         return FALSE;
     }
 
+    public function delete_intake($data){
+        $intake_details=$this->getIntakeByCode($data);
+        if($this->db->delete("client_intake", array('code'=>$data))) {
+            if ($this->db->update("clients",
+                array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                array('code' => trim($intake_details->client_code)))
+            ) {
+                if($this->increaseApartmentCapacity($intake_details->apartment_code)) return true;
+                else return false;
+            }
+            return false;
+        }
+    }
+
     public function addClientIntake($data)
     {
         if ($this->db->insert("client_intake", $data)) {
@@ -221,7 +235,7 @@ class Clients_model extends CI_Model
                 array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
                 array('code' => trim($data['client_code'])))
             ) {
-                if($this->updateApartmentCapacity($data['apartment_code'])) return true;
+                if($this->decreaseApartmentCapacity($data['apartment_code'])) return true;
                 else return false;
             }
             return false;
@@ -279,7 +293,8 @@ class Clients_model extends CI_Model
         $this->db->select('bd.level_code,bd.building_code,l.room_code');
         $this->db->from('building_details bd');
         $this->db->join('level l', 'bd.level_code = l.level_code');
-        $this->db->where(array('building_code' => $building_details->building_code));
+        $this->db->join('rooms r', 'l.room_code = r.room_code');
+        $this->db->where(array('bd.building_code' => $building_details->building_code, 'r.total_bed_qty >'=>"0"));
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
@@ -302,7 +317,7 @@ class Clients_model extends CI_Model
         return FALSE;
     }
 
-    public function updateApartmentCapacity($code)
+    public function decreaseApartmentCapacity($code)
     {
         $apartmentDetails = $this->getApartmentByCode($code);
         $bed_qty = $apartmentDetails->total_bed_qty;
@@ -319,5 +334,31 @@ class Clients_model extends CI_Model
         return false;
     }
 
+    public function getIntakeByCode($code)
+    {
+        $q = $this->db->get_where('client_intake', array('code' => $code), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
 
+        return FALSE;
+    }
+
+
+    public function increaseApartmentCapacity($code)
+    {
+        $apartmentDetails = $this->getApartmentByCode($code);
+        $bed_qty = $apartmentDetails->total_bed_qty;
+        $occupied_qty = $apartmentDetails->bed_occupied;
+        $new_bed_qty = ($bed_qty + 1);
+        $new_occupied_qty = ($occupied_qty - 1);
+        if ($this->db->update("rooms",
+            array('total_bed_qty' => $new_bed_qty,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s'),
+                'bed_occupied' => $new_occupied_qty),
+            array("room_code" => $code))
+        ) return true;
+        return false;
+    }
 } 

@@ -74,6 +74,24 @@ class Clients extends MX_Controller
         $this->load->view('commons/footer');
     }
 
+    function intake_list()
+    {
+
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+        $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $data['success_message'] = $this->session->flashdata('success_message');
+
+        $meta['page_title'] = $this->lang->line("list_intake");
+        $data['page_title'] = $this->lang->line("list_intake");
+        $this->load->view('commons/header', $meta);
+        $this->load->view('intake_list', $data);
+        $this->load->view('commons/footer');
+    }
+
 
 
 
@@ -92,6 +110,49 @@ class Clients extends MX_Controller
 
     }
 
+    function delete_intake($name = NULL)
+    {
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+        if ($this->clients_model->delete_intake($name)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("client_intake_deleted"));
+            redirect("module=clients&view=intake_list", 'refresh');
+        }
+    }
+
+
+
+    function getDataTableIntakeAjax()
+    {
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.move_in_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
+            ->from("client_intake c")
+            ->join('clients cl', 'c.client_code = cl.code','left')
+            ->join('customers cu', 'c.vendor_code = cu.code','left')
+            ->join('client_type ct', 'cl.client_type = ct.type_code','left')
+            ->add_column("Actions",
+                "<center><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
+        ->unset_column('code');
+        echo $this->datatables->generate();
+
+    }
 
     function client_intake()
     {
@@ -142,7 +203,7 @@ class Clients extends MX_Controller
             if ($this->form_validation->run() == true && $this->clients_model->addClientIntake($data)) { //check to see if we are creating the customer
                 //redirect them back to the admin page
                 $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
-                redirect("module=clients", 'refresh');
+                redirect("module=clients&view=intake_list", 'refresh');
             }
 
         } else {
