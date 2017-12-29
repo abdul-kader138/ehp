@@ -41,46 +41,42 @@ $(function() {
 
 <div class="control-group">
   <label class="control-label" for="email_address">Email</label>
-  <div class="controls"> <input type="email" name="email" class="span4" required="required" data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
+  <div class="controls"> <input type="email" name="email" class="span4" data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
   </div>
 </div> 
 
-<div class="control-group">
-  <label class="control-label" for="cf4">NID</label>
-  <div class="controls"> <input type="text" name="nid" class="span4" required="required" data-error="<?php echo 'NID is required'.' '.$this->lang->line("is_required"); ?>" />
-  </div>
-</div> 
+
 
 <div class="control-group">
   <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
-  <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}" required="required" data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
+  <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
   </div>
 </div> 
 
 <div class="control-group">
   <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
-  <div class="controls"> <?php echo form_input('address', (isset($_POST['address']) ? $_POST['address'] : ''), 'class="span4" required="required" id="address" pattern=".{2,255}" required="required" data-error="'.$this->lang->line("address").' '.$this->lang->line("is_required").'"');?>
+  <div class="controls"> <?php echo form_input('address', (isset($_POST['address']) ? $_POST['address'] : ''), 'class="span4"  id="address" pattern=".{10,255}" required="required" data-error="'.$this->lang->line("address").' '.$this->lang->line("is_required").'"');?>
   </div>
 </div>  
 
 <div class="control-group">
   <label class="control-label" for="city"><?php echo $this->lang->line("city"); ?></label>
-  <div class="controls"> <?php echo form_input('city', (isset($_POST['city']) ? $_POST['city'] : ''), 'class="span4" id="city" required="required" pattern=".{2,55}" data-error="'.$this->lang->line("city").' '.$this->lang->line("is_required").'"');?>
+  <div class="controls"> <?php echo form_input('city', (isset($_POST['city']) ? $_POST['city'] : ''), 'class="span4" id="city"  pattern=".{2,55}" data-error="'.$this->lang->line("city").' '.$this->lang->line("is_required").'"');?>
   </div>
 </div> 
 <div class="control-group" >
   <label class="control-label" for="state"><?php echo $this->lang->line("state"); ?></label>
-  <div class="controls"> <?php echo form_input('state', (isset($_POST['state']) ? $_POST['state'] : ''), 'class="span4" required="required" id="state" pattern=".{2,55}" data-error="'.$this->lang->line("state").' '.$this->lang->line("is_required").'"');?>
+  <div class="controls"> <?php echo form_input('state', (isset($_POST['state']) ? $_POST['state'] : ''), 'class="span4"  id="state" pattern=".{2,55}" data-error="'.$this->lang->line("state").' '.$this->lang->line("is_required").'"');?>
   </div>
 </div> 
 <div class="control-group" >
   <label class="control-label" for="postal_code"><?php echo $this->lang->line("postal_code"); ?></label>
-  <div class="controls"> <?php echo form_input('postal_code', (isset($_POST['postal_code']) ? $_POST['postal_code'] : ''), 'class="span4" required="required" id="postal_code"pattern=".{4,8}" data-error="'.$this->lang->line("postal_code").' '.$this->lang->line("is_required").'"');?>
+  <div class="controls"> <?php echo form_input('postal_code', (isset($_POST['postal_code']) ? $_POST['postal_code'] : ''), 'class="span4"  id="postal_code"pattern=".{4,8}" data-error="'.$this->lang->line("postal_code").' '.$this->lang->line("is_required").'"');?>
   </div>
 </div> 
 <div class="control-group" >
   <label class="control-label" for="country"><?php echo $this->lang->line("country"); ?></label>
-  <div class="controls"> <?php echo form_input('country', (isset($_POST['country']) ? $_POST['country'] : ''), 'class="span4" id="country" required="required" pattern=".{2,55}" data-error="'.$this->lang->line("country").' '.$this->lang->line("is_required").'"');?>
+  <div class="controls"> <?php echo form_input('country', (isset($_POST['country']) ? $_POST['country'] : ''), 'class="span4" id="country"  pattern=".{2,55}" data-error="'.$this->lang->line("country").' '.$this->lang->line("is_required").'"');?>
   </div>
 </div>
 

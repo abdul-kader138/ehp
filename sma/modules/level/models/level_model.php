@@ -83,7 +83,7 @@ class Level_model extends CI_Model
 
     public function deleteLevel($name,$room_name)
     {
-        if($this->db->delete("level", array('level_name' => $name,'room_name'=>$room_name))) {
+        if($this->db->delete("level", array('level_code' => $name,'room_code'=>$room_name))) {
             return true;
         }
         return FALSE;

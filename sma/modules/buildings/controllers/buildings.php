@@ -177,7 +177,6 @@ class Buildings extends MX_Controller
                 'hasHandicapAccess' => $this->input->post('hasHandicapAccess'),
                 'isSmokeFreeZone' => $this->input->post('isSmokeFreeZone'),
                 'hasElevatorSupport' => $this->input->post('hasElevatorSupport'),
-                'isTaggedWithVendor' => 'No',
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s'));
 
@@ -476,7 +475,7 @@ class Buildings extends MX_Controller
             ->from("building_allocation b")
             ->join("customers c", 'b.vendor_id = c.id', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=buildings&amp;view=edit_building_allocation&amp;id=$1' class='tip' title='" . $this->lang->line("edit_building_allocation") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+                "<center><a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
             ->unset_column('id');
 
         echo $this->datatables->generate();
@@ -518,8 +517,8 @@ class Buildings extends MX_Controller
 //        }
         if ($this->buildings_model->deleteBuildingAllocation($id)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("building_allocation_added"));
-            redirect("module=buildings&view=building_details", 'refresh');
+            $this->session->set_flashdata('success_message', $this->lang->line("building_allocation_deleted"));
+            redirect("module=buildings&view=building_allocation", 'refresh');
         }
 
     }

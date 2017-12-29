@@ -2,7 +2,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('form').form();
-    });
+         });
 </script>
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 
@@ -21,7 +21,7 @@
         foreach ($rooms as $room) {
             $roomList[$room->room_code] = $room->room_name;
         }
-        echo form_dropdown('room_names[]', $roomList, (isset($_POST['room_names[]']) ? $_POST['room_names[]'] : ""), ' multiple  data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
+        echo form_dropdown('room_names[]', $roomList, (isset($_POST['room_names[]']) ? $_POST['room_names[]'] : ""), 'class="select_search span4" multiple  data-error="' . $this->lang->line("room_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 <div class="control-group">
     <label class="control-label" for="name"><?php echo $this->lang->line("level_name"); ?></label>

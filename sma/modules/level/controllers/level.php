@@ -70,7 +70,7 @@ class Level extends MX_Controller
             ->from("level")
             ->add_column("Actions",
 //                "<center><a href='index.php?module=level&amp;view=edit&amp;name=$2' class='tip' title='" . $this->lang->line("edit_level") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=level&amp;view=delete&amp;name=$2' onClick=\"return confirm('" . $this->lang->line('alert_x_level') . "')\" class='tip' title='" . $this->lang->line("delete_level") . "'><i class=\"icon-remove\"></i></a></center>", "level_code,level_name");
-                "<center><a href='index.php?module=level&amp;view=delete&amp;name=$2&amp;room_name=$3' onClick=\"return confirm('" . $this->lang->line('alert_x_level') . "')\" class='tip' title='" . $this->lang->line("delete_level") . "'><i class=\"icon-remove\"></i></a></center>", "level_code,level_name,room_name");
+                "<center><a href='index.php?module=level&amp;view=delete&amp;name=$2&amp;room_name=$3' onClick=\"return confirm('" . $this->lang->line('alert_x_level') . "')\" class='tip' title='" . $this->lang->line("delete_level") . "'><i class=\"icon-remove\"></i></a></center>", "level_name,level_code,room_code");
 
         echo $this->datatables->generate();
 

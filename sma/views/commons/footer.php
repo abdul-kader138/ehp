@@ -20,7 +20,8 @@
 <?php } ?>
 <script src="<?php echo $this->config->base_url(); ?>assets/js/bootstrap-fileupload.js"></script> 
 <script src="<?php echo $this->config->base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/jquery.dataTables.min.js"></script> 
+<script src="<?php echo $this->config->base_url(); ?>assets/js/select2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $this->config->base_url(); ?>assets/media/js/ZeroClipboard.js"></script> 
 <script type="text/javascript" charset="utf-8" src="<?php echo $this->config->base_url(); ?>assets/media/js/TableTools.min.js"></script> 
 <?php if(THEME == 'rtl') { ?>

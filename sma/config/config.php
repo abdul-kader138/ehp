@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/ehp/ehp_new/';
+$config['base_url']	= 'http://localhost:8088/ehp/';
 
 /*
 |--------------------------------------------------------------------------

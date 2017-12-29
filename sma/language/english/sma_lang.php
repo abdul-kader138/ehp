@@ -91,7 +91,7 @@ $lang['serie'] 							= "Serie";
 $lang['address'] 						= "Address";
 $lang['city'] 							= "City";
 $lang['state'] 							= "State";
-$lang['postal_code'] 					= "Postal Code";
+$lang['postal_code'] 					= "ZIP Code";
 $lang['country'] 						= "Country";
 $lang['phone'] 							= "Phone";
 $lang['logo'] 							= "Logo";
@@ -791,6 +791,7 @@ $lang['alert_x_level'] 				    = "You are going to remove this Level. Press OK t
 
 
 
+$lang['apartment_code']		            = "Apartment Code";
 $lang['add_room']		                = "Add Apartment";
 $lang['edit_room']		                = "Edit Apartment";
 $lang['delete_room']		            = "Delete Apartment";
@@ -806,6 +807,23 @@ $lang['alert_x_room'] 				    = "You are going to remove this Apartment. Press O
 
 
 
+$lang['add_type']		                = "Add Client Type";
+$lang['edit_type']		                = "Edit Client Type";
+$lang['delete_type']		            = "Delete Client Type";
+$lang['new_type'] 					    = "Add Client Type";
+$lang['type_added'] 				    = "Client Type Successfully Added.";
+$lang['type_updated'] 				    = "Client Type Successfully Updated.";
+$lang['type_deleted'] 				    = "Client Type Successfully Deleted.";
+$lang['type_code'] 			    		= "Client Type Code";
+$lang['type_name'] 				    	= "Client Type Name";
+$lang['type_name_exist'] 			    = "Client Type name already exist.";
+$lang['list_type'] 				        = "List Client Type";
+$lang['alert_x_type'] 				    = "You are going to remove this Client Type. Press OK to proceed and Cancel to Go Back";
+
+
+
+
+$lang['building_code']		            = "Building Code";
 $lang['location_buildings']		        = "Building Location";
 $lang['add_buildings']		            = "Add Building";
 $lang['edit_buildings']		            = "Edit Building";
@@ -835,6 +853,7 @@ $lang['level_name_exist_buildings'] 	= "Level name already exist.";
 $lang['list_level_buildings'] 		    = "List Building Details";
 $lang['alert_x_level_buildings'] 		= "You are going to remove this Building Details. Press OK to proceed and Cancel to Go Back";
 
+$lang['vendor_code']		             = "Vendor Code";
 $lang['new_vendor']		                 = "New Vendor";
 $lang['add_vendor']		                 = "Add Vendor";
 $lang['edit_vendor']		             = "Edit Vendor";
@@ -856,6 +875,45 @@ $lang['building_allocation_added']	 = "Building Allocation Successfully Added.";
 $lang['building_allocation_deleted']     = "Building Allocation Successfully Deleted.";
 $lang['alert_x_allocation'] 		     = "You are going to remove this Allocation. Press OK to proceed and Cancel to Go Back";
 $lang['list_building_allocation']		 = "List Building Allocation";
+
+
+$lang['client_code']		             = "Client Code";
+$lang['clients']		                 = "List Clients";
+$lang['first_name']		                 = "First Name";
+$lang['last_name']		                 = "Last Name";
+$lang['email']		                     = "Email";
+$lang['Phone']		                     = "Phone";
+$lang['date_of_birth']		             = "Date Of Birth";
+$lang['ssn']		                     = "SSN";
+$lang['new_client']		                 = "Add New Client";
+$lang['edit_client']		             = "Edit Client";
+$lang['delete_client']		             = "Delete Client";
+$lang['client_type']		             = "Client Type";
+$lang['client_added']		             = "Client Successfully Added.";
+$lang['client_updated']		             = "Client Successfully Updated.";
+$lang['client_deleted']		             = "Client Successfully Deleted.";
+$lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
+
+
+
+$lang['intake']		                     = "Client Intake";
+$lang['add_intake']		                 = "Client Intake";
+$lang['move_in_date']		             = "Date(Move In)";
+$lang['move_out_date']		             = "Date(Move Out)";
+$lang['email']		                     = "Email";
+$lang['Phone']		                     = "Phone";
+$lang['date_of_birth']		             = "Date Of Birth";
+$lang['ssn']		                     = "SSN";
+$lang['new_client']		                 = "Add New Client";
+$lang['edit_client']		             = "Edit Client";
+$lang['delete_client']		             = "Delete Client";
+$lang['client_type']		             = "Client Type";
+$lang['client_intake_added']		             = "Client Intake Successfully.";
+$lang['client_updated']		             = "Client Successfully Updated.";
+$lang['client_deleted']		             = "Client Successfully Deleted.";
+$lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
+
+
 
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */
 /*

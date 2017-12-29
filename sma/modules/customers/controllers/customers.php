@@ -89,17 +89,16 @@ class Customers extends MX_Controller
 
 
         //validate form input
-        $this->form_validation->set_rules('code', $this->lang->line("code"), 'required|xss_clean');
+        $this->form_validation->set_rules('code', $this->lang->line("code"), 'xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("name"), 'required|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'required|valid_email');
-        $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean');
-        $this->form_validation->set_rules('city', $this->lang->line("city"), 'required|xss_clean');
-        $this->form_validation->set_rules('state', $this->lang->line("state"), 'required|xss_clean');
-        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'required|xss_clean');
-        $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
-        $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
-        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'required|xss_clean');
-        $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
+        $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'valid_email');
+        $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean|min_length[15]|max_length[255]');
+        $this->form_validation->set_rules('city', $this->lang->line("city"), 'xss_clean');
+        $this->form_validation->set_rules('state', $this->lang->line("state"), 'xss_clean');
+        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'xss_clean');
+        $this->form_validation->set_rules('country', $this->lang->line("country"), 'xss_clean');
+        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'xss_clean');
+        $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
 
 
         if ($this->form_validation->run() == true) {
@@ -111,7 +110,6 @@ class Customers extends MX_Controller
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
-                'nid' => $this->input->post('nid'),
                 'date_of_join' => date('Y-m-d'),
                 'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
@@ -164,17 +162,16 @@ class Customers extends MX_Controller
 
 
         //validate form input
-        $this->form_validation->set_rules('code', $this->lang->line("code"), 'required|xss_clean');
+        $this->form_validation->set_rules('code', $this->lang->line("code"), 'xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("name"), 'required|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'required|valid_email');
-        $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean');
-        $this->form_validation->set_rules('city', $this->lang->line("city"), 'required|xss_clean');
-        $this->form_validation->set_rules('state', $this->lang->line("state"), 'required|xss_clean');
-        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'required|xss_clean');
-        $this->form_validation->set_rules('nid', $this->lang->line("nid"), 'required|xss_clean');
-        $this->form_validation->set_rules('country', $this->lang->line("country"), 'required|xss_clean');
-        $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'required|xss_clean|min_length[9]|max_length[16]');
-        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'required|xss_clean');
+        $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'valid_email');
+        $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean|min_length[15]|max_length[255]');
+        $this->form_validation->set_rules('city', $this->lang->line("city"), 'xss_clean');
+        $this->form_validation->set_rules('state', $this->lang->line("state"), 'xss_clean');
+        $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'xss_clean');
+        $this->form_validation->set_rules('country', $this->lang->line("country"), 'xss_clean');
+        $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'xss_clean');
+        $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
 
         if ($this->form_validation->run() == true) {
 
@@ -185,7 +182,6 @@ class Customers extends MX_Controller
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
-                'nid' => $this->input->post('nid'),
                 'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
                 'date_of_join' =>$this->ion_auth->fsd($this->input->post('join_date')),

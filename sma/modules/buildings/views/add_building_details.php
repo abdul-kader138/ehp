@@ -20,7 +20,7 @@
         foreach ($buildings as $building) {
             $buildingList[$building->building_code] = $building->building_name;
         }
-        echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), 'id="tip chzn-select span4"  class="chosen-select" required="required" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
+        echo form_dropdown('buildings_name', $buildingList, (isset($_POST['buildings_name']) ? $_POST['buildings_name'] : ""), ' class="select_search" required="required" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("buildings_name") . '" data-error="' . $this->lang->line("buildings_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
 <div class="control-group">
@@ -31,7 +31,7 @@
         foreach ($levels as $level) {
             $levelList[$level->level_code] = $level->level_name;
         }
-        echo form_dropdown('level_name', $levelList, (isset($_POST['level_name']) ? $_POST['level_name'] : ""), 'class="tip chzn-select span4 level_name" id="level_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("level_name") . '"  required="required" data-error="' . $this->lang->line("level_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+        echo form_dropdown('level_name', $levelList, (isset($_POST['level_name']) ? $_POST['level_name'] : ""), 'class="select_search" id="level_name" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("level_name") . '"  required="required" data-error="' . $this->lang->line("level_name") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
 
