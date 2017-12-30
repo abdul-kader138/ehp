@@ -13,7 +13,7 @@
 } ?>
 
 <h3 class="title"><?php echo $page_title; ?></h3>
-<p><?php echo $this->lang->line("enter_info"); ?></p>
+<!--<p>--><?php //echo $this->lang->line("enter_info"); ?><!--</p>-->
 <?php $attrib = array('class' => 'form-horizontal');
 echo form_open("module=clients&view=client_discharge&name=$name", $attrib); ?>
 <div class="control-group">
@@ -65,7 +65,7 @@ echo form_open("module=clients&view=client_discharge&name=$name", $attrib); ?>
 
 <div class="control-group">
     <label class="control-label" for="start_date"><?php echo $this->lang->line("move_out_date"); ?></label>
-    <div class="controls"> <?php echo form_input('move_out_date', (isset($_POST['move_out_date']) ? $_POST['move_out_date'] : ""), 'class="span4" id="move_out_date"');?> </div>
+    <div class="controls"> <?php echo form_input('move_out_date', (isset($_POST['move_out_date']) ? $_POST['move_out_date'] : ""), 'class="span4" required="required" readonly="readonly"  id="move_out_date" data-error="' . $this->lang->line("move_out_date") . ' ' . $this->lang->line("is_required") . '"');?> </div>
 </div>
 
 

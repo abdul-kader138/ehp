@@ -139,11 +139,10 @@ class Clients extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,c.client_type,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
-            ->join('client_type ct', 'cl.client_type = ct.type_code', 'left')
             ->add_column("Actions",
                 "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
             ->unset_column('code');
@@ -619,9 +618,9 @@ class Clients extends MX_Controller
 
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-            $meta['page_title'] = $this->lang->line("new_client");
+            $meta['page_title'] = $this->lang->line("client_discharge");
 //            $data['page_title'] = $this->lang->line("new_client");
-            $data['page_title'] = $this->lang->line("new_client");
+            $data['page_title'] = $this->lang->line("client_discharge");
             $data['name'] = $name;
             $data['client'] = $this->clients_model->getIntakeByCode($name);
             $this->load->view('commons/header', $meta);
