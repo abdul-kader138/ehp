@@ -92,7 +92,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
     <div class="controls"> <?php
         $clientList[''] = "";
         foreach ($clients as $client) {
-            $clientList[$client->code] = $client->first_name . " " . $client->first_name;
+            $clientList[$client->code] = $client->first_name . " " . $client->Last_name;
         }
         echo form_dropdown('client_code', $clientList, (isset($_POST['client_code']) ? $_POST['client_code'] : ""), ' class="select_search span4" required="required"  data-error="' . $this->lang->line("client_code") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>

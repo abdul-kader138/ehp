@@ -339,7 +339,7 @@ class Clients_model extends CI_Model
         $occupied_qty = $apartmentDetails->bed_occupied;
         $new_bed_qty = ($bed_qty - 1);
         $new_occupied_qty = ($occupied_qty + 1);
-        if($new_bed_qty <=0) $vacant_date="";
+        if($new_bed_qty <=0) $vacant_date=NULL;
         else $vacant_date=$apartmentDetails->vacant_date;
         if ($this->db->update("rooms",
             array('total_bed_qty' => $new_bed_qty,

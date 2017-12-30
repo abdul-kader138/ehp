@@ -93,8 +93,8 @@
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 
-<!--<h3 class="title">--><?php //echo $page_title; ?><!--</h3>-->
-<h3 class="title">Product Discount</h3>
+<h3 class="title"><?php echo $page_title; ?></h3>
+<!--<h3 class="title">Product Discount</h3>-->
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
