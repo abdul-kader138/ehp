@@ -578,6 +578,10 @@ class Clients extends MX_Controller
             redirect('module=home', 'refresh');
         }
 
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+
         $isExists = $this->clients_model->getClientByIntakeCode($name);
         if ($isExists) {
             $this->session->set_flashdata('message', "Client already discharged");
@@ -585,9 +589,7 @@ class Clients extends MX_Controller
         }
 
 
-        if ($this->input->get('name')) {
-            $name = $this->input->get('name');
-        }
+
         //validate form input
         $this->form_validation->set_rules('move_out_date', $this->lang->line("move_out_date"), 'xss_clean');
 
