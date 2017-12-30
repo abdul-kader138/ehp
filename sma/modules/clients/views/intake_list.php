@@ -34,6 +34,7 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
+                { "bSortable": true },
                 null,
                 null
             ]
@@ -48,7 +49,8 @@
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 
-<h3 class="title"><?php echo $page_title; ?></h3>
+<!--<h3 class="title">--><?php //echo $page_title; ?><!--</h3>-->
+<h3 class="title">Product Discount</h3>
 
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
@@ -60,6 +62,7 @@
         <th><?php echo $this->lang->line("vendor_name"); ?></th>
         <th><?php echo $this->lang->line("building_code"); ?></th>
         <th><?php echo $this->lang->line("room_code"); ?></th>
+        <th><?php echo $this->lang->line("status"); ?></th>
         <th><?php echo $this->lang->line("move_in_date"); ?></th>
         <th>Days Staying <br/>(Up to date)</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
@@ -67,12 +70,9 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="9" class="dataTables_empty">Loading data from server</td>
+        <td colspan="10" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>
 </table>
-
-<p><a href="<?php echo site_url('module=clients&view=client_intake');?>" class="btn btn-primary"><?php echo $this->lang->line("add_intake"); ?></a></p>
-	
 

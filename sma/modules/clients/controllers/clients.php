@@ -93,8 +93,6 @@ class Clients extends MX_Controller
     }
 
 
-
-
     function getDataTableClientAjax()
     {
 
@@ -104,7 +102,7 @@ class Clients extends MX_Controller
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+                "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code");
 
         echo $this->datatables->generate();
 
@@ -136,20 +134,19 @@ class Clients extends MX_Controller
     }
 
 
-
     function getDataTableIntakeAjax()
     {
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.move_in_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
             ->from("client_intake c")
-            ->join('clients cl', 'c.client_code = cl.code','left')
-            ->join('customers cu', 'c.vendor_code = cu.code','left')
-            ->join('client_type ct', 'cl.client_type = ct.type_code','left')
+            ->join('clients cl', 'c.client_code = cl.code', 'left')
+            ->join('customers cu', 'c.vendor_code = cu.code', 'left')
+            ->join('client_type ct', 'cl.client_type = ct.type_code', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
-        ->unset_column('code');
+                "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
+            ->unset_column('code');
         echo $this->datatables->generate();
 
     }
@@ -223,7 +220,6 @@ class Clients extends MX_Controller
         }
 
     }
-
 
 
     function add()
@@ -353,7 +349,6 @@ class Clients extends MX_Controller
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
 
-
             $meta['page_title'] = $this->lang->line("edit_client");
             $data['page_title'] = $this->lang->line("edit_client");
             $data['types'] = $this->clients_model->getTypes();
@@ -420,7 +415,7 @@ class Clients extends MX_Controller
                 $this->session->set_flashdata('message', "Client Type(" . $name . ") is already exists");
                 redirect("module=home", 'refresh');
             } else {
-                $data= array('type_code' => $this->input->post('type_code'),
+                $data = array('type_code' => $this->input->post('type_code'),
                     'type_name' => $this->input->post('type_name'),
                     'created_by' => USER_NAME,
                     'created_date' => date('Y-m-d H:i:s')
@@ -560,7 +555,7 @@ class Clients extends MX_Controller
         $vendor_id = $this->input->get('vendor_id', TRUE);
         $building_id = $this->input->get('building_id', TRUE);
 
-        if ($rows = $this->clients_model->getApartmentByVendorID($vendor_id,$building_id)) {
+        if ($rows = $this->clients_model->getApartmentByVendorID($vendor_id, $building_id)) {
             $ct[""] = '';
             foreach ($rows as $apartment) {
                 $ct[$apartment->room_code] = $apartment->room_code;
@@ -570,6 +565,66 @@ class Clients extends MX_Controller
             $data = "";
         }
         echo $data;
+    }
+
+
+    function client_discharge($name = null)
+    {
+
+
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+        $isExists = $this->clients_model->getClientByIntakeCode($name);
+        if ($isExists) {
+            $this->session->set_flashdata('message', "Client already discharged");
+            redirect("module=clients&view=intake_list", 'refresh');
+        }
+
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+        //validate form input
+        $this->form_validation->set_rules('move_out_date', $this->lang->line("move_out_date"), 'xss_clean');
+
+
+        if ($this->form_validation->run() == true) {
+
+            $dob = $this->ion_auth->fsd(trim($this->input->post('move_out_date')));
+            $data = array(
+                'status' => 'Discharged',
+                'move_out_date' => $dob,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s')
+            );
+        }
+
+
+//
+//
+
+        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name)) { //check to see if we are creating the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("client_added"));
+            redirect("module=clients&view=intake_list", 'refresh');
+
+        } else {
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            $meta['page_title'] = $this->lang->line("new_client");
+//            $data['page_title'] = $this->lang->line("new_client");
+            $data['page_title'] = $this->lang->line("new_client");
+            $data['name'] = $name;
+            $data['client'] = $this->clients_model->getIntakeByCode($name);
+            $this->load->view('commons/header', $meta);
+            $this->load->view('client_discharge', $data);
+            $this->load->view('commons/footer');
+
+        }
+
     }
 
 }

@@ -228,6 +228,20 @@ class Clients_model extends CI_Model
         }
     }
 
+    public function dischargeClient($data,$code){
+        $intake_details=$this->getIntakeByCode($code);
+        if($this->db->update("client_intake", $data,array('code'=>$code))) {
+            if ($this->db->update("clients",
+                array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                array('code' => trim($intake_details->client_code)))
+            ) {
+                if($this->increaseApartmentCapacity($intake_details->apartment_code)) return true;
+                else return false;
+            }
+            return false;
+        }
+    }
+
     public function addClientIntake($data)
     {
         if ($this->db->insert("client_intake", $data)) {
@@ -344,6 +358,16 @@ class Clients_model extends CI_Model
         return FALSE;
     }
 
+
+    public function getClientByIntakeCode($code)
+    {
+        $q = $this->db->get_where('client_intake', array('code' => $code,'move_out_date !='=>""), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
 
     public function increaseApartmentCapacity($code)
     {
