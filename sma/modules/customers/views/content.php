@@ -24,21 +24,23 @@
 						'data'    : aoData,
 						'success' : fnCallback
 					  });
-					},	
-					"oTableTools": {
-						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
-						"aButtons": [
-								// "copy",
-								"csv",
-								"xls",
-								{
-									"sExtends": "pdf",
-									"sPdfOrientation": "landscape",
-									"sPdfMessage": ""
-								},
-								"print"
-						]
 					},
+                    "oTableTools": {
+                        "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
+                        "aButtons": [
+                            {
+                                "sExtends": "xls",
+                                "sFileName": "vendor_list.xls",
+                                "mColumns": [ 0, 1, 2, 3,4,5,6,7,8 ]
+                            },
+                            {
+                                "sExtends": "pdf",
+                                "sFileName": "vendor_list.pdf",
+                                "sPdfOrientation": "landscape",
+                                "mColumns": [0, 1, 2, 3,4,5,6,7,8 ]
+                            }
+                        ]
+                    },
 					"oLanguage": {
 					  "sSearch": "Filter: "
 					},

@@ -20,10 +20,20 @@
                     'success' : fnCallback
                 });
             },
-
             "oTableTools": {
-                "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "client_list.xls",
+                        "mColumns": [ 0, 1, 2, 3,4,5,6,7 ]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "client_list.pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [0, 1, 2, 3,4,5,6,7 ]
+                    }
                 ]
             },
             "aoColumns": [

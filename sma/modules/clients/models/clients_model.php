@@ -171,6 +171,7 @@ class Clients_model extends CI_Model
     }
 
 
+
     public function getTypes()
     {
         $q = $this->db->get("client_type");

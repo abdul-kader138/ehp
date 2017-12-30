@@ -22,9 +22,20 @@
             },
 
             "oTableTools": {
-                "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
-                             ]
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "level_list.xls",
+                        "mColumns": [ 0, 1, 2 ]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "level_list.pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [ 0, 1, 2]
+                    }
+                ]
             },
             "aoColumns": [
                 null,
@@ -62,6 +73,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=level&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level"); ?></a></p>
+<!--<p><a href="--><?php //echo site_url('module=level&view=add');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_level"); ?><!--</a></p>-->
 	
 

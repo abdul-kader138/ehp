@@ -22,8 +22,19 @@
             },
 
             "oTableTools": {
-                "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "building_allocation_list.xls",
+                        "mColumns": [ 0, 1, 2, 3 ]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "building_allocation_list.pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [ 0, 1, 2, 3 ]
+                    }
                 ]
             },
             "aoColumns": [
@@ -64,6 +75,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=buildings&view=add_building_allocation');?>" class="btn btn-primary"><?php echo $this->lang->line("new_building_allocation"); ?></a></p>
+<!--<p><a href="--><?php //echo site_url('module=buildings&view=add_building_allocation');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_building_allocation"); ?><!--</a></p>-->
 	
 

@@ -22,9 +22,20 @@
             },
 
             "oTableTools": {
-                "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
-                             ]
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "Apartment_list.xls",
+                        "mColumns": [ 0, 1, 2, 3]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "Apartment_list.pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [ 0, 1, 2, 3]
+                    }
+                ]
             },
             "aoColumns": [
                 { "bSortable": true },
@@ -64,6 +75,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=rooms&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_room"); ?></a></p>
+<!--<p><a href="--><?php //echo site_url('module=rooms&view=add');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_room"); ?><!--</a></p>-->
 	
 

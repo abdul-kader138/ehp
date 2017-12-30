@@ -20,10 +20,20 @@
                     'success' : fnCallback
                 });
             },
-
             "oTableTools": {
-                "sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "building_details_list.xls",
+                        "mColumns": [ 0, 1, 2, 3,4 ]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "building_details_list.pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [ 0, 1, 2, 3,4 ]
+                    }
                 ]
             },
             "aoColumns": [
@@ -66,6 +76,6 @@
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=buildings&view=add_building_details');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level_buildings"); ?></a></p>
+<!--<p><a href="--><?php //echo site_url('module=buildings&view=add_building_details');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_level_buildings"); ?><!--</a></p>-->
 	
 

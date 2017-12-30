@@ -311,14 +311,7 @@
                 <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=add"><?php echo $this->lang->line('new_client'); ?></a>
             </li>
             <li class="divider"></li>
-            <li>
-                <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=client_intake"><?php echo $this->lang->line('intake'); ?></a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=intake_list"><?php echo $this->lang->line('list_intake'); ?></a>
-            </li>
-            <li class="divider"></li>
+
             <!--            need to omit later-->
 
 <!--            <li>-->
@@ -327,7 +320,11 @@
         </ul>
     </li>
     <?php if ($this->ion_auth->in_group('owner')) { ?>
-        <li class="dropdown"><a class="showSubMenus" href="#settingsMenu"><i
+
+
+
+
+<li class="dropdown"><a class="showSubMenus" href="#settingsMenu"><i
                     class="icon-cog  icon-white"></i> <?php echo $this->lang->line('settings'); ?> <b
                     class="caret"></b></a>
             <ul class="nav nav-tabs nav-stacked sub-menu" id="settingsMenu">
@@ -356,51 +353,28 @@
 <!--         abdul Kader       -->
 
                 <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=rooms"><?php echo $this->lang->line('list_room'); ?></a>
-                </li>
-                <li class="divider"></li>
-                <li>
                     <a href="<?php echo base_url(); ?>index.php?module=rooms&amp;view=add"><?php echo $this->lang->line('new_room'); ?></a>
                 </li>
                 <li class="divider"></li>
 
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=level"><?php echo $this->lang->line('list_level'); ?></a>
-                </li>
-                <li class="divider"></li>
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=level&amp;view=add"><?php echo $this->lang->line('new_level'); ?></a>
                 </li>
                 <li class="divider"></li>
 
                 <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=buildings"><?php echo $this->lang->line('list_buildings'); ?></a>
-                </li>
-                <li class="divider"></li>
-                <li>
                     <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add"><?php echo $this->lang->line('new_buildings'); ?></a>
-                </li>
-                <li class="divider"></li>
-
-
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_details"><?php echo $this->lang->line('list_level_buildings'); ?></a>
                 </li>
                 <li class="divider"></li>
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add_building_details"><?php echo $this->lang->line('new_level_buildings'); ?></a>
                 </li>
                 <li class="divider"></li>
-
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add_building_allocation"><?php echo $this->lang->line('building_allocation'); ?></a>
                 </li>
                 <li class="divider"></li>
 
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_allocation"><?php echo $this->lang->line('list_building_allocation'); ?></a>
-                </li>
-                <li class="divider"></li>
 
 <!--   -->
 
@@ -472,10 +446,68 @@
 
             </ul>
         </li>
+
+
+        <!--        location Info-->
+
+        <li class="dropdown"><a class="showSubMenus" href="#locationMenu"><i
+                    class="icon-info-sign  icon-white"></i> <?php echo $this->lang->line('location_info'); ?> <b
+                    class="caret"></b></a>
+            <ul class="nav nav-tabs nav-stacked sub-menu" id="locationMenu">
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=rooms"><?php echo $this->lang->line('list_room'); ?></a>
+                </li>
+                <li class="divider"></li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=level"><?php echo $this->lang->line('list_level'); ?></a>
+                </li>
+                <li class="divider"></li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=buildings"><?php echo $this->lang->line('list_buildings'); ?></a>
+                </li>
+                <li class="divider"></li>
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_details"><?php echo $this->lang->line('list_level_buildings'); ?></a>
+                </li>
+                <li class="divider"></li>
+
+
+
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_allocation"><?php echo $this->lang->line('list_building_allocation'); ?></a>
+                </li>
+                <li class="divider"></li>
+            </ul>
+        </li>
+
+
+
+        <!--        Client Intake-->
+
+        <li class="dropdown"><a class="showSubMenus" href="#intakeMenu"><i
+                    class="icon-check  icon-white"></i> <?php echo $this->lang->line('intake'); ?> <b
+                    class="caret"></b></a>
+            <ul class="nav nav-tabs nav-stacked sub-menu" id="intakeMenu">
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=client_intake"><?php echo $this->lang->line('intake'); ?></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=intake_list"><?php echo $this->lang->line('list_intake'); ?></a>
+                </li>
+                <li class="divider"></li>
+            </ul>
+        </li>
+
+
     <?php } ?>
 
     <li class="dropdown"><a class="showSubMenus" href="#reportsMenu"><i
-                class="icon-tasks  icon-white"></i> <?php echo $this->lang->line('reports'); ?> <b
+                class="icon-align-justify  icon-white"></i> <?php echo $this->lang->line('reports'); ?> <b
                 class="caret"></b></a>
         <ul class="nav nav-tabs nav-stacked sub-menu" id="reportsMenu">
 <!--            <li>-->

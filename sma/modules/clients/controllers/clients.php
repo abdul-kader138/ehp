@@ -102,7 +102,7 @@ class Clients extends MX_Controller
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+                "<center><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code");
 
         echo $this->datatables->generate();
 
@@ -139,7 +139,7 @@ class Clients extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
@@ -174,12 +174,15 @@ class Clients extends MX_Controller
         if ($this->form_validation->run() == true) {
 
             $mid = $this->ion_auth->fsd(trim($this->input->post('move_in_date')));
+            $client_details= $this->clients_model->getClientsByCode($this->input->post('client_code'));
+            $client_type_details= $this->clients_model->getClientTypeByCode($client_details->client_type);
             $data = array(
                 'client_code' => $this->input->post('client_code'),
                 'vendor_code' => $this->input->post('vendor_code'),
                 'building_code' => $this->input->post('building_code'),
                 'apartment_code' => $this->input->post('apartment_code'),
                 'code' => $this->input->post('code'),
+                'client_type' => $client_type_details->type_name,
                 'move_in_date' => $mid,
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s')
