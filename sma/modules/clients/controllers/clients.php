@@ -139,7 +139,7 @@ class Clients extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, CONCAT(cl.first_name) AS s_name,c.client_type,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, DATEDIFF(  CURDATE(),c.move_in_date ) AS days")
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,c.client_type,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  null then DATEDIFF(  CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
@@ -613,13 +613,12 @@ class Clients extends MX_Controller
 
         if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name)) { //check to see if we are creating the customer
             //redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("client_added"));
+            $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
             redirect("module=clients&view=intake_list", 'refresh');
 
         } else {
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             $meta['page_title'] = $this->lang->line("client_discharge");
-//            $data['page_title'] = $this->lang->line("new_client");
             $data['page_title'] = $this->lang->line("client_discharge");
             $data['name'] = $name;
             $data['client'] = $this->clients_model->getIntakeByCode($name);
