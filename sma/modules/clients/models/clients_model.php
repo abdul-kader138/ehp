@@ -339,9 +339,12 @@ class Clients_model extends CI_Model
         $occupied_qty = $apartmentDetails->bed_occupied;
         $new_bed_qty = ($bed_qty - 1);
         $new_occupied_qty = ($occupied_qty + 1);
+        if($new_bed_qty <=0) $vacant_date="";
+        else $vacant_date=$apartmentDetails->vacant_date;
         if ($this->db->update("rooms",
             array('total_bed_qty' => $new_bed_qty,
                 'updated_by' => USER_NAME,
+                'vacant_date' => $vacant_date,
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))
@@ -377,9 +380,12 @@ class Clients_model extends CI_Model
         $occupied_qty = $apartmentDetails->bed_occupied;
         $new_bed_qty = ($bed_qty + 1);
         $new_occupied_qty = ($occupied_qty - 1);
+        if($new_bed_qty == 1) $vacant_date=date('Y-m-d');
+        else $vacant_date=$apartmentDetails->vacant_date;
         if ($this->db->update("rooms",
             array('total_bed_qty' => $new_bed_qty,
                 'updated_by' => USER_NAME,
+                'vacant_date' => $vacant_date,
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))
