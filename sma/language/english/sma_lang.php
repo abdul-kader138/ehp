@@ -824,6 +824,7 @@ $lang['alert_x_type'] 				    = "You are going to remove this Client Type. Press
 
 
 
+$lang['building_facilities']		    = "Building Facility";
 $lang['building_code']		            = "Building Code";
 $lang['location_buildings']		        = "Building Location";
 $lang['add_buildings']		            = "Add Building";
@@ -897,7 +898,6 @@ $lang['client_deleted']		             = "Client Successfully Deleted.";
 $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
 
 
-$lang['list_intake']		             = "List Client Intake";
 $lang['intake']		                     = "Client Intake";
 $lang['add_intake']		                 = "Add Client Intake";
 $lang['client_discharge']		         = "Client Discharge";
@@ -919,6 +919,7 @@ $lang['alert_x_intake'] 				 = "You are going to remove this Client Intake. Pres
 
 
 
+$lang['building_facilities_reports']    = "Building Details Report";
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */
 /*
 * Below are custome field labels

@@ -14,8 +14,8 @@ if($this->input->post('submit')) {
 		   if($this->input->post('biller')){
 			   $v .= "&biller=".$this->input->post('biller');
 		   } 
-		   if($this->input->post('warehouse')){
-			   $v .= "&warehouse=".$this->input->post('warehouse');
+    if ($this->input->post('building_facilities')) {
+        $v .= "&building_facilities=" . $this->input->post('building_facilities');
 		   } 
 		   if($this->input->post('paid_by')){
 			   $v .= "&paid_by=".$this->input->post('paid_by');
@@ -65,82 +65,64 @@ if($this->input->post('submit')) {
 		
 	});
 </script>
-<script>
-             $(document).ready(function() {
+<script> $(document).ready(function() {
 
-                $('#fileData').dataTable( {
-					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 1, "desc" ]],
-                    "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
-					'bProcessing'    : true,
-					'bServerSide'    : true,
-					'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=reports&view=getSales<?php 
+        $('#fileData').dataTable( {
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "aaSorting": [[ 1, "desc" ]],
+            "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
+            'bProcessing'    : true,
+            'bServerSide'    : true,
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=reports&view=getBuildings<?php
 					if($this->input->post('submit')) { echo $v; } ?>',
-					'fnServerData': function(sSource, aoData, fnCallback, fnFooterCallback)
-					{
-						aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
-					  $.ajax
-					  ({
-						'dataType': 'json',
-						'type'    : 'POST',
-						'url'     : sSource,
-						'data'    : aoData,
-						'success' : fnCallback
-					  });
-					},
-					"oTableTools": {
-						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
-						"aButtons": [
-								{
-									"sExtends": "csv",
-									"sFileName": "<?php echo $this->lang->line("sales"); ?>.csv",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11 ]
-								},
-								{
-									"sExtends": "pdf",
-									"sFileName": "<?php echo $this->lang->line("sales"); ?>.pdf",
-									"sPdfOrientation": "landscape",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11 ]
-								},
-								"print"
-						]
-					},
-					"aoColumns": [
-					  { "mRender": format_date },  null,  null, null, { "bSearchable": false }, { "mRender": currencyFormate }, { "mRender": currencyFormate }, { "mRender": currencyFormate }, null ,{ "mRender": currencyFormate },{ "mRender": currencyFormate }, { "mRender": currencyFormate }
-					],
-					
-					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-						var row_total = 0.0; var tax_total =0; var tax2_total = 0; var return_total=0.0;var discount_total=0.0;var gross_total=0.0;
-						for ( var i=0 ; i<aaData.length ; i++ )
-						{
-							tax_total += parseFloat(aaData[ aiDisplay[i] ][6]);
-							tax2_total += parseFloat(aaData[ aiDisplay[i] ][7]);
-                            if(aaData[ aiDisplay[i] ][5] !=null || aaData[ aiDisplay[i] ][5] != undefined) row_total += parseFloat(aaData[ aiDisplay[i] ][5]);
-                            if(aaData[ aiDisplay[i] ][9] !=null || aaData[ aiDisplay[i] ][9] != undefined)return_total += parseFloat(aaData[ aiDisplay[i] ][9]);
-                            if(aaData[ aiDisplay[i] ][10] !=null || aaData[ aiDisplay[i] ][10] != undefined) discount_total += parseFloat(aaData[ aiDisplay[i] ][10]);
-                            if(aaData[ aiDisplay[i] ][11] !=null || aaData[ aiDisplay[i] ][11] != undefined) gross_total += parseFloat(aaData[ aiDisplay[i] ][11]);
-						}
+            'fnServerData': function(sSource, aoData, fnCallback)
+            {
+                aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
+                $.ajax
+                ({
+                    'dataType': 'json',
+                    'type'    : 'POST',
+                    'url'     : sSource,
+                    'data'    : aoData,
+                    'success' : fnCallback
+                });
+            },
+            "oTableTools": {
+                "sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "csv",
+                        "sFileName": "Building_Details_Report.csv",
+                        "mColumns": [ 0, 1, 2, 3, 4,5]
+                    },
+                    {
+                        "sExtends": "pdf",
+                        "sFileName": "Building_Details_Report .pdf",
+                        "sPdfOrientation": "landscape",
+                        "mColumns": [ 0, 1, 2, 3, 4,5]
+                    }
+                ]
+            },
+            "aoColumns": [
+                { "bSearchable": true },
+                { "bSearchable": true },
+                { "bSearchable": true },
+                { "bSearchable": true },
+                { "bSearchable": true },
+                { "bSearchable": true }
 
-						var nCells = nRow.getElementsByTagName('th');
-						nCells[5].innerHTML = currencyFormate(parseFloat(row_total).toFixed(2));
-						nCells[6].innerHTML = currencyFormate(parseFloat(tax_total).toFixed(2));
-						nCells[7].innerHTML = currencyFormate(parseFloat(tax2_total).toFixed(2));
-						nCells[9].innerHTML = currencyFormate(parseFloat(return_total).toFixed(2));
-						nCells[10].innerHTML = currencyFormate(parseFloat(discount_total).toFixed(2));
-						nCells[11].innerHTML = currencyFormate(parseFloat(gross_total).toFixed(2));
-					}
-					
-                } ).columnFilter({ aoColumns: [
+            ]
+        }).columnFilter({ aoColumns: [
+            { type: "text", bRegex:true },
+            { type: "text", bRegex:true },
+            { type: "text", bRegex:true },
+            { type: "text", bRegex:true },
+            { type: "text", bRegex:true },
+            { type: "text", bRegex:true }
+        ]});
 
-						{ type: "text", bRegex:true },
-						{ type: "text", bRegex:true },
-						{ type: "text", bRegex:true },
-						{ type: "text", bRegex:true },
-						null, null, null, null,null,null
-                     ]});
-				
-            } );
-                    
+    });
+
 </script>
 
 <link href="<?php echo $this->config->base_url(); ?>assets/css/datepicker.css" rel="stylesheet">
@@ -149,7 +131,7 @@ if($this->input->post('submit')) {
 
 <div class="form">
 <p>Please customise the report below.</p>
-<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=reports&view=sales", $attrib); ?>
+<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=reports&view=building_facilities", $attrib); ?>
 <div class="control-group">
   <label class="control-label" for="reference_no"><?php echo $this->lang->line("reference_no"); ?></label>
   <div class="controls"> <?php echo form_input('reference_no', (isset($_POST['reference_no']) ? $_POST['reference_no'] : ""), 'class="span4 tip" title="Filter Sales by Reference No" id="reference_no"');?>
@@ -187,15 +169,20 @@ if($this->input->post('submit')) {
 			}
 			echo form_dropdown('biller', $bl, (isset($_POST['biller']) ? $_POST['biller'] : ""), 'class="span4" id="biller" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("biller").'"');  ?> </div>
 </div>
-<div class="control-group">
-  <label class="control-label" for="warehouse"><?php echo $this->lang->line("warehouse"); ?></label>
-  <div class="controls"> <?php 
-//	   		$wh[""] = "";
-	   		foreach($warehouses as $warehouse){
-				$wh[$warehouse->id] = $warehouse->name;
-			}
-			echo form_dropdown('warehouse', $wh, (isset($_POST['warehouse']) ? $_POST['warehouse'] : ""), 'class="span4" id="warehouse" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("warehouse").'"');  ?> </div>
-</div>
+    <div class="control-group">
+        <label class="control-label"
+               for="building_facilities"><?php echo $this->lang->line("building_facilities"); ?></label>
+
+        <div class="controls">
+            <select name="building_facilities" id="building_facilities" class="span4 select_search">
+                <option value="">Select Option</option>
+                <option value="hasMedicalSupport">Medical Disability</option>
+                <option value="hasHandicapAccess">Handicap Accessibility</option>
+                <option value="isSmokeFreeZone">Smoke Free</option>
+                <option value="hasElevatorSupport">Elevator Avail</option>
+            </select>
+        </div>
+    </div>
 <div class="control-group">
   <label class="control-label" for="start_date"><?php echo $this->lang->line("start_date"); ?></label>
   <div class="controls"> <?php echo form_input('start_date', (isset($_POST['start_date']) ? $_POST['start_date'] : ""), 'class="span4" id="start_date"');?> </div>
@@ -207,9 +194,9 @@ if($this->input->post('submit')) {
 
 <div class="control-group">
   <label class="control-label" for="end_date">Paid By</label>
-  <div class="controls"> 
-  <select name="paid_by" id="paid_by">
-  <option value="">Select Payment Mode</option>
+        <div class="controls">
+            <select name="paid_by" id="paid_by">
+                <option value="">Select Payment Mode</option>
                                 <option value="cash" <?php if($_POST['paid_by']=='cash') echo "selected"; ?>>Cash</option>
                                 <option value="CC" <?php if($_POST['paid_by']=='CC') echo "selected"; ?>>Cards</option>
                                 <option value="CC_cash" <?php if($_POST['paid_by']=='CC_cash') echo "selected"; ?>>Card & Cash</option>
@@ -227,50 +214,38 @@ if($this->input->post('submit')) {
 </div>
 <div class="clearfix"></div>
 
-<?php if($this->input->post('submit')) { ?>
+<?php if ($this->input->post('submit')) { ?>
 
-	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
-		<thead>
+    <table id="fileData" class="table table-bordered table-hover table-striped table-condensed"
+           style="margin-bottom: 5px;">
+        <thead>
         <tr>
-            <th><?php echo $this->lang->line("date"); ?></th>
-            <th><?php echo $this->lang->line("reference_no"); ?></th>
-            <th><?php echo $this->lang->line("biller"); ?></th>
-            <th><?php echo $this->lang->line("customer"); ?></th>
-            <th><?php echo $this->lang->line("product_qty"); ?></th>
-            
-            <th><?php echo $this->lang->line("total"); ?></th>
-            <th><?php echo $this->lang->line("tax1"); ?></th>
-            <th><?php echo $this->lang->line("tax2"); ?></th>
-            <th>Return Ref</th>
-            <th>Return Amount</th>
-            <th>Discount Amount</th>
-            <th>Gross Total</th>
-	</tr>
+            <th><?php echo $this->lang->line("building_code"); ?></th>
+            <th><?php echo $this->lang->line("buildings_name"); ?></th>
+            <th><?php echo $this->lang->line("level_code"); ?></th>
+            <th><?php echo $this->lang->line("apartment_code"); ?></th>
+            <th><?php echo $this->lang->line("location_buildings"); ?></th>
+            <th>Days Vacant</th>
+        </tr>
         </thead>
-		<tbody>
-			<tr>
-            	<td colspan="8" class="dataTables_empty">Loading data from server</td>
-			</tr>
-            
+        <tbody>
+        <tr>
+            <td colspan="6" class="dataTables_empty">Loading data from server</td>
+        </tr>
+
         </tbody>
         <tfoot>
 
         <tr>
-            <th>[<?php echo $this->lang->line("date"); ?>]</th>
-            <th>[<?php echo $this->lang->line("reference_no"); ?>]</th>
-            <th>[<?php echo $this->lang->line("biller"); ?>]</th>
-            <th>[<?php echo $this->lang->line("customer"); ?>]</th>
-            <th><?php echo $this->lang->line("product_qty"); ?></th>
-            <th><?php echo $this->lang->line("total"); ?></th>
-            <th><?php echo $this->lang->line("tax1"); ?></th>
-            <th><?php echo $this->lang->line("tax2"); ?></th>
-            <th></th>
-            <th>Return Amount</th>
-            <th>Discount Amount</th>
-            <th>Gross Total</th>
-	</tr>
-	</tfoot>
-	</table>
+            <th><?php echo $this->lang->line("building_code"); ?></th>
+            <th><?php echo $this->lang->line("buildings_name"); ?></th>
+            <th><?php echo $this->lang->line("level_code"); ?></th>
+            <th><?php echo $this->lang->line("apartment_code"); ?></th>
+            <th><?php echo $this->lang->line("location_buildings"); ?></th>
+            <th>Days Vacant</th>
+        </tr>
+        </tfoot>
+    </table>
 
 <?php } ?>
 <p>&nbsp;</p>

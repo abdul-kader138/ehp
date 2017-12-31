@@ -530,7 +530,7 @@
                 <a href="<?php echo base_url(); ?>index.php?module=reports&view=monthly_sales"><?php echo $this->lang->line('monthly_sales'); ?></a>
             </li>
             <li>
-                <a href="<?php echo base_url(); ?>index.php?module=reports&view=sales"><?php echo $this->lang->line('sales_report'); ?></a>
+                <a href="<?php echo base_url(); ?>index.php?module=reports&view=building_facilities"><?php echo $this->lang->line('building_facilities'); ?></a>
             </li>
             <li>
                 <a href="<?php echo base_url(); ?>index.php?module=reports&view=customer_sales">Sales Report (Customer Wise)</a>

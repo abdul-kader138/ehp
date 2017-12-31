@@ -129,7 +129,7 @@ class Reports extends MX_Controller
     }
 
 
-    function sales()
+    function building_facilities()
     {
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         $data['users'] = $this->reports_model->getAllUsers();
@@ -137,10 +137,10 @@ class Reports extends MX_Controller
         $data['customers'] = $this->reports_model->getAllCustomers();
         $data['billers'] = $this->reports_model->getAllBillers();
 
-        $meta['page_title'] = $this->lang->line("sale_reports");
-        $data['page_title'] = $this->lang->line("sale_reports");
+        $meta['page_title'] = $this->lang->line("building_facilities_reports");
+        $data['page_title'] = $this->lang->line("building_facilities_reports");
         $this->load->view('commons/header', $meta);
-        $this->load->view('sales', $data);
+        $this->load->view('building_facilities', $data);
         $this->load->view('commons/footer');
     }
 
@@ -341,6 +341,81 @@ class Reports extends MX_Controller
         $this->load->view('commons/header', $meta);
         $this->load->view('purchases', $data);
         $this->load->view('commons/footer');
+    }
+
+    function getBuildings()
+    {
+        if ($this->input->get('building_facilities')) {
+            $building_facilities = $this->input->get('building_facilities');
+        } else {
+            $building_facilities = NULL;
+        }
+//        var_dump(array("Y"));
+//        if ($this->input->get('supplier')) {
+//            $supplier = $this->input->get('supplier');
+//        } else {
+//            $supplier = NULL;
+//        }
+//        if ($this->input->get('warehouse')) {
+//            $warehouse_id = $this->input->get('warehouse');
+//        } else {
+//            $warehouse_id = NULL;
+//        }
+//        if ($this->input->get('reference_no')) {
+//            $reference_no = $this->input->get('reference_no');
+//        } else {
+//            $reference_no = NULL;
+//        }
+//
+//        if ($this->input->get('end_date')) {
+//            $end_date = $this->input->get('end_date');
+//        } else {
+//            $end_date = NULL;
+//        }
+//        if ($this->input->get('start_date')) {
+//            $start_date = $this->input->get('start_date');
+//        } else {
+//            $start_date = NULL;
+//        }
+//
+//        if ($start_date) {
+//            $start_date = $this->ion_auth->fsd($start_date);
+//            $end_date = $this->ion_auth->fsd($end_date);
+//        }
+
+
+//        $pp = "(SELECT mm.purchase_id,mm.make_purchase_id, mm.mrr_date,mm.id, mm.received_qty purchasedQty, mm.inv_val  purchasedVal from purchase_items p JOIN make_mrr mm on mm.purchase_id=p.purchase_id and mm.make_purchase_id=p.make_purchase_id where mm.mrr_date between
+//        '{$start_date}' and '{$end_date}' and mm.wh_id='{$warehouse_id}'
+//                      group by mm.make_purchase_id,mm.mrr_date) PCosts";
+//
+//        $mp = "(select mp.id,mp.supplier_name,mp.reference_no,pi.product_name,mp.purchase_id,pi.quantity,mp.warehouse_id,mp.supplier_id,mp.inv_total from make_purchases mp inner join purchase_items pi on pi.make_purchase_id=mp.id  WHERE date BETWEEN
+//         '{$start_date}' and '{$end_date}' and mp.warehouse_id='{$warehouse_id}'
+//                         group by pi.make_purchase_id) mPurchase";
+
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("building.building_code,building.building_name as name, level.level_code,rooms.room_code, building.location, DATEDIFF( CURDATE(), rooms.vacant_date ) as date", FALSE)
+            ->from('building')
+            ->join('building_details', 'building.building_code=building_details.building_code', 'left')
+            ->join('level', 'level.level_code=building_details.level_code', 'left')
+            ->join('rooms', 'rooms.room_code=level.room_code', 'left')
+            ->group_by('level.room_code');
+
+        if ($building_facilities == 'hasMedicalSupport') {
+            $this->datatables->where('building.hasMedicalSupport', '1');
+        }
+        if ($building_facilities == 'hasHandicapAccess') {
+            $this->datatables->where('building.hasHandicapAccess', '1');
+        }
+        if ($building_facilities == 'isSmokeFreeZone') {
+            $this->datatables->where('building.isSmokeFreeZone', '1');
+        }
+        if ($building_facilities == 'hasElevatorSupport') {
+            $this->datatables->where('building.hasElevatorSupport', '1');
+        }
+        $this->datatables->where('building.isTaggedWithVendor', 'Yes');
+        echo $this->datatables->generate();
     }
 
     function getPurchases()
