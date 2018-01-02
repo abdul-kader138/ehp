@@ -56,7 +56,9 @@ class Home extends CI_Controller {
 
 	  $data['com'] = $this->home_model->getComment();
 	  $data['monthly_sales'] = $this->home_model->getChartData();
-	  $data['topProducts'] = $this->home_model->topProducts();
+//	  $data['topProducts'] = $this->home_model->topProducts();
+//	  $data['topProducts'] = $this->home_model->topProducts();
+	  $data['topProducts'] = $this->home_model->topProducts1();
 	  $data['stock'] = $this->home_model->getStockValue();
 
       $meta['page_title'] = $this->lang->line("welcome")." ".SITE_NAME."!";

@@ -100,8 +100,53 @@ class Home_model extends CI_Model
 			return $data;
 		}
 	}
-	
-	public function getStockValue() 
+
+    public function getChartData1()
+    {
+        $myQuery = "SELECT S.month,
+					   COALESCE(S.sales, 0) as sales,
+					   COALESCE( P.purchases, 0 ) as purchases,
+					   COALESCE(S.tax1, 0) as tax1,
+					   COALESCE(S.tax2, 0) as tax2,
+					   COALESCE( P.ptax, 0 ) as ptax
+					FROM (SELECT	date_format(date, '%Y-%m') Month,
+								SUM(total) Sales,
+								SUM(total_tax) tax1,
+								SUM(total_tax2) tax2
+						FROM building
+						WHERE building.updated_date >= date_sub( now( ) , INTERVAL 12 MONTH ) and building.isTaggedWithVendor='Yes'
+						GROUP BY date_format(date, '%Y-%m')) S
+					LEFT JOIN (	SELECT	date_format(date, '%Y-%m') Month,
+									SUM(total_tax) ptax,
+									SUM(total) purchases
+							FROM purchases
+							GROUP BY date_format(date, '%Y-%m')) P
+					ON S.Month = P.Month
+					GROUP BY S.Month
+					ORDER BY S.Month";
+        $q = $this->db->query($myQuery);
+        if($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+//    public function getStockValue()
+//    {
+//        $q = $this->db->query("SELECT SUM(by_price) as stock_by_price, SUM(by_cost) as stock_by_cost FROM ( Select COALESCE(sum(warehouses_products.quantity), 0)*price as by_price, COALESCE(sum(warehouses_products.quantity), 0)*cost as by_cost FROM products JOIN warehouses_products ON warehouses_products.product_id=products.id GROUP BY products.id )a");
+//        if( $q->num_rows() > 0 )
+//        {
+//            return $q->row();
+//        }
+//
+//        return FALSE;
+//    }
+
+
+    public function getStockValue()
 	{
 		$q = $this->db->query("SELECT SUM(by_price) as stock_by_price, SUM(by_cost) as stock_by_cost FROM ( Select COALESCE(sum(warehouses_products.quantity), 0)*price as by_price, COALESCE(sum(warehouses_products.quantity), 0)*cost as by_cost FROM products JOIN warehouses_products ON warehouses_products.product_id=products.id GROUP BY products.id )a");
 		 if( $q->num_rows() > 0 )
@@ -111,7 +156,9 @@ class Home_model extends CI_Model
 		
 		  return FALSE;
 	}
-	
+
+
+
 	public function topProducts()
 	{
 		$m = date('Y-m');
@@ -126,7 +173,25 @@ class Home_model extends CI_Model
 			return $data;
 		}
 	}
-	
+
+    public function topProducts1()
+    {
+        $m = date('Y-m');
+        $this->db->select('sum(rooms.bed_occupied) as occupied, sum(rooms.total_bed_qty)  as capacity')
+            ->from('building')
+            ->join('building_details', 'building.building_code=building_details.building_code', 'left')
+            ->join('level', 'building_details.level_code=level.level_code', 'left')
+            ->join('rooms', 'level.room_code=rooms.room_code', 'left')
+            ->where('building.isTaggedWithVendor','Yes');
+        $q = $this->db->get();
+        if($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
 	
 }
 
