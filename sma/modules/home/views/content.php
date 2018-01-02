@@ -1,7 +1,10 @@
+<!--<script src="https://code.highcharts.com/modules/data.js"></script>-->
+<!--<script src="https://code.highcharts.com/modules/drilldown.js"></script>-->
 <script type="text/javascript">
     $(function () {
         $(".tip").tooltip();
     });
+
 </script>
 
 <style>
@@ -58,9 +61,7 @@
     }
 </style>
 <?php
-$info[] = array();
-$sales[] = array();
-$tax1[] = array();
+
 //for
 //                    $info=array('capacity',$test->capacity);
 //                    $info=array('occupied',$test->occupied);
@@ -197,16 +198,19 @@ $purchases[] = $month_purchase->purchases;
 //        });
 //    });
 
+
+
     $(function () {
-        $('#tp').highcharts({
+            $('#tp').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
-                plotShadow: false
+                plotShadow: false,
+                type: 'pie'
             },
             title: {
 //            text: '<?php //echo $this->lang->line("best_sellers")." (".date('F Y').")"; ?>//'
-                text: 'Status'
+                text: 'Emergency Housing Program (EHP)<br/> '
             },
             credits: {
                 enabled: false
@@ -231,16 +235,18 @@ $purchases[] = $month_purchase->purchases;
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false,
+                        enabled: true,
                     },
-                    showInLegend: false
+                    showInLegend: true
+
                 }
             },
             series: [{
                 type: 'pie',
-                name: 'Info',
+                name: 'Total',
                 data: [
 <?php
+
 
                   foreach($topProducts as $tp) {
                   echo "['Capacity', ".$tp->capacity."],";
@@ -273,11 +279,13 @@ $purchases[] = $month_purchase->purchases;
 <!--            <div id="chart" style="width:100%; height:300px;"></div>-->
 <!--        </div>-->
 <!--    </div>-->
+<!--    <div id="container" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>-->
 
 
-    <div class="span12">
+
+    <div class="span10">
         <div class="well well-small">
-            <div id="tp" style="width:100%; height:300px;"></div>
+            <div id="tp" style="width:100%; height:450px;"></div>
         </div>
     </div>
 
