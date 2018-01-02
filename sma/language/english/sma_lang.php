@@ -898,6 +898,7 @@ $lang['client_deleted']		             = "Client Successfully Deleted.";
 $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
 
 
+$lang['list_intake']		             = "List Client Intake";
 $lang['intake']		                     = "Client Intake";
 $lang['add_intake']		                 = "Add Client Intake";
 $lang['client_discharge']		         = "Client Discharge";
