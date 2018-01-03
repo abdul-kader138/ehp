@@ -60,145 +60,10 @@
         display: none !important;
     }
 </style>
-<?php
 
-//for
-//                    $info=array('capacity',$test->capacity);
-//                    $info=array('occupied',$test->occupied);
-//var_dump($info);
-//foreach ($monthly_sales as $month_sale) {
-//    $months[] = date('M-Y', strtotime($month_sale->month));
-//    $tax2[] = $month_sale->tax2;
-//    $purchases[] = $month_sale->purchases;
-//    $tax3[] = $month_sale->ptax;
-//
-//}
-/*
-foreach($monthly_purchases as $month_purchase) {
-$purchases[] = $month_purchase->purchases;
-} */
-
-?>
 <script src="<?php echo base_url(); ?>assets/js/sl/highcharts.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/sl/modules/exporting.js"></script>
 <script type="text/javascript">
-//    $(function () {
-//
-//        $('#chart').highcharts({
-//            chart: {},
-//            credits: {
-//                enabled: false
-//            },
-//            title: {
-////                text: '<?php ////echo $this->lang->line("monthly_sales_purchases"); ?>////'
-//                text: 'Vendor Accommodation Service VS Client Occupied'
-//            },
-//            xAxis: {
-//                categories: [<?php //foreach($months as $month) {
-//					 echo "'".$month."', ";
-//				 }
-//				?>//]
-//            },
-//            yAxis: {
-//                min: 0,
-//                title: ""
-//            },
-//            tooltip: {
-//                shared: true,
-//                headerFormat: '<span style="font-size:14px">{point.key}</span><table>',
-//                pointFormat: '<tr style="border-bottom: 1px dotted {series.color};"><td style="color:{series.color};padding:0">{series.name}: </td>' +
-//                '<td style="color:{series.color};padding:0;text-align:right;"><?php //echo CURRENCY_PREFIX; ?>// <b>{point.y}</b></td></tr>',
-//                footerFormat: '</table>',
-//                useHTML: true,
-//                valueDecimals: 2,
-//                style: {
-//                    fontSize: '13px',
-//                    padding: '10px',
-//                    fontWeight: 'bold',
-//                    color: '#000000'
-//                }
-//            },
-//            series: [{
-//                type: 'column',
-////                name: '<?php ////echo $this->lang->line("sp_tax"); ?>////',
-//                name: 'Total Vendor',
-//                data: [<?php
-//				echo implode(', ', $tax1);
-//				?>//]
-//            },
-//                {
-//                    type: 'column',
-////                name: '<?php ////echo $this->lang->line("tax2"); ?>////',
-//                    name: 'Total Client',
-//                    data: [<?php
-//				echo implode(', ', $tax2);
-//				?>//]
-//                },
-//                {
-//                    type: 'column',
-////                name: '<?php ////echo $this->lang->line("sales"); ?>////',
-//                    name: 'Total Capacity',
-//                    data: [<?php
-////				echo implode(', ', $sales);
-//				echo implode(', ', $t1);
-//				?>//]
-//                }, {
-//                    type: 'spline',
-////                name: '<?php ////echo $this->lang->line("purchases"); ?>////',
-//                    name: 'Total Occupied',
-//                    data: [<?php
-////				echo implode(', ', $purchases);
-//				echo implode(', ', $t2);
-//				?>//],
-//                    marker: {
-//                        lineWidth: 2,
-//                        states: {
-//                            hover: {
-//                                lineWidth: 4
-//                            }
-//                        },
-//                        lineColor: Highcharts.getOptions().colors[3],
-//                        fillColor: 'white'
-//                    }
-//                }, {
-//                    type: 'spline',
-////                name: '<?php ////echo $this->lang->line("pp_tax"); ?>////',
-//                    name: '',
-//                    data: [<?php
-//				echo implode(', ', $tax3);
-//				?>//],
-//                    marker: {
-//                        lineWidth: 2,
-//                        states: {
-//                            hover: {
-//                                lineWidth: 4
-//                            }
-//                        },
-//                        lineColor: Highcharts.getOptions().colors[3],
-//                        fillColor: 'white'
-//                    }
-//                },
-////                {
-////                type: 'pie',
-////                name: '<?php ////echo $this->lang->line("stock_value"); ?>////',
-////                data: [
-////				['',   0],
-////				['',   0],
-////                    ['<?php ////echo $this->lang->line("by_price"); ?>////',   <?php ////echo $stock->stock_by_price; ?>////],
-////                    ['<?php ////echo $this->lang->line("by_cost"); ?>////',   <?php ////echo $stock->stock_by_cost; ?>////],
-////                ],
-////                center: [20, 0],
-////                size: 80,
-////                showInLegend: false,
-////                dataLabels: {
-////                    enabled: false
-////                }
-////            }
-//            ]
-//        });
-//    });
-
-
 
     $(function () {
             $('#tp').highcharts({
@@ -273,15 +138,6 @@ $purchases[] = $month_purchase->purchases;
 
 
 <div class="row-fluid">
-
-<!--    <div class="span8">-->
-<!--        <div class="well well-small">-->
-<!--            <div id="chart" style="width:100%; height:300px;"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div id="container" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>-->
-
-
 
     <div class="span10">
         <div class="well well-small">
