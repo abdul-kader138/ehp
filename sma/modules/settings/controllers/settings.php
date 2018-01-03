@@ -67,24 +67,11 @@ class Settings extends MX_Controller {
 		$this->form_validation->set_message('is_natural_no_zero', $this->lang->line('no_zero_required'));
 		$this->form_validation->set_rules('site_name', $this->lang->line('site_name'), 'trim|required|xss_clean');
 		$this->form_validation->set_rules('language', $this->lang->line('language'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('warehouse', $this->lang->line('default_warehouse'), 'trim|required|is_natural_no_zero|xss_clean');
 		$this->form_validation->set_rules('currency_prefix', $this->lang->line('currency_code'), 'trim|required|max_length[3]|xss_clean');
-		$this->form_validation->set_rules('tax_rate', $this->lang->line('product_tax'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('tax_rate2', $this->lang->line('invoice_tax'), 'trim|required|xss_clean');
 		$this->form_validation->set_rules('date_format', $this->lang->line('date_format'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('sales_prefix', $this->lang->line('sales_prefix'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('quote_prefix', $this->lang->line('quote_prefix'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('purchase_prefix', $this->lang->line('purchase_prefix'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('transfer_prefix', $this->lang->line('transfer_prefix'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('barcode_symbology', $this->lang->line('barcode_symbology'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('theme', $this->lang->line('theme'), 'trim|required|xss_clean');
 		$this->form_validation->set_rules('rows_per_page', $this->lang->line('rows_per_page'), 'trim|required|greater_than[9]|less_than[501]|xss_clean');
 		$this->form_validation->set_rules('total_rows', $this->lang->line('total_rows'), 'trim|required|greater_than[9]|less_than[100]|xss_clean');
-		$this->form_validation->set_rules('product_serial', $this->lang->line('product_serial'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('discount_option', $this->lang->line('discount_option'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('discount_method', $this->lang->line('discount_method'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('default_discount', $this->lang->line('default_discount'), 'trim|required|xss_clean');
-		
+
 		
 		if ($this->form_validation->run() == true)
 		{
@@ -107,27 +94,10 @@ class Settings extends MX_Controller {
 		
 			$data = array('site_name' => $this->input->post('site_name'),
 				'language' => $lang,
-				'default_warehouse' => $this->input->post('warehouse'),
 				'currency_prefix' => $this->input->post('currency_prefix'),
-				'default_tax_rate' => $this->input->post('tax_rate'),
-				'default_tax_rate2' => $this->input->post('tax_rate2'),
 				'dateformat' => $this->input->post('date_format'),
-				'sales_prefix' => $this->input->post('sales_prefix'),
-				'quote_prefix' => $this->input->post('quote_prefix'),
-				'purchase_prefix' => $this->input->post('purchase_prefix'),
-				'transfer_prefix' => $this->input->post('transfer_prefix'),
-				'barcode_symbology' => trim($this->input->post('barcode_symbology')),
-				'theme' => trim($this->input->post('theme')),
 				'rows_per_page' => $this->input->post('rows_per_page'),
-				'total_rows' => $this->input->post('total_rows'),
-				'product_serial' => $this->input->post('product_serial'),
-				'discount_option' => $this->input->post('discount_option'),
-				'discount_method' => $this->input->post('discount_method'),
-				'default_discount' => $this->input->post('default_discount'),
-				'tax1' => $tax1,
-				'tax2' => $tax2,
-                            'restrict_sale' => $this->input->post('restrict_sale'),
-                            'restrict_calendar' => $this->input->post('restrict_calendar'),
+				'total_rows' => $this->input->post('total_rows')
 			);
 		}
 		
@@ -143,9 +113,6 @@ class Settings extends MX_Controller {
 	   $data['success_message'] = $this->session->flashdata('success_message');
 	   
 	   $data['settings'] = $this->settings_model->getSettings();
-	   $data['tax_rates'] = $this->settings_model->getAllTaxRates();
-	   $data['discounts'] = $this->settings_model->getAllDiscounts();
-	   $data['warehouses'] = $this->settings_model->getAllWarehouses(); 
 	   $data['date_formats'] = $this->settings_model->getDateFormats();
 	   
       $meta['page_title'] = $this->lang->line('system_setting');

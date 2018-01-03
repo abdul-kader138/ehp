@@ -245,6 +245,8 @@ class Clients_model extends CI_Model
 
     public function addClientIntake($data)
     {
+
+//        var_dump($data);
         if ($this->db->insert("client_intake", $data)) {
             if ($this->db->update("clients",
                 array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
