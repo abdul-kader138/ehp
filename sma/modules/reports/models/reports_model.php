@@ -55,8 +55,21 @@ class Reports_model extends CI_Model
 			return $data;
 		}
 	}
-	
-	public function getAllCategories() 
+
+    public function getAllBuildings()
+    {
+        $q = $this->db->get_where('building',array('isTaggedWithVendor'=>'Yes'));
+        if($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+
+    public function getAllCategories()
 	{
 		$q = $this->db->get('categories');
 		if($q->num_rows() > 0) {

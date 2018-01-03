@@ -132,11 +132,7 @@ class Reports extends MX_Controller
     function building_facilities()
     {
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-        $data['users'] = $this->reports_model->getAllUsers();
-        $data['warehouses'] = $this->reports_model->getAllWarehouses();
-        $data['customers'] = $this->reports_model->getAllCustomers();
-        $data['billers'] = $this->reports_model->getAllBillers();
-
+        $data['buildings'] = $this->reports_model->getAllBuildings();
         $meta['page_title'] = $this->lang->line("building_facilities_reports");
         $data['page_title'] = $this->lang->line("building_facilities_reports");
         $this->load->view('commons/header', $meta);
@@ -350,48 +346,11 @@ class Reports extends MX_Controller
         } else {
             $building_facilities = NULL;
         }
-//        var_dump(array("Y"));
-//        if ($this->input->get('supplier')) {
-//            $supplier = $this->input->get('supplier');
-//        } else {
-//            $supplier = NULL;
-//        }
-//        if ($this->input->get('warehouse')) {
-//            $warehouse_id = $this->input->get('warehouse');
-//        } else {
-//            $warehouse_id = NULL;
-//        }
-//        if ($this->input->get('reference_no')) {
-//            $reference_no = $this->input->get('reference_no');
-//        } else {
-//            $reference_no = NULL;
-//        }
-//
-//        if ($this->input->get('end_date')) {
-//            $end_date = $this->input->get('end_date');
-//        } else {
-//            $end_date = NULL;
-//        }
-//        if ($this->input->get('start_date')) {
-//            $start_date = $this->input->get('start_date');
-//        } else {
-//            $start_date = NULL;
-//        }
-//
-//        if ($start_date) {
-//            $start_date = $this->ion_auth->fsd($start_date);
-//            $end_date = $this->ion_auth->fsd($end_date);
-//        }
-
-
-//        $pp = "(SELECT mm.purchase_id,mm.make_purchase_id, mm.mrr_date,mm.id, mm.received_qty purchasedQty, mm.inv_val  purchasedVal from purchase_items p JOIN make_mrr mm on mm.purchase_id=p.purchase_id and mm.make_purchase_id=p.make_purchase_id where mm.mrr_date between
-//        '{$start_date}' and '{$end_date}' and mm.wh_id='{$warehouse_id}'
-//                      group by mm.make_purchase_id,mm.mrr_date) PCosts";
-//
-//        $mp = "(select mp.id,mp.supplier_name,mp.reference_no,pi.product_name,mp.purchase_id,pi.quantity,mp.warehouse_id,mp.supplier_id,mp.inv_total from make_purchases mp inner join purchase_items pi on pi.make_purchase_id=mp.id  WHERE date BETWEEN
-//         '{$start_date}' and '{$end_date}' and mp.warehouse_id='{$warehouse_id}'
-//                         group by pi.make_purchase_id) mPurchase";
-
+        if ($this->input->get('building_code')) {
+            $building_code = $this->input->get('building_code');
+        } else {
+            $building_code = NULL;
+        }
 
         $this->load->library('datatables');
         $this->datatables
@@ -414,7 +373,11 @@ class Reports extends MX_Controller
         if ($building_facilities == 'hasElevatorSupport') {
             $this->datatables->where('building.hasElevatorSupport', '1');
         }
+        if ($building_code) {
+            $this->datatables->where('building.building_code', $building_code);
+        }
         $this->datatables->where('building.isTaggedWithVendor', 'Yes');
+        $this->datatables->where('rooms.vacant_date IS NOT NULL');
         echo $this->datatables->generate();
     }
 
