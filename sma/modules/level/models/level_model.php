@@ -38,9 +38,9 @@ class Level_model extends CI_Model
 
         if($this->db->insert_batch("level",$data)) {
             return true;
-        } else {
-            return false;
         }
+            return false;
+
     }
 
 

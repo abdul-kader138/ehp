@@ -86,8 +86,8 @@ class Reports extends MX_Controller
         if ($building_code) {
             $this->datatables->where('building.building_code', $building_code);
         }
-        $this->datatables->where('building.isTaggedWithVendor', 'Yes');
-        $this->datatables->where('rooms.vacant_date IS NOT NULL');
+//        $this->datatables->where('building.isTaggedWithVendor', 'Yes');
+//        $this->datatables->where('rooms.vacant_date IS NOT NULL');
         echo $this->datatables->generate();
     }
 

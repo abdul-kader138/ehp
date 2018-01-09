@@ -198,7 +198,6 @@ class Clients extends MX_Controller
                 $this->session->set_flashdata('message', "Client already intake");
                 redirect("module=clients", 'refresh');
             }
-
             if ($this->form_validation->run() == true && $this->clients_model->addClientIntake($data)) { //check to see if we are creating the customer
                 //redirect them back to the admin page
                 $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
@@ -209,8 +208,8 @@ class Clients extends MX_Controller
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
 
-            $meta['page_title'] = $this->lang->line("new_client");
-            $data['page_title'] = $this->lang->line("new_client");
+            $meta['page_title'] = $this->lang->line("intake");
+            $data['page_title'] = $this->lang->line("intake");
             $data['clients'] = $this->clients_model->getAllUnTaggedClients();
 //            $data['types'] = $this->clients_model->getTypes();
             $data['vendors'] = $this->clients_model->getAllVendors();

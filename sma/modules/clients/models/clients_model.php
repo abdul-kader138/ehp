@@ -246,7 +246,6 @@ class Clients_model extends CI_Model
     public function addClientIntake($data)
     {
 
-//        var_dump($data);
         if ($this->db->insert("client_intake", $data)) {
             if ($this->db->update("clients",
                 array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
@@ -311,7 +310,7 @@ class Clients_model extends CI_Model
         $this->db->from('building_details bd');
         $this->db->join('level l', 'bd.level_code = l.level_code');
         $this->db->join('rooms r', 'l.room_code = r.room_code');
-        $this->db->where(array('bd.building_code' => $building_details->building_code, 'r.total_bed_qty >'=>"0"));
+        $this->db->where(array('bd.building_code' => $building_details->building_code, 'r.isTaggedWithClient'=>'No'));
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
@@ -337,16 +336,15 @@ class Clients_model extends CI_Model
     public function decreaseApartmentCapacity($code)
     {
         $apartmentDetails = $this->getApartmentByCode($code);
-        $bed_qty = $apartmentDetails->total_bed_qty;
+        var_dump(array($apartmentDetails));
         $occupied_qty = $apartmentDetails->bed_occupied;
-        $new_bed_qty = ($bed_qty - 1);
         $new_occupied_qty = ($occupied_qty + 1);
-        if($new_bed_qty <=0) $vacant_date=NULL;
-        else $vacant_date=$apartmentDetails->vacant_date;
+         $vacant_date=NULL;
         if ($this->db->update("rooms",
-            array('total_bed_qty' => $new_bed_qty,
+            array(
                 'updated_by' => USER_NAME,
                 'vacant_date' => $vacant_date,
+                'isTaggedWithClient' => 'Yes',
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))
@@ -378,16 +376,13 @@ class Clients_model extends CI_Model
     public function increaseApartmentCapacity($code)
     {
         $apartmentDetails = $this->getApartmentByCode($code);
-        $bed_qty = $apartmentDetails->total_bed_qty;
         $occupied_qty = $apartmentDetails->bed_occupied;
-        $new_bed_qty = ($bed_qty + 1);
         $new_occupied_qty = ($occupied_qty - 1);
-        if($new_bed_qty == 1) $vacant_date=date('Y-m-d');
-        else $vacant_date=$apartmentDetails->vacant_date;
         if ($this->db->update("rooms",
-            array('total_bed_qty' => $new_bed_qty,
+            array(
                 'updated_by' => USER_NAME,
-                'vacant_date' => $vacant_date,
+                'vacant_date' => date('Y-m-d'),
+                'isTaggedWithClient' => 'No',
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))

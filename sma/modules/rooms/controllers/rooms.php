@@ -100,7 +100,9 @@ class Rooms extends MX_Controller {
                'room_name' => $this->input->post('name'),
                'room_code' => $this->input->post('code'),
                'total_bed_qty' => 1,
+               'isTaggedWithClient' => 'No',
                'room_rent' => $this->input->post('room_rent'),
+               'vacant_date' =>$this->ion_auth->fsd($this->input->post('vacant_date')),
                'bed_occupied'=>0,
                'created_by'=>USER_NAME,
                'created_date'=>date('Y-m-d H:i:s'));

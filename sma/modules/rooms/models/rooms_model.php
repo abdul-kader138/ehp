@@ -90,7 +90,7 @@ class Rooms_model extends CI_Model
         $q = $this->db->get('rooms');
         if ($q->num_rows() > 0) {
             $row = $q->row();
-            return "RM" . "-" . sprintf("%09s", $row->id + 1);
+            return "Apt" . "-" . sprintf("%09s", $row->id + 1);
         }
 
         return FALSE;

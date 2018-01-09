@@ -87,7 +87,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
         class="controls"> <?php echo form_input('code', $rnumber, 'class="span4" id="code" readonly="readonly" required="required" pattern="[a-zA-Z0-9_-]{2,12}" data-error="' . $this->lang->line("code") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_2") . '"'); ?> </div>
 </div>
 <div class="control-group">
-    <label class="control-label" for="types"><?php echo $this->lang->line("client_code"); ?></label>
+    <label class="control-label" for="types"><?php echo $this->lang->line("client_name"); ?></label>
 
     <div class="controls"> <?php
         $clientList[''] = "";
@@ -97,7 +97,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
         echo form_dropdown('client_code', $clientList, (isset($_POST['client_code']) ? $_POST['client_code'] : ""), ' class="select_search span4" required="required"  data-error="' . $this->lang->line("client_code") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 <div class="control-group">
-    <label class="control-label" for="types"><?php echo $this->lang->line("vendor_code"); ?></label>
+    <label class="control-label" for="types"><?php echo $this->lang->line("vendor_name"); ?></label>
 
     <div class="controls"> <?php
         $vendorList[''] = "";
@@ -108,7 +108,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
 </div>
 
 <div class="control-group">
-    <label class="control-label" for="types"><?php echo $this->lang->line("building_code"); ?></label>
+    <label class="control-label" for="types"><?php echo $this->lang->line("buildings_name"); ?></label>
 
     <div class="controls" id="building_code"> <?php
         $sct1[""] = '';
@@ -117,7 +117,7 @@ echo form_open("module=clients&view=client_intake", $attrib); ?>
 </div>
 
 <div class="control-group">
-    <label class="control-label" for="types"><?php echo $this->lang->line("apartment_code"); ?></label>
+    <label class="control-label" for="types"><?php echo $this->lang->line("room_name"); ?></label>
 
     <div class="controls" id="apartment_code"> <?php
         $sct2[""] = '';
