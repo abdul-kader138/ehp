@@ -90,18 +90,17 @@ class Rooms extends MX_Controller {
         //validate form input
         $this->form_validation->set_rules('code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('total_bed_qty', $this->lang->line("total_bed_qty"), 'required|xss_clean');
         $this->form_validation->set_rules('room_rent', $this->lang->line("room_rent"), 'required|xss_clean');
-        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'required|xss_clean');
+        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'xss_clean');
 
         if ($this->form_validation->run() == true)
         {
+
            $data=array(
                'room_name' => $this->input->post('name'),
                'room_code' => $this->input->post('code'),
-               'total_bed_qty' => $this->input->post('total_bed_qty'),
+               'total_bed_qty' => 1,
                'room_rent' => $this->input->post('room_rent'),
-               'vacant_date' =>$this->ion_auth->fsd($this->input->post('vacant_date')),
                'bed_occupied'=>0,
                'created_by'=>USER_NAME,
                'created_date'=>date('Y-m-d H:i:s'));
@@ -162,9 +161,8 @@ class Rooms extends MX_Controller {
         //validate form input
         $this->form_validation->set_rules('room_code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('total_bed_qty', $this->lang->line("total_bed_qty"), 'required|xss_clean');
         $this->form_validation->set_rules('room_rent', $this->lang->line("room_rent"), 'required|xss_clean');
-        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'required|xss_clean');
+        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'xss_clean');
 
         if ($this->form_validation->run() == true)
         {

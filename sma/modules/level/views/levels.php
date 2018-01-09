@@ -73,6 +73,6 @@
     </tbody>
 </table>
 
-<!--<p><a href="--><?php //echo site_url('module=level&view=add');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_level"); ?><!--</a></p>-->
+<p><a href="<?php echo site_url('module=level&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level"); ?></a></p>
 	
 

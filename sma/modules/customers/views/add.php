@@ -21,8 +21,8 @@ $(function() {
    	<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=customers&view=add", $attrib);?>
 
 <div class="control-group">
-    <label class="control-label" for="code">Code</label>
-    <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4" readonly="readonly"  id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
+    <label class="control-label" for="code">Vendor Code</label>
+    <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4"  id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
 
@@ -37,21 +37,6 @@ $(function() {
     <label class="control-label" for="start_date">Join Date</label>
     <div class="controls"> <?php echo form_input('join_date', (isset($_POST['join_date']) ? $_POST['join_date'] : ""), 'class="span4" id="join_date"');?> </div>
 </div>
-
-
-<div class="control-group">
-  <label class="control-label" for="email_address">Email</label>
-  <div class="controls"> <input type="email" name="email" class="span4" data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
-  </div>
-</div> 
-
-
-
-<div class="control-group">
-  <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
-  <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
-  </div>
-</div> 
 
 <div class="control-group">
   <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
@@ -73,12 +58,22 @@ $(function() {
   <label class="control-label" for="postal_code"><?php echo $this->lang->line("postal_code"); ?></label>
   <div class="controls"> <?php echo form_input('postal_code', (isset($_POST['postal_code']) ? $_POST['postal_code'] : ''), 'class="span4"  id="postal_code"pattern=".{4,8}" data-error="'.$this->lang->line("postal_code").' '.$this->lang->line("is_required").'"');?>
   </div>
-</div> 
-<div class="control-group" >
-  <label class="control-label" for="country"><?php echo $this->lang->line("country"); ?></label>
-  <div class="controls"> <?php echo form_input('country', (isset($_POST['country']) ? $_POST['country'] : ''), 'class="span4" id="country"  pattern=".{2,55}" data-error="'.$this->lang->line("country").' '.$this->lang->line("is_required").'"');?>
-  </div>
 </div>
+
+<div class="control-group">
+    <label class="control-label" for="email_address">Email</label>
+    <div class="controls"> <input type="email" name="email" class="span4" data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
+    </div>
+</div>
+
+
+
+<div class="control-group">
+    <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
+    <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
+    </div>
+</div>
+
 
 <div class="control-group">
   <div class="controls"> <?php echo form_submit('submit', $this->lang->line("add_vendor"), 'class="btn btn-primary"');?> </div>

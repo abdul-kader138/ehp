@@ -76,6 +76,6 @@
     </tbody>
 </table>
 
-<!--<p><a href="--><?php //echo site_url('module=buildings&view=add_building_details');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_level_buildings"); ?><!--</a></p>-->
+<p><a href="<?php echo site_url('module=buildings&view=add_building_details');?>" class="btn btn-primary"><?php echo $this->lang->line("new_level_buildings"); ?></a></p>
 	
 

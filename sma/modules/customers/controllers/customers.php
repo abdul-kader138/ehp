@@ -58,7 +58,7 @@ class Customers extends MX_Controller
         $this->load->library('datatables');
         if ($userHasAuthority) {
             $this->datatables
-                ->select("id, code,name,email,phone, address, city,state,country,date_of_join")
+                ->select("id, code,name,email,phone, address, city,state,date_of_join")
                 ->from("customers")
                 ->add_column("Actions",
                     "<center>			<a class=\"tip\" title='" . $this->lang->line("edit_vendor") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
@@ -96,7 +96,6 @@ class Customers extends MX_Controller
         $this->form_validation->set_rules('city', $this->lang->line("city"), 'xss_clean');
         $this->form_validation->set_rules('state', $this->lang->line("state"), 'xss_clean');
         $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'xss_clean');
-        $this->form_validation->set_rules('country', $this->lang->line("country"), 'xss_clean');
         $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
 
@@ -111,7 +110,6 @@ class Customers extends MX_Controller
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
                 'date_of_join' => date('Y-m-d'),
-                'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
                 'date_of_join' =>$this->ion_auth->fsd($this->input->post('join_date')),
                 'created_by' => USER_NAME,
@@ -169,7 +167,6 @@ class Customers extends MX_Controller
         $this->form_validation->set_rules('city', $this->lang->line("city"), 'xss_clean');
         $this->form_validation->set_rules('state', $this->lang->line("state"), 'xss_clean');
         $this->form_validation->set_rules('postal_code', $this->lang->line("postal_code"), 'xss_clean');
-        $this->form_validation->set_rules('country', $this->lang->line("country"), 'xss_clean');
         $this->form_validation->set_rules('join_date', $this->lang->line("join_date"), 'xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
 
@@ -182,7 +179,6 @@ class Customers extends MX_Controller
                 'city' => $this->input->post('city'),
                 'state' => $this->input->post('state'),
                 'postal_code' => $this->input->post('postal_code'),
-                'country' => $this->input->post('country'),
                 'phone' => $this->input->post('phone'),
                 'date_of_join' =>$this->ion_auth->fsd($this->input->post('join_date')),
                 'updated_by' => USER_NAME,

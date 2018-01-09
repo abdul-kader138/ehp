@@ -42,7 +42,6 @@ class Settings extends MX_Controller {
 		
 		$this->load->library('form_validation');
 		$this->load->model('settings_model');
-		$this->load->model('inventories/inventories_model');
 
 
 	}

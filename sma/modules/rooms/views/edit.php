@@ -28,10 +28,6 @@
     <label class="control-label" for="name"><?php echo $this->lang->line("room_rent"); ?></label>
     <div class="controls"> <?php echo form_input('room_rent', $room->room_rent, 'class="span4" id="name" required="required" data-error="'.$this->lang->line("room_rent").' '.$this->lang->line("is_required").'"');?> </div>
 </div>
-<div class="control-group">
-    <label class="control-label" for="name"><?php echo $this->lang->line("total_bed_qty"); ?></label>
-    <div class="controls"> <?php echo form_input('total_bed_qty', $room->total_bed_qty, 'class="span4" id="name" required="required" data-error="'.$this->lang->line("total_bed_qty").' '.$this->lang->line("is_required").'"');?> </div>
-</div>
 
 <div class="control-group">
     <?php

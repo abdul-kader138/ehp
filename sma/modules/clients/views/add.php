@@ -22,7 +22,7 @@
 
 <div class="control-group">
     <label class="control-label" for="code">Code</label>
-    <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4" readonly="readonly"  id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
+    <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4"  id="code" pattern=".{2,55}" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
 
@@ -40,6 +40,12 @@
 </div>
 
 <div class="control-group">
+    <label class="control-label" for="email_address">SSN</label>
+    <div class="controls"> <input type="ssn" name="ssn" class="span4" required="required" data-error="<?php echo $this->lang->line("ssn").' '.$this->lang->line("is_required"); ?>" />
+    </div>
+</div>
+
+<div class="control-group">
     <label class="control-label" for="email_address">Email</label>
     <div class="controls"> <input type="email" name="email" class="span4"  data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
     </div>
@@ -47,12 +53,6 @@
 <div class="control-group">
     <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
     <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
-    </div>
-</div>
-
-<div class="control-group">
-    <label class="control-label" for="email_address">SSN</label>
-    <div class="controls"> <input type="ssn" name="ssn" class="span4" required="required" data-error="<?php echo $this->lang->line("ssn").' '.$this->lang->line("is_required"); ?>" />
     </div>
 </div>
 

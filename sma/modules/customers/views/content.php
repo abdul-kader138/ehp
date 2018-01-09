@@ -53,7 +53,6 @@
 					  null,
 					  null,
 					  null,
-					  null,
 
 					  { "bSortable": false }
 					]
@@ -95,7 +94,6 @@
 			<th>Address</th>
             <th>City</th>
             <th>State</th>
-            <th>Country</th>
             <th>Join date</th>
             <th style="width:45px;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
@@ -108,4 +106,4 @@
 
 	</table>
 	
-	<p><a href="<?php echo site_url('module=customers&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_customer"); ?></a></p>
+	<p><a href="<?php echo site_url('module=customers&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_vendor"); ?></a></p>

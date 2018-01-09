@@ -124,99 +124,12 @@
 <div id="mainmanu">
 <?php if ($this->ion_auth->in_group(array('owner', 'admin'))) { ?>
     <ul class="menu nav nav-tabs nav-stacked">
-        <li class="dropdown"><a class="showSubMenus" href="#peopleMenu"><i
-                    class="icon-user  icon-white"></i> <?php echo $this->lang->line('people'); ?> <b
-                    class="caret"></b></a>
-            <ul class="nav nav-tabs nav-stacked sub-menu" id="peopleMenu">
-                <?php if ($this->ion_auth->in_group('owner')) { ?>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=auth&amp;view=users"><?php echo $this->lang->line('list_users'); ?></a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=auth&amp;view=create_user"><?php echo $this->lang->line('new_user'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-                <?php } ?>
-
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('vendor'); ?></a>
-                </li>
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=customers&amp;view=add"><?php echo $this->lang->line('new_vendor'); ?></a>
-                </li>
-                <li class="divider"></li>
-
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=types"><?php echo $this->lang->line('list_type'); ?></a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=add_type"><?php echo $this->lang->line('new_type'); ?></a>
-                </li>
-                <li class="divider"></li>
-
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=clients"><?php echo $this->lang->line('clients'); ?></a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=add"><?php echo $this->lang->line('new_client'); ?></a>
-                </li>
-                <li class="divider"></li>
-            </ul>
-        </li>
         <?php if ($this->ion_auth->in_group('owner')) { ?>
-
-
-
-
-            <li class="dropdown"><a class="showSubMenus" href="#settingsMenu"><i
-                        class="icon-cog  icon-white"></i> <?php echo $this->lang->line('settings'); ?> <b
-                        class="caret"></b></a>
-                <ul class="nav nav-tabs nav-stacked sub-menu" id="settingsMenu">
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=settings&amp;view=system_setting"><?php echo $this->lang->line('system_setting'); ?></a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=settings&amp;view=change_logo"><?php echo $this->lang->line('chnage_logo'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-
-
-                    <!--         abdul Kader       -->
-
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=rooms&amp;view=add"><?php echo $this->lang->line('new_room'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=level&amp;view=add"><?php echo $this->lang->line('new_level'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add"><?php echo $this->lang->line('new_buildings'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add_building_details"><?php echo $this->lang->line('new_level_buildings'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=add_building_allocation"><?php echo $this->lang->line('building_allocation'); ?></a>
-                    </li>
-                    <li class="divider"></li>
-
-
-                </ul>
-            </li>
-
 
             <!--        location Info-->
 
             <li class="dropdown"><a class="showSubMenus" href="#locationMenu"><i
-                        class="icon-info-sign  icon-white"></i> <?php echo $this->lang->line('location_info'); ?> <b
+                        class="icon-plus-sign  icon-white"></i> <?php echo $this->lang->line('location_info'); ?> <b
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="locationMenu">
 
@@ -239,23 +152,53 @@
                         <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_details"><?php echo $this->lang->line('list_level_buildings'); ?></a>
                     </li>
                     <li class="divider"></li>
+                </ul>
+            </li>
 
 
+            <!--            vendor management-->
+
+            <li class="dropdown"><a class="showSubMenus" href="#vendorManagementMenu"><i
+                        class="icon-check  icon-white"></i> <?php echo $this->lang->line('vendor_management'); ?> <b
+                        class="caret"></b></a>
+                <ul class="nav nav-tabs nav-stacked sub-menu" id="vendorManagementMenu">
                     <li>
                         <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_allocation"><?php echo $this->lang->line('list_building_allocation'); ?></a>
+                    </li>
+                    <li class="divider"></li>
+
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('vendor'); ?></a>
+                    </li>
+                    <li class="divider"></li>
+                </ul>
+            </li>
+
+<!--           	Client Management-->
+
+
+            <li class="dropdown"><a class="showSubMenus" href="#clientManagementMenu"><i
+                        class="icon-user  icon-white"></i> <?php echo $this->lang->line('client_management'); ?> <b
+                        class="caret"></b></a>
+                <ul class="nav nav-tabs nav-stacked sub-menu" id="clientManagementMenu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=types"><?php echo $this->lang->line('list_type'); ?></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=clients"><?php echo $this->lang->line('clients'); ?></a>
                     </li>
                     <li class="divider"></li>
                 </ul>
             </li>
 
 
-
             <!--        Client Intake-->
 
-            <li class="dropdown"><a class="showSubMenus" href="#intakeMenu"><i
-                        class="icon-check  icon-white"></i> <?php echo $this->lang->line('intake'); ?> <b
-                        class="caret"></b></a>
-                <ul class="nav nav-tabs nav-stacked sub-menu" id="intakeMenu">
+        <li class="dropdown"><a class="showSubMenus" href="#intakeMenu"><i
+                    class="icon-align-justify  icon-white"></i> <?php echo $this->lang->line('client_intake_admission'); ?> <b
+                    class="caret"></b></a>
+            <ul class="nav nav-tabs nav-stacked sub-menu" id="intakeMenu">
                     <li>
                         <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=client_intake"><?php echo $this->lang->line('intake'); ?></a>
                     </li>
@@ -267,11 +210,29 @@
                 </ul>
             </li>
 
-
         <?php } ?>
 
+
+        <li class="dropdown"><a class="showSubMenus" href="#settingsMenu"><i
+                    class="icon-cog  icon-white"></i> <?php echo $this->lang->line('settings'); ?> <b
+                    class="caret"></b></a>
+            <ul class="nav nav-tabs nav-stacked sub-menu" id="settingsMenu">
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=settings&amp;view=system_setting"><?php echo $this->lang->line('system_setting'); ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=settings&amp;view=change_logo"><?php echo $this->lang->line('chnage_logo'); ?></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=auth&amp;view=users"><?php echo $this->lang->line('list_users'); ?></a>
+                </li>
+                <li class="divider"></li>
+            </ul>
+        </li>
+
         <li class="dropdown"><a class="showSubMenus" href="#reportsMenu"><i
-                    class="icon-align-justify  icon-white"></i> <?php echo $this->lang->line('reports'); ?> <b
+                    class="icon-info-sign  icon-white"></i> <?php echo $this->lang->line('reports'); ?> <b
                     class="caret"></b></a>
             <ul class="nav nav-tabs nav-stacked sub-menu" id="reportsMenu">
 

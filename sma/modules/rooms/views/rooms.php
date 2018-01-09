@@ -62,7 +62,7 @@
     <tr>
         <th><?php echo $this->lang->line("room_code"); ?></th>
         <th><?php echo $this->lang->line("room_name"); ?></th>
-        <th><?php echo $this->lang->line("total_bed_qty"); ?></th>
+        <th><?php echo $this->lang->line("total_capacity"); ?></th>
         <th><?php echo $this->lang->line("room_rent"); ?><br/>(USD)</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
@@ -75,6 +75,6 @@
     </tbody>
 </table>
 
-<!--<p><a href="--><?php //echo site_url('module=rooms&view=add');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_room"); ?><!--</a></p>-->
+<p><a href="<?php echo site_url('module=rooms&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_room"); ?></a></p>
 	
 

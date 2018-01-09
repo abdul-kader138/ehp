@@ -81,6 +81,6 @@
     </tbody>
 </table>
 
-<!--<p><a href="--><?php //echo site_url('module=buildings&view=add');?><!--" class="btn btn-primary">--><?php //echo $this->lang->line("new_buildings"); ?><!--</a></p>-->
+<p><a href="<?php echo site_url('module=buildings&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("new_buildings"); ?></a></p>
 	
 
