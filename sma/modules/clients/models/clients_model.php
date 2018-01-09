@@ -336,7 +336,6 @@ class Clients_model extends CI_Model
     public function decreaseApartmentCapacity($code)
     {
         $apartmentDetails = $this->getApartmentByCode($code);
-        var_dump(array($apartmentDetails));
         $occupied_qty = $apartmentDetails->bed_occupied;
         $new_occupied_qty = ($occupied_qty + 1);
          $vacant_date=NULL;
