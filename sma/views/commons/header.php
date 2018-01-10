@@ -210,7 +210,28 @@
                 </ul>
             </li>
 
+            <!--        Inspection Management-->
+
+            <li class="dropdown"><a class="showSubMenus" href="#inspectionMenu"><i
+                        class="icon-tasks icon-white"></i>Inspection Details<b
+                        class="caret"></b></a>
+                <ul class="nav nav-tabs nav-stacked sub-menu" id="inspectionMenu">
+                    <li>
+                        <a href="#">Add Deficiency</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">Add Weight</a>
+                    </li>
+                    <li class="divider"></li>
+                </ul>
+            </li>
+
         <?php } ?>
+
+
+
+
 
 
         <li class="dropdown"><a class="showSubMenus" href="#settingsMenu"><i
