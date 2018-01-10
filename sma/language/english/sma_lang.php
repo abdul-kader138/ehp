@@ -807,18 +807,18 @@ $lang['alert_x_room'] 				    = "You are going to remove this Apartment. Press O
 
 
 
-$lang['client_type']		            = "Add Client Type";
-$lang['add_type']		                = "Add Client Type";
-$lang['edit_type']		                = "Edit Client Type";
-$lang['delete_type']		            = "Delete Client Type";
-$lang['new_type'] 					    = "Add Client Type";
-$lang['type_added'] 				    = "Client Type Successfully Added.";
-$lang['type_updated'] 				    = "Client Type Successfully Updated.";
-$lang['type_deleted'] 				    = "Client Type Successfully Deleted.";
-$lang['type_code'] 			    		= "Client Type Code";
-$lang['type_name'] 				    	= "Client Type Name";
-$lang['type_name_exist'] 			    = "Client Type name already exist.";
-$lang['list_type'] 				        = "List Of Client Type";
+$lang['client_type']		            = "Add Client's Precondition";
+$lang['add_type']		                = "Add Client's Precondition";
+$lang['edit_type']		                = "Edit Client's Precondition";
+$lang['delete_type']		            = "Delete Client's Precondition";
+$lang['new_type'] 					    = "Add Client's Precondition";
+$lang['type_added'] 				    = "Client's Precondition Successfully Added.";
+$lang['type_updated'] 				    = "Client's Precondition Successfully Updated.";
+$lang['type_deleted'] 				    = "Client's Precondition Successfully Deleted.";
+$lang['type_code'] 			    		= "Client's Precondition Code";
+$lang['type_name'] 				    	= "Client's Precondition Name";
+$lang['type_name_exist'] 			    = "Client's Precondition name already exist.";
+$lang['list_type'] 				        = "List Of Client's Precondition";
 $lang['alert_x_type'] 				    = "You are going to remove this Client Type. Press OK to proceed and Cancel to Go Back";
 
 
@@ -895,7 +895,7 @@ $lang['ssn']		                     = "SSN";
 $lang['new_client']		                 = "Add New Client";
 $lang['edit_client']		             = "Edit Client";
 $lang['delete_client']		             = "Delete Client";
-$lang['client_type']		             = "Client Type";
+$lang['client_type']		             = "Client's Precondition";
 $lang['client_added']		             = "Client Successfully Added.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
@@ -916,7 +916,7 @@ $lang['status']		                     = "Status";
 $lang['location_info']		             = "Location Management";
 $lang['edit_client']		             = "Edit Client";
 $lang['delete_intake']		             = "Delete Client Intake";
-$lang['client_type']		             = "Client Type";
+$lang['client_type']		             = "Client's Precondition";
 $lang['client_intake_added']		     = "Client Intake Information Successfully updated.";
 $lang['client_intake_deleted']		     = "Client Intake Successfully deleted.";
 $lang['client_updated']		             = "Client Successfully Updated.";

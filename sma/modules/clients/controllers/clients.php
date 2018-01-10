@@ -497,9 +497,9 @@ class Clients extends MX_Controller
 
             $data['types'] = $this->clients_model->getTypesByCode($name);
 
-            $meta['page_title'] = $this->lang->line("edit_room");
+            $meta['page_title'] = $this->lang->line("edit_type");
             $data['name'] = $name;
-            $data['page_title'] = $this->lang->line("edit_room");
+            $data['page_title'] = $this->lang->line("edit_type");
             $this->load->view('commons/header', $meta);
             $this->load->view('edit_type', $data);
             $this->load->view('commons/footer');
@@ -554,7 +554,7 @@ class Clients extends MX_Controller
     function getApartments()
     {
         $vendor_id = $this->input->get('vendor_id', TRUE);
-        $building_id = $this->input->get('building_id', TRUE);
+        $building_id = $this->input->get('building_code', TRUE);
 
         if ($rows = $this->clients_model->getApartmentByVendorID($vendor_id, $building_id)) {
             $ct[""] = '';

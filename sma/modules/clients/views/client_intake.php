@@ -8,7 +8,7 @@
         });
 
         $('#vendor_code').change(function () {
-                var v = $(this).val();
+                var v = $(this).find(":selected").val();
                 $('#loading').show();
                 $.ajax({
                     type: "get",
@@ -40,7 +40,8 @@
 
 
     $('#building_code').change(function () {
-            var b = $(this).val();
+            var c = $(this).find(":selected").val();
+            console.log(c);
             var v = $("#vendor_code").val();
             $('#loading').show();
             $.ajax({
@@ -49,7 +50,7 @@
                 url: "index.php?module=clients&view=getApartments",
                 data: {
             <?php echo $this->security->get_csrf_token_name(); ?>:
-            "<?php echo $this->security->get_csrf_hash() ?>", vendor_id:v,building_code:b},
+            "<?php echo $this->security->get_csrf_hash() ?>", vendor_id:v,building_code:c},
         dataType:"html",
         success:function (data) {
         if (data != "") {
