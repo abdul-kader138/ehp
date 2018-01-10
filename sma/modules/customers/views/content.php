@@ -53,6 +53,7 @@
 					  null,
 					  null,
 					  null,
+					  null,
 
 					  { "bSortable": false }
 					]
@@ -66,6 +67,7 @@
 															{ type: "text", bRegex:true },
 															{ type: "text", bRegex:true },
 															{ type: "text", bRegex:true },
+															null,
 															null,
 															null,
 															null,
@@ -95,12 +97,13 @@
             <th>City</th>
             <th>State</th>
             <th>Join date</th>
+            <th>No of <br/>Facilities</th>
             <th style="width:45px;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>
 		<tbody>
 			<tr>
-            	<td colspan="10" class="dataTables_empty">Loading data from server</td>
+            	<td colspan="11" class="dataTables_empty">Loading data from server</td>
 			</tr>
         </tbody>
 

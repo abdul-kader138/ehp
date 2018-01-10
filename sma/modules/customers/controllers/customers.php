@@ -58,8 +58,9 @@ class Customers extends MX_Controller
         $this->load->library('datatables');
         if ($userHasAuthority) {
             $this->datatables
-                ->select("id, code,name,email,phone, address, city,state,date_of_join")
-                ->from("customers")
+                ->select("c.id as id, c.code,c.name,c.email,c.phone, c.address, c.city,c.state,c.date_of_join,count(b.id) as apt")
+                ->from("customers c")
+                ->join("building_allocation b", "c.id = b.vendor_id", "left")
                 ->add_column("Actions",
                     "<center>			<a class=\"tip\" title='" . $this->lang->line("edit_vendor") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
 							    <a class=\"tip\" title='" . $this->lang->line("delete_vendor") . "' href='index.php?module=customers&amp;view=delete&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_vendor') . "')\"><i class=\"icon-remove\"></i></a></center>", "id")
@@ -67,8 +68,9 @@ class Customers extends MX_Controller
 
         } else {
             $this->datatables
-                ->select("id, code,name,email,phone, address, city,state,country,date_of_join")
-                ->from("customers")
+                ->select("c.id, c.code,c.name,c.email,c.phone, c.address, c.city,c.state,c.country,c.date_of_join,count(b.id) as apt")
+                ->from("customers c")
+                ->join("building_allocation b", "c.id = b.vendor_id", "left")
                 ->add_column("Actions",
                     "")
                 ->unset_column('id');

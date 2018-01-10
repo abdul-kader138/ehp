@@ -43,7 +43,6 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
-                { "bSortable": true },
                 null,
                 null
             ]
@@ -68,7 +67,6 @@
         <th><?php echo $this->lang->line("last_name"); ?></th>
         <th><?php echo $this->lang->line("phone"); ?></th>
         <th><?php echo $this->lang->line("ssn"); ?></th>
-        <th><?php echo $this->lang->line("address"); ?></th>
         <th><?php echo $this->lang->line("client_type"); ?></th>
         <th><?php echo $this->lang->line("date_of_birth"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
@@ -76,7 +74,7 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="9" class="dataTables_empty">Loading data from server</td>
+        <td colspan="8" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

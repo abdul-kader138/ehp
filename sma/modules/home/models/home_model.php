@@ -50,7 +50,7 @@ class Home_model extends CI_Model
     public function topProducts1()
     {
         $m = date('Y-m');
-        $this->db->select('sum(rooms.bed_occupied) as occupied, sum(rooms.total_bed_qty)  as capacity')
+        $this->db->select('sum(rooms.bed_occupied) as occupied, (sum(rooms.total_bed_qty) - sum(rooms.bed_occupied)) as capacity')
             ->from('building')
             ->join('building_details', 'building.building_code=building_details.building_code', 'left')
             ->join('level', 'building_details.level_code=level.level_code', 'left')

@@ -44,7 +44,9 @@ class Buildings_model extends CI_Model
     public function addBuildingDetails($data)
     {
         if ($this->db->insert("building_details", $data)) {
-            return true;
+            if ($this->db->update('level', array('isTaggedWithBuilding' => 'Yes'), array('level_code' => $data['level_code'])))
+                return true;
+            else return false;
         } else {
             return false;
         }
@@ -116,8 +118,23 @@ class Buildings_model extends CI_Model
     }
 
     public function getAllLevels()
+{
+    $q = $this->db->get("level");
+//        $this->db->group_by("level_name");
+    if ($q->num_rows() > 0) {
+        foreach (($q->result()) as $row) {
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    return FALSE;
+}
+
+    public function getAllUntaggedLevels()
     {
-        $q = $this->db->get("level");
+        $q = $this->db->get_where("level",array('isTaggedWithBuilding'=>'No'));
 //        $this->db->group_by("level_name");
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
@@ -183,10 +200,12 @@ class Buildings_model extends CI_Model
     }
 
 
-    public function deleteBuildingDetails($id)
+    public function deleteBuildingDetails($id,$code)
     {
         if ($this->db->delete("building_details", array('id' => $id))) {
-            return true;
+            if ($this->db->update('level', array('isTaggedWithBuilding' => 'No'), array('level_code' => $code)))
+                return true;
+            else return false;
         }
         return FALSE;
     }

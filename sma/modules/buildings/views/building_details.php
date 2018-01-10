@@ -61,9 +61,9 @@
     <thead>
     <tr>
         <th><?php echo $this->lang->line("buildings_code"); ?></th>
-        <th><?php echo $this->lang->line("level_code"); ?></th>
+        <th><?php echo $this->lang->line("level_name"); ?></th>
         <th>Total Apartment</th>
-        <th>Total <br/> Capacity</th>
+        <th>Total <br/> Vacant</th>
         <th>Total <br/>Occupied</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>

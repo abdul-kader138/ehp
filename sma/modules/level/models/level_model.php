@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
 /*
@@ -32,22 +32,22 @@ class Level_model extends CI_Model
     }
 
 
-
-    public function addLevel($level_data,$room_data)
+    public function addLevel($level_data, $room_data)
     {
-        if($this->db->insert_batch("level",$level_data)) {
-            if($this->db->update_batch('rooms', $room_data, 'room_code')) return true;
-            else return false;
+        if ($this->db->insert_batch("level", $level_data)) {
+            if ($this->db->update_batch('rooms', $room_data, 'room_code')) {
+                return true;
+            }
+            return true;
         }
-            else return false;
+        return false;
 
     }
 
 
-
-    public function getLevelByName($name,$room_name)
+    public function getLevelByName($name, $room_name)
     {
-        $q = $this->db->get_where('level', array('level_name' => $name,'room_code' => $room_name), 1);
+        $q = $this->db->get_where('level', array('level_name' => $name, 'room_code' => $room_name), 1);
         if ($q->num_rows() > 0) {
             return $q->row();
         }
@@ -56,22 +56,20 @@ class Level_model extends CI_Model
     }
 
 
-
-
     public function updateLevel($name, $data = array())
     {
 
 
         // Shelf data
         $levelData = array(
-            'level_code'=> $data['code'],
-            'level_name'=> $data['name'],
-            'room_name'=> $data['room_name'],
-            'updated_by'=>USER_NAME,
-            'updated_date'=>date('Y-m-d H:i:s')
+            'level_code' => $data['code'],
+            'level_name' => $data['name'],
+            'room_name' => $data['room_name'],
+            'updated_by' => USER_NAME,
+            'updated_date' => date('Y-m-d H:i:s')
         );
         $this->db->where('level_name', $name);
-        if($this->db->update("level", $levelData)) {
+        if ($this->db->update("level", $levelData)) {
             return true;
         } else {
             return false;
@@ -79,16 +77,13 @@ class Level_model extends CI_Model
     }
 
 
-
-
-    public function deleteLevel($name,$room_name)
+    public function deleteLevel($name, $room_name)
     {
-        if($this->db->delete("level", array('level_code' => $name,'room_code'=>$room_name))) {
-            if($this->db->update('rooms', array('isTaggedWithLevel'=>'No'),array('room_code'=>$room_name)))return true;
+        if ($this->db->delete("level", array('level_code' => $name, 'room_code' => $room_name))) {
+            if ($this->db->update('rooms', array('isTaggedWithLevel' => 'No'), array('room_code' => $room_name))) return true;
         }
         return FALSE;
     }
-
 
 
     public function getRQNextAI()
@@ -106,7 +101,7 @@ class Level_model extends CI_Model
 
     public function getAllRooms()
     {
-        $q = $this->db->get_where("rooms",array('isTaggedWithLevel'=>'No'));
+        $q = $this->db->get_where("rooms", array('isTaggedWithLevel' => 'No'));
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;

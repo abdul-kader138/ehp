@@ -298,7 +298,7 @@ class Buildings extends MX_Controller
             );
 
             $data['buildings'] = $this->buildings_model->getAllBuildings();
-            $data['levels'] = $this->buildings_model->getAllLevels();
+            $data['levels'] = $this->buildings_model->getAllUntaggedLevels();
             $meta['page_title'] = $this->lang->line("new_level_buildings");
             $data['page_title'] = $this->lang->line("new_level_buildings");
             $this->load->view('commons/header', $meta);
@@ -326,11 +326,11 @@ class Buildings extends MX_Controller
     function getDataTableAjaxForDetails()
     {
 
-        $pp = "(SELECT l.level_code,r.room_code,count(l.id) apt,sum(r.total_bed_qty) as tbq,sum(r.bed_occupied) as bc FROM level as l inner join rooms as r on l.room_code=r.room_code group by l.level_code ) PCosts";
+        $pp = "(SELECT l.level_code,l.level_name,r.room_code,count(l.id) apt,(sum(r.total_bed_qty) - sum(r.bed_occupied))as tbq,sum(r.bed_occupied) as bc FROM level as l inner join rooms as r on l.room_code=r.room_code group by l.level_code ) PCosts";
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("p.id as id,p.building_code,p.level_code,PCosts.apt,PCosts.tbq,PCosts.bc")
+            ->select("p.id as id,p.building_code,PCosts.level_name,PCosts.apt,PCosts.tbq,PCosts.bc")
             ->from("building_details p")
             ->join($pp, 'p.level_code = PCosts.level_code', 'left')
             ->group_by('p.building_code,p.level_code')
@@ -419,7 +419,8 @@ class Buildings extends MX_Controller
 //            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
 //            redirect("module=shelfs", 'refresh');
 //        }
-        if ($this->buildings_model->deleteBuildingDetails($id)) { //check to see if we are deleting the customer
+        $building_details=$this->buildings_model->getBuildingDetailsById($id);
+        if ($this->buildings_model->deleteBuildingDetails($id,$building_details->level_code)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("delete_level_buildings"));
             redirect("module=buildings&view=building_details", 'refresh');
@@ -470,11 +471,15 @@ class Buildings extends MX_Controller
 
     function getDataTableAjaxForAllocation()
     {
+        $pp = "(SELECT l.level_code,l.level_name,r.room_code,count(l.id) apt,(sum(r.total_bed_qty) - sum(r.bed_occupied))as tbq,sum(r.bed_occupied) as bc FROM level as l inner join rooms as r on l.room_code=r.room_code group by l.level_code ) PCosts";
+
         $this->load->library('datatables');
         $this->datatables
-            ->select("b.id as id,b.building_code,c.code,c.name,c.address")
+            ->select("b.id as id,b.building_code,PCosts.apt,c.name,c.address")
             ->from("building_allocation b")
             ->join("customers c", 'b.vendor_id = c.id', 'left')
+            ->join("building_details bd", 'b.building_code = bd.building_code', 'left')
+            ->join($pp, 'bd.level_code = PCosts.level_code', 'left')
             ->add_column("Actions",
                 "<center><a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
             ->unset_column('id');

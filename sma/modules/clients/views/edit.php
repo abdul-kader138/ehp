@@ -84,12 +84,6 @@
 </div>
 
 
-<div class="control-group">
-    <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
-    <div class="controls"> <?php echo form_input('address',$client->address, 'class="span4"  id="address" required="required"  pattern=".{15,255}"  data-error="'.$this->lang->line("address").' '.$this->lang->line("is_required").'"');?>
-    </div>
-</div>
-
 
 <div class="control-group">
     <div class="controls"> <?php echo form_submit('submit', $this->lang->line("edit_client"), 'class="btn btn-primary"');?> </div>

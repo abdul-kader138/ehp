@@ -61,7 +61,7 @@
     <thead>
     <tr>
         <th><?php echo $this->lang->line("buildings_code"); ?></th>
-        <th>Vendor Code</th>
+        <th>No of Apts</th>
         <th><?php echo $this->lang->line("vendor_name"); ?></th>
         <th>Vendor Address</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
