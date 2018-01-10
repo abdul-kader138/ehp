@@ -903,7 +903,7 @@ $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to
 
 $lang['list_intake']		             = "List Of Client Intake";
 $lang['intake']		                     = "Client Intake";
-$lang['client_intake_admission']	     = "Client Admission";
+$lang['client_intake_admission']	     = "Client Intake";
 $lang['add_intake']		                 = "Add Client Intake";
 $lang['client_discharge']		         = "Client Discharge";
 $lang['move_in_date']		             = "Date(Move In)";

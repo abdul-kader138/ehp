@@ -96,13 +96,17 @@ class Rooms extends MX_Controller {
         if ($this->form_validation->run() == true)
         {
 
+            if($this->lang->line("vacant_date")) $vacant_date=$this->ion_auth->fsd($this->input->post('vacant_date'));
+            else $vacant_date=date('Y-m-d');
+
+
            $data=array(
                'room_name' => $this->input->post('name'),
                'room_code' => $this->input->post('code'),
                'total_bed_qty' => 1,
                'isTaggedWithClient' => 'No',
                'room_rent' => $this->input->post('room_rent'),
-               'vacant_date' =>$this->ion_auth->fsd($this->input->post('vacant_date')),
+               'vacant_date' =>$vacant_date,
                'bed_occupied'=>0,
                'created_by'=>USER_NAME,
                'created_date'=>date('Y-m-d H:i:s'));
@@ -171,7 +175,6 @@ class Rooms extends MX_Controller {
 
             $data = array('room_code' => $this->input->post('room_code'),
                 'room_name' => $this->input->post('room_name'),
-                'total_bed_qty' => $this->input->post('total_bed_qty'),
                 'room_rent' => $this->input->post('room_rent'),
                 'vacant_date' =>$this->ion_auth->fsd($this->input->post('vacant_date')),
                 'updated_by'=>USER_NAME,

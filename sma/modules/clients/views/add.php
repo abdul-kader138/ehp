@@ -46,17 +46,6 @@
 </div>
 
 <div class="control-group">
-    <label class="control-label" for="email_address">Email</label>
-    <div class="controls"> <input type="email" name="email" class="span4"  data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
-    </div>
-</div>
-<div class="control-group">
-    <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
-    <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
-    </div>
-</div>
-
-<div class="control-group">
     <label class="control-label" for="types">Client Type</label>
 
     <div class="controls"> <?php
@@ -76,6 +65,17 @@
 <div class="control-group">
     <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
     <div class="controls"> <?php echo form_input('address', (isset($_POST['address']) ? $_POST['address'] : ''), 'class="span4"  id="address" pattern=".{2,255}" required="required" data-error="'.$this->lang->line("address").' '.$this->lang->line("is_required").'"');?>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="email_address">Email</label>
+    <div class="controls"> <input type="email" name="email" class="span4"  data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
+    <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
     </div>
 </div>
 
