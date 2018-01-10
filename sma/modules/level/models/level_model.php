@@ -33,13 +33,13 @@ class Level_model extends CI_Model
 
 
 
-    public function addLevel($data)
+    public function addLevel($level_data,$room_data)
     {
-
-        if($this->db->insert_batch("level",$data)) {
-            return true;
+        if($this->db->insert_batch("level",$level_data)) {
+            if($this->db->update_batch('rooms', $room_data, 'room_code')) return true;
+            else return false;
         }
-            return false;
+            else return false;
 
     }
 
@@ -84,7 +84,7 @@ class Level_model extends CI_Model
     public function deleteLevel($name,$room_name)
     {
         if($this->db->delete("level", array('level_code' => $name,'room_code'=>$room_name))) {
-            return true;
+            if($this->db->update('rooms', array('isTaggedWithLevel'=>'No'),array('room_code'=>$room_name)))return true;
         }
         return FALSE;
     }
@@ -106,7 +106,7 @@ class Level_model extends CI_Model
 
     public function getAllRooms()
     {
-        $q = $this->db->get("rooms");
+        $q = $this->db->get_where("rooms",array('isTaggedWithLevel'=>'No'));
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;

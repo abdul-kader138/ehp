@@ -1,6 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rooms extends MX_Controller {
+class Rooms extends MX_Controller
+{
 
     /*
     | -----------------------------------------------------
@@ -27,16 +28,14 @@ class Rooms extends MX_Controller {
         parent::__construct();
 
         // check if user logged in
-        if (!$this->ion_auth->logged_in())
-        {
+        if (!$this->ion_auth->logged_in()) {
             redirect('auth/login');
         }
 
         $this->load->library('form_validation');
         $this->load->model('rooms_model');
         $groups = array('owner', 'admin');
-        if (!$this->ion_auth->in_group($groups))
-        {
+        if (!$this->ion_auth->in_group($groups)) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=rooms', 'refresh');
@@ -47,8 +46,7 @@ class Rooms extends MX_Controller {
     function index()
     {
 
-        if (!$this->ion_auth->in_group('owner'))
-        {
+        if (!$this->ion_auth->in_group('owner')) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=home', 'refresh');
@@ -68,10 +66,10 @@ class Rooms extends MX_Controller {
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("room_code,room_name,total_bed_qty,room_rent")
+            ->select("room_code,room_name,CASE WHEN bed_occupied = '1' THEN 'Occupied' ELSE 'Vacant' END AS status,room_rent", false)
             ->from("rooms")
             ->add_column("Actions",
-                "<center><a href='index.php?module=rooms&amp;view=edit&amp;name=$2' class='tip' title='".$this->lang->line("edit_room")."'><i class=\"icon-edit\"></i></a> <a href='index.php?module=rooms&amp;view=delete&amp;name=$2' onClick=\"return confirm('". $this->lang->line('alert_x_room') ."')\" class='tip' title='".$this->lang->line("delete_room")."'><i class=\"icon-remove\"></i></a></center>", "room_code,room_name");
+                "<center><a href='index.php?module=rooms&amp;view=edit&amp;name=$2' class='tip' title='" . $this->lang->line("edit_room") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=rooms&amp;view=delete&amp;name=$2' onClick=\"return confirm('" . $this->lang->line('alert_x_room') . "')\" class='tip' title='" . $this->lang->line("delete_room") . "'><i class=\"icon-remove\"></i></a></center>", "room_code,room_name");
 
         echo $this->datatables->generate();
 
@@ -81,8 +79,7 @@ class Rooms extends MX_Controller {
     {
 
 
-        if (!$this->ion_auth->in_group('owner'))
-        {
+        if (!$this->ion_auth->in_group('owner')) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=home', 'refresh');
@@ -91,40 +88,34 @@ class Rooms extends MX_Controller {
         $this->form_validation->set_rules('code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
         $this->form_validation->set_rules('room_rent', $this->lang->line("room_rent"), 'required|xss_clean');
-        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'xss_clean');
+        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'required|xss_clean');
 
-        if ($this->form_validation->run() == true)
-        {
+        if ($this->form_validation->run() == true) {
+                $vacant_date = $this->ion_auth->fsd($this->input->post('vacant_date'));
 
-            if($this->lang->line("vacant_date")) $vacant_date=$this->ion_auth->fsd($this->input->post('vacant_date'));
-            else $vacant_date=date('Y-m-d');
-
-
-           $data=array(
-               'room_name' => $this->input->post('name'),
-               'room_code' => $this->input->post('code'),
-               'total_bed_qty' => 1,
-               'isTaggedWithClient' => 'No',
-               'room_rent' => $this->input->post('room_rent'),
-               'vacant_date' =>$vacant_date,
-               'bed_occupied'=>0,
-               'created_by'=>USER_NAME,
-               'created_date'=>date('Y-m-d H:i:s'));
+            $data = array(
+                'room_name' => $this->input->post('name'),
+                'room_code' => $this->input->post('code'),
+                'total_bed_qty' => 1,
+                'isTaggedWithClient' => 'No',
+                'isTaggedWithLevel' => 'No',
+                'room_rent' => $this->input->post('room_rent'),
+                'vacant_date' => $vacant_date,
+                'bed_occupied' => 0,
+                'created_by' => USER_NAME,
+                'created_date' => date('Y-m-d H:i:s'));
         }
-        if($this->form_validation->run() == true && $this->rooms_model->getRoomByName(trim($this->lang->line("room_name")))){
+        if ($this->form_validation->run() == true && $this->rooms_model->getRoomByName(trim($this->lang->line("room_name")))) {
             $this->session->set_flashdata('message', $this->lang->line("room_name_exist"));
             redirect("module=rooms", 'refresh');
         }
 
 
-        if ( $this->form_validation->run() == true && $this->rooms_model->addRoom($data))
-        { //check to see if we are creating the customer
+        if ($this->form_validation->run() == true && $this->rooms_model->addRoom($data)) { //check to see if we are creating the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("room_added"));
             redirect("module=rooms", 'refresh');
-        }
-        else
-        { //display the create customer form
+        } else { //display the create customer form
             //set the flash data error message if there is one
 
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
@@ -154,42 +145,39 @@ class Rooms extends MX_Controller {
     function edit($name = NULL)
 
     {
-        if (!$this->ion_auth->in_group('owner'))
-        {
+        if (!$this->ion_auth->in_group('owner')) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=home', 'refresh');
         }
 
 
-        if($this->input->get('name')) { $name = $this->input->get('name'); }
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
 
         //validate form input
         $this->form_validation->set_rules('room_code', $this->lang->line("room_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('room_name', $this->lang->line("room_name"), 'required|min_length[3]|xss_clean');
         $this->form_validation->set_rules('room_rent', $this->lang->line("room_rent"), 'required|xss_clean');
-        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'xss_clean');
+        $this->form_validation->set_rules('vacant_date', $this->lang->line("vacant_date"), 'required|xss_clean');
 
-        if ($this->form_validation->run() == true)
-        {
+        if ($this->form_validation->run() == true) {
 
             $data = array('room_code' => $this->input->post('room_code'),
                 'room_name' => $this->input->post('room_name'),
                 'room_rent' => $this->input->post('room_rent'),
-                'vacant_date' =>$this->ion_auth->fsd($this->input->post('vacant_date')),
-                'updated_by'=>USER_NAME,
-                'updated_date'=>date('Y-m-d H:i:s')
+                'vacant_date' => $this->ion_auth->fsd($this->input->post('vacant_date')),
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s')
             );
         }
 
-        if ( $this->form_validation->run() == true && $this->rooms_model->updateRoom($name, $data))
-        { //check to see if we are updateing the customer
+        if ($this->form_validation->run() == true && $this->rooms_model->updateRoom($name, $data)) { //check to see if we are updateing the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("room_updated"));
             redirect("module=rooms", 'refresh');
-        }
-        else
-        { //display the update form
+        } else { //display the update form
             //set the flash data error message if there is one
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
@@ -220,9 +208,10 @@ class Rooms extends MX_Controller {
     function delete($name = NULL)
     {
 
-        if($this->input->get('name')) { $name = $this->input->get('name'); }
-        if (!$this->ion_auth->in_group('owner'))
-        {
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=home', 'refresh');
@@ -234,16 +223,13 @@ class Rooms extends MX_Controller {
 //            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
 //            redirect("module=shelfs", 'refresh');
 //        }
-        if ( $this->rooms_model->deleteLevel($name) )
-        { //check to see if we are deleting the customer
+        if ($this->rooms_model->deleteLevel($name)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("room_deleted"));
             redirect("module=rooms", 'refresh');
         }
 
     }
-
-
 
 
 }

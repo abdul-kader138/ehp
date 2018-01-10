@@ -35,8 +35,6 @@ class Rooms_model extends CI_Model
 
     public function addRoom($data)
     {
-//        var_dump($data);
-//
         if($this->db->insert("rooms", $data)) {
             return true;
         } else {

@@ -18,7 +18,7 @@
 <?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=rooms&view=edit&name=".$name, $attrib);?>
 <div class="control-group">
     <label class="control-label" for="code"><?php echo $this->lang->line("room_code"); ?></label>
-    <div class="controls"> <?php echo form_input('room_code', $room->room_code, 'class="span4" readonly="readonly" id="code" required="required" pattern="[a-zA-Z0-9_-]{2,12}" data-error="'.$this->lang->line("room_code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
+    <div class="controls"> <?php echo form_input('room_code', $room->room_code, 'class="span4" readonly="readonly" id="code" required="required" pattern="[a-zA-Z0-9_-()]{2,12}" data-error="'.$this->lang->line("room_code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
 </div>
 <div class="control-group">
     <label class="control-label" for="name"><?php echo $this->lang->line("room_name"); ?></label>

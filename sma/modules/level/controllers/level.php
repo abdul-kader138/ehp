@@ -98,7 +98,8 @@ class Level extends MX_Controller
         }
 
 //        if($this->form_validation->run() == true && $this->level_model->getLevelByName(trim($name))){
-        $data = array();
+        $level_data = array();
+        $room_data = array();
         if ($this->form_validation->run() == true) {
             $isExists = false;
             foreach ($room_names as $room_name) {
@@ -109,20 +110,25 @@ class Level extends MX_Controller
                     $this->session->set_flashdata('message', "Level and Apartment(". $room_name.") is already exists");
                     redirect("module=level", 'refresh');
                 } else {
-                    $data[] = array('level_code' => $code,
+                    $level_data[] = array('level_code' => $code,
                         'level_name' => $name,
                         'room_code' => $room_name,
                         'created_by' => USER_NAME,
                         'created_date' => date('Y-m-d H:i:s')
                     );
                 }
+                $room_data[]=array('isTaggedWithLevel' => 'Yes',
+                        'room_code' => $room_name,
+                        'updated_by' => USER_NAME,
+                        'updated_date' => date('Y-m-d H:i:s'));
+
             }
 
         }
 
 
 //
-        if ($this->form_validation->run() == true && $this->level_model->addLevel($data)) { //check to see if we are creating the customer
+        if ($this->form_validation->run() == true && $this->level_model->addLevel($level_data,$room_data)) { //check to see if we are creating the customer
 //            //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("level_added"));
             redirect("module=level", 'refresh');

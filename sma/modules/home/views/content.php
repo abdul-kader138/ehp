@@ -114,7 +114,7 @@
 
 
                   foreach($topProducts as $tp) {
-                  echo "['Capacity', ".$tp->capacity."],";
+                  echo "['Vacant', ".$tp->capacity."],";
                   echo "['Occupied', ".$tp->occupied."],";
 
                   } ?>

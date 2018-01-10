@@ -69,7 +69,7 @@ class Buildings extends MX_Controller
             ->select("building_code,building_name,location,CASE WHEN hasMedicalSupport = '1' THEN 'Yes' ELSE 'No' END AS hasMedicalSupport1,CASE WHEN hasHandicapAccess = '1' THEN 'Yes' ELSE 'No' END AS hasHandicapAccess1,CASE WHEN isSmokeFreeZone = '1' THEN 'Yes' ELSE 'No' END AS isSmokeFreeZone1,CASE WHEN hasElevatorSupport = '1' THEN 'Yes' ELSE 'No' END AS hasElevatorSupport1", FALSE)
             ->from("building")
             ->add_column("Actions",
-                "<center><a href='index.php?module=buildings&amp;view=edit&amp;name=$2' class='tip' title='" . $this->lang->line("edit_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete&amp;name=$2' onClick=\"return confirm('" . $this->lang->line('alert_x_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "building_code,building_name");
+                "<center><a href='index.php?module=buildings&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "building_code,building_name");
 
         echo $this->datatables->generate();
 
@@ -161,7 +161,7 @@ class Buildings extends MX_Controller
 
         $this->form_validation->set_rules('buildings_code', $this->lang->line("buildings_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('buildings_name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
-        $this->form_validation->set_rules('location', $this->lang->line("buildings_name"), 'required|max_length[200]|xss_clean');
+        $this->form_validation->set_rules('location', $this->lang->line("location"), 'required|max_length[200]|xss_clean');
         $this->form_validation->set_rules('hasMedicalSupport', 'hasMedicalSupport', 'required|xss_clean');
         $this->form_validation->set_rules('hasHandicapAccess', 'hasHandicapAccess', 'required|xss_clean');
         $this->form_validation->set_rules('isSmokeFreeZone', 'isSmokeFreeZone', 'required|xss_clean');

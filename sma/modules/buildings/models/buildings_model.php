@@ -53,7 +53,7 @@ class Buildings_model extends CI_Model
 
     public function getBuildingsByName($name)
     {
-        $q = $this->db->get_where('building', array('building_name' => $name), 1);
+        $q = $this->db->get_where('building', array('building_code' => $name), 1);
         if ($q->num_rows() > 0) {
             return $q->row();
         }

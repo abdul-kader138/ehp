@@ -841,6 +841,7 @@ $lang['list_buildings'] 				= "List of Facilities";
 $lang['alert_x_buildings'] 				= "You are going to remove this Building. Press OK to proceed and Cancel to Go Back";
 
 $lang['min_10'] 						= "Minimum 10 Character";
+$lang['vacant_date']		            = "Vacant Date";
 $lang['total_room_qty']		            = "No. of Apartment";
 $lang['total_bed_qty']		            = "No. of Bed";
 $lang['total_capacity']		            = "Total Capacity";
