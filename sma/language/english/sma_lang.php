@@ -925,6 +925,24 @@ $lang['alert_x_intake'] 				 = "You are going to remove this Client Intake. Pres
 
 
 
+
+$lang['add_deficiency_category']		= "Add Deficiency Category";
+$lang['edit_deficiency_category']		= "Edit Deficiency Category";
+$lang['delete_deficiency_category']		= "Delete Deficiency Category";
+$lang['deficiency_category_added'] 	    = "Deficiency Category Successfully Added.";
+$lang['deficiency_category_deleted'] 	= "Deficiency Category Successfully Deleted.";
+$lang['deficiency_category_updated'] 	= "Deficiency Category Successfully Updated.";
+$lang['category_code'] 					= "Deficiency Category Code";
+$lang['category_name'] 					= "Deficiency Category Name";
+$lang['category_name_exist'] 			= "Deficiency Category name already exist.";
+$lang['list_category'] 				    = "List Of Deficiency Category";
+$lang['alert_x_category'] 				= "You are going to remove this Deficiency Category. Press OK to proceed and Cancel to Go Back";
+
+
+
+
+
+
 $lang['building_facilities_reports']    = "Building Details Report";
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */
 /*

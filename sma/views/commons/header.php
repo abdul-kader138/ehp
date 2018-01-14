@@ -217,7 +217,7 @@
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="inspectionMenu">
                     <li>
-                        <a href="#">Add Deficiency</a>
+                        <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_category"><?php echo $this->lang->line('list_category'); ?></a>
                     </li>
                     <li class="divider"></li>
                     <li>
