@@ -221,7 +221,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#">Add Weight</a>
+                        <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_details"><?php echo $this->lang->line('list_details'); ?></a>
                     </li>
                     <li class="divider"></li>
                 </ul>

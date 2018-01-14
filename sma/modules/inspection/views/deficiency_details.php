@@ -7,7 +7,7 @@
             <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
             'bProcessing'    : true,
             'bServerSide'    : true,
-            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=inspection&view=getDataTableAjaxForInspectionCategory',
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=inspection&view=getDataTableAjaxForInspectionDetails',
             'fnServerData': function(sSource, aoData, fnCallback)
             {
                 aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
@@ -27,17 +27,19 @@
                     {
                         "sExtends": "xls",
                         "sFileName": "inspection_list.xls",
-                        "mColumns": [ 0, 1 ]
+                        "mColumns": [ 0, 1,2,3 ]
                     },
                     {
                         "sExtends": "pdf",
                         "sFileName": "Inspection_list.pdf",
                         "sPdfOrientation": "landscape",
-                        "mColumns": [ 0, 1]
+                        "mColumns": [ 0, 1,2,3]
                     }
                 ]
             },
             "aoColumns": [
+                { "bSortable": true },
+                { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
                 null
@@ -58,19 +60,21 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th><?php echo $this->lang->line("category_code"); ?></th>
-        <th><?php echo $this->lang->line("category_name"); ?></th>
+        <th><?php echo $this->lang->line("details_code"); ?></th>
+        <th><?php echo $this->lang->line("details_name"); ?></th>
+        <th>Category <br/>Name</th>
+        <th><?php echo $this->lang->line("details_comment"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="3" class="dataTables_empty">Loading data from server</td>
+        <td colspan="5" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>
 </table>
 
-<p><a href="<?php echo site_url('module=inspection&view=add_deficiency_category');?>" class="btn btn-primary"><?php echo $this->lang->line("add_deficiency_category"); ?></a></p>
+<p><a href="<?php echo site_url('module=inspection&view=add_deficiency_details');?>" class="btn btn-primary"><?php echo $this->lang->line("add_deficiency_details"); ?></a></p>
 	
 

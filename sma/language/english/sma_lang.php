@@ -938,6 +938,20 @@ $lang['category_name_exist'] 			= "Deficiency Category name already exist.";
 $lang['list_category'] 				    = "List Of Deficiency Category";
 $lang['alert_x_category'] 				= "You are going to remove this Deficiency Category. Press OK to proceed and Cancel to Go Back";
 
+$lang['add_deficiency_details']	    	= "Add Deficiency Details";
+$lang['edit_deficiency_details']		= "Edit Deficiency Details";
+$lang['delete_deficiency_details']		= "Delete Deficiency Details";
+$lang['deficiency_details_added'] 	    = "Deficiency Details Successfully Added.";
+$lang['deficiency_details_deleted'] 	= "Deficiency Details Successfully Deleted.";
+$lang['deficiency_details_updated'] 	= "Deficiency Details Successfully Updated.";
+$lang['details_code'] 					= "Code";
+$lang['details_name'] 					= "Deficiency Details";
+$lang['details_comment'] 				= "Comments";
+$lang['details_name_exist'] 			= "Deficiency Details name already exist.";
+$lang['list_details'] 				    = "List Of Deficiency Details";
+$lang['alert_x_details'] 				= "You are going to remove this Deficiency Details. Press OK to proceed and Cancel to Go Back";
+
+
 
 
 
