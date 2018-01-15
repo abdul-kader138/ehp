@@ -429,4 +429,176 @@ class Inspection extends MX_Controller
 
 
 
+    function deficiency_concern()
+    {
+
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+        $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $data['success_message'] = $this->session->flashdata('success_message');
+
+        $meta['page_title'] = $this->lang->line("list_concern");
+        $data['page_title'] = $this->lang->line("list_concern");
+        $this->load->view('commons/header', $meta);
+        $this->load->view('deficiency_concern', $data);
+        $this->load->view('commons/footer');
+    }
+
+    function getDataTableAjaxForConcernDetails()
+    {
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("concern_code,concern_name")
+            ->from("deficiency_concern")
+            ->add_column("Actions",
+                "<center><a href='index.php?module=inspection&amp;view=edit_deficiency_concern&amp;name=$1' class='tip' title='" . $this->lang->line("edit_deficiency_concern") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_deficiency_concern&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_concern') . "')\" class='tip' title='" . $this->lang->line("delete_deficiency_concern") . "'><i class=\"icon-remove\"></i></a></center>", "concern_code");
+        echo $this->datatables->generate();
+
+
+    }
+
+
+    function add_deficiency_concern()
+    {
+
+
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+        //validate form input
+        $this->form_validation->set_rules('code', $this->lang->line("concern_code"), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('name', $this->lang->line("concern_name"), 'required|min_length[3]|xss_clean');
+
+        if ($this->form_validation->run() == true) {
+            $name = $this->input->post('name');
+            $code = $this->input->post('code');
+
+        }
+        if ($this->inspection_model->getDeficiencyConcernByName(trim($name))) {
+            $this->session->set_flashdata('message', $this->lang->line("concern_name_exist"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=inspection', 'refresh');
+        }
+
+        if ($this->form_validation->run() == true) {
+            $inspection_concern_data = array();
+            if ($this->form_validation->run() == true) {
+                $inspection_concern_data = array('concern_code' => $code,
+                    'concern_name' => $name,
+                    'created_by' => USER_NAME,
+                    'created_date' => date('Y-m-d H:i:s')
+                );
+
+            }
+        }
+
+
+//
+        if ($this->form_validation->run() == true && $this->inspection_model->addDeficiencyConcern($inspection_concern_data)) { //check to see if we are creating the customer
+//            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("deficiency_concern_added"));
+            redirect("module=inspection&view=deficiency_concern", 'refresh');
+        } else { //display the create customer form
+            //set the flash data error message if there is one
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+            $meta['page_title'] = $this->lang->line("add_deficiency_concern");
+            $data['page_title'] = $this->lang->line("add_deficiency_concern");
+            $data['rnumber'] = $this->inspection_model->getRQNextAIForConcern();
+            $this->load->view('commons/header', $meta);
+            $this->load->view('add_deficiency_concern', $data);
+            $this->load->view('commons/footer');
+
+        }
+    }
+
+
+    function edit_deficiency_concern($name = NULL)
+
+    {
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+
+        //validate form input
+        $this->form_validation->set_rules('concern_code', $this->lang->line("concern_code"), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('concern_name', $this->lang->line("concern_name"), 'required|min_length[3]|xss_clean');
+
+        if ($this->form_validation->run() == true) {
+            $concern_code = $this->input->post('concern_code');
+            $concern_name = $this->input->post('concern_name');
+
+        }
+
+        if ($this->form_validation->run() == true) {
+
+            $data = array('concern_code' => $concern_code,
+                'concern_name' => $concern_name,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s')
+            );
+        }
+
+        if ($this->form_validation->run() == true && $this->inspection_model->updateDeficiencyConcern($name, $data)) { //check to see if we are updateing the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("deficiency_concern_updated"));
+            redirect("module=inspection&view=deficiency_concern", 'refresh');
+        } else { //display the update form
+            //set the flash data error message if there is one
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+
+            $data['deficiency'] = $this->inspection_model->getDeficiencyConcernByCode($name);
+            $data['name'] = $name;
+            $meta['page_title'] = $this->lang->line("edit_deficiency_concern");
+            $data['page_title'] = $this->lang->line("edit_deficiency_concern");
+            $this->load->view('commons/header', $meta);
+            $this->load->view('edit_deficiency_concern', $data);
+            $this->load->view('commons/footer');
+
+        }
+    }
+
+
+    function delete_deficiency_concern($name = NULL)
+    {
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+        if ($this->inspection_model->deleteDeficiencyConcern($name)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("deficiency_concern_deleted"));
+            redirect("module=inspection&view=deficiency_concern", 'refresh');
+        }
+
+    }
+
+
+
 }

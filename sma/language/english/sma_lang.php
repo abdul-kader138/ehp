@@ -926,6 +926,20 @@ $lang['alert_x_intake'] 				 = "You are going to remove this Client Intake. Pres
 
 
 
+$lang['add_deficiency_concern']		    = "Add Deficiency Concern";
+$lang['edit_deficiency_concern']		= "Edit Deficiency Concern";
+$lang['delete_deficiency_concern']		= "Delete Deficiency Concern";
+$lang['deficiency_concern_added'] 	    = "Deficiency Concern Successfully Added.";
+$lang['deficiency_concern_deleted'] 	= "Deficiency Concern Successfully Deleted.";
+$lang['deficiency_concern_updated'] 	= "Deficiency Concern Successfully Updated.";
+$lang['concern_code'] 					= "Deficiency Concern Code";
+$lang['concern_name'] 					= "Deficiency Concern";
+$lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";
+$lang['list_concern'] 				    = "List Of Deficiency Concern";
+$lang['alert_x_concern'] 				= "You are going to remove this Deficiency Concern. Press OK to proceed and Cancel to Go Back";
+
+
+
 $lang['add_deficiency_category']		= "Add Deficiency Category";
 $lang['edit_deficiency_category']		= "Edit Deficiency Category";
 $lang['delete_deficiency_category']		= "Delete Deficiency Category";

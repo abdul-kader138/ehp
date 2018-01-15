@@ -39,7 +39,7 @@ class Inspection_model extends CI_Model
     }
 
 
-    public function getDeficiencyCategoryBName($name)
+    public function getDeficiencyCategoryByName($name)
     {
         $q = $this->db->get_where('deficiency_category', array('category_name' => $name), 1);
         if ($q->num_rows() > 0) {
@@ -169,6 +169,70 @@ class Inspection_model extends CI_Model
         return FALSE;
     }
 
+
+    public function getDeficiencyConcernByName($name)
+    {
+        $q = $this->db->get_where('deficiency_concern', array('concern_name' => $name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
+
+
+    public function getDeficiencyConcernByCode($name)
+    {
+
+        $q = $this->db->get_where('deficiency_concern', array('concern_code' => $name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
+
+    public function getRQNextAIForConcern()
+    {
+        $this->db->select_max('id');
+        $q = $this->db->get('deficiency_concern');
+        if ($q->num_rows() > 0) {
+            $row = $q->row();
+            return "DC" . "-" . sprintf("%05s", $row->id + 1);
+        }
+
+        return FALSE;
+
+    }
+
+
+    public function addDeficiencyConcern($data)
+    {
+        if($this->db->insert('deficiency_concern', $data)) return true;
+        else return false;
+
+    }
+
+
+    public function updateDeficiencyConcern($name, $data = array())
+    {
+        $this->db->where('concern_code', $name);
+        if ($this->db->update("deficiency_concern", $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteDeficiencyConcern($name)
+    {
+        if ($this->db->delete("deficiency_concern", array('concern_code' => $name))) {
+            return true;
+        }
+        return FALSE;
+    }
 
 
 }

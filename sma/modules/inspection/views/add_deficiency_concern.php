@@ -10,11 +10,11 @@
 <p><?php echo $this->lang->line("enter_info"); ?></p>
 <?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=inspection&view=add_deficiency_concern", $attrib);?>
 <div class="control-group">
-    <label class="control-label" for="code"><?php echo $this->lang->line("category_code"); ?></label>
+    <label class="control-label" for="code"><?php echo $this->lang->line("details_code"); ?></label>
     <div class="controls"> <?php echo form_input('code', $rnumber, 'class="span4" id="code" readonly="readonly" required="required" pattern="[a-zA-Z0-9_-()]{2,12}" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
 </div>
 <div class="control-group">
-    <label class="control-label" for="name"><?php echo $this->lang->line("category_name"); ?></label>
+    <label class="control-label" for="name"><?php echo $this->lang->line("concern_name"); ?></label>
     <div class="controls"> <?php echo form_input('name', '', 'class="span4" id="name"  required="required" data-error="'.$this->lang->line("name").' '.$this->lang->line("is_required").'"');?> </div>
 </div>
 
