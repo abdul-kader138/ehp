@@ -235,4 +235,79 @@ class Inspection_model extends CI_Model
     }
 
 
+    public function getAllCustomers()
+    {
+        $q = $this->db->get('customers');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+    public function getAllBuildings()
+    {
+        $q = $this->db->get('building');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+
+    public function getRoomsNames($term)
+    {
+        $this->db->select('room_name')->limit('10');
+        $this->db->like('room_code', $term, 'both');
+        $q = $this->db->get('rooms');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+
+    public function getRoomByName($name)
+    {
+
+        $q = $this->db->get_where('rooms', array('room_name' => $name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+
+    }
+
+    public function getAllCategory()
+    {
+        $q = $this->db->get('deficiency_category');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
+
+    public function getAllConcern()
+    {
+        $q = $this->db->get('deficiency_concern');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+    }
 }

@@ -217,6 +217,11 @@
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="inspectionMenu">
                     <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=add_inspection">
+                            <?php echo $this->lang->line('add_invoice'); ?></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
                         <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_category"><?php echo $this->lang->line('list_category'); ?></a>
                     </li>
                     <li class="divider"></li>
@@ -228,6 +233,26 @@
                         <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_concern"><?php echo $this->lang->line('list_concern'); ?></a>
                     </li>
                     <li class="divider"></li>
+
+                </ul>
+            </li>
+
+            <li class="dropdown"><a class="showSubMenus" href="#salesMenu"><i
+                        class="icon-heart  icon-white"></i> <?php echo $this->lang->line('sales'); ?> <b
+                        class="caret"></b></a>
+                <ul class="nav nav-tabs nav-stacked sub-menu" id="salesMenu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=sales"><?php echo $this->lang->line('list_invoices'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=sales&amp;view=add">
+                            <?php echo $this->lang->line('add_invoice'); ?></a>
+                    </li>
+                    <li>
+                        <a href="
+            <?php echo base_url(); ?>index.php?module=sales&amp;view=deliveries">
+                            <?php echo $this->lang->line('list_deliveries'); ?></a>
+                    </li>
                 </ul>
             </li>
 

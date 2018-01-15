@@ -55,6 +55,67 @@ class Inspection extends MX_Controller
     }
 
 
+    function add_inspection(){
+
+        $groups = array('purchaser', 'viewer');
+        if ($this->ion_auth->in_group($groups)) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=sales', 'refresh');
+        }
+        $data['customers'] = $this->inspection_model->getAllCustomers();
+        $data['concerns'] = $this->inspection_model->getAllConcern();
+        $data['categories'] = $this->inspection_model->getAllCategory();
+        $data['buildingList'] = $this->inspection_model->getAllBuildings();
+        $meta['page_title'] = $this->lang->line("add_sale");
+        $data['page_title'] = $this->lang->line("add_sale");
+        $this->load->view('commons/header', $meta);
+        $this->load->view('add', $data);
+        $this->load->view('commons/footer');
+    }
+
+    function suggestions()
+    {
+        $term = $this->input->get('term', TRUE);
+
+        if (strlen($term) < 2) {
+            die();
+        }
+
+        $rows = $this->inspection_model->getRoomsNames($term);
+
+        $json_array = array();
+        foreach ($rows as $row)
+            array_push($json_array, $row->room_name);
+
+        echo json_encode($json_array);
+    }
+
+
+    function add_room()
+    {
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+
+        if ($item = $this->inspection_model->getRoomByName($name)) {
+
+            $code = $item->room_code;
+            $price =0;
+            $product_tax = 0;
+
+//            $tax_rate = $this->sales_model->getTaxRateByID($product_tax);
+            $tax_rate = 0;
+
+            $product = array('code' => $code, 'price' => $price, 'tax_rate' => $tax_rate);
+
+        }
+
+        echo json_encode($product);
+
+    }
+//
+
     function deficiency_category()
     {
 
