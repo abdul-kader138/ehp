@@ -12,155 +12,153 @@
         text-align: center !important;
     }
 
-/*    .select {*/
-/*        min-height: 26px !important;*/
-/*        height: 26px !important;*/
-/*        text-align: left !important;*/
-/*        background: url(*/<?php //echo $this->config->base_url(); ?>/*assets/img/darrow.png) no-repeat right transparent;*/
-/*    }*/
+    /*    .select {*/
+    /*        min-height: 26px !important;*/
+    /*        height: 26px !important;*/
+    /*        text-align: left !important;*/
+    /*        background: url(*/
+    <?php //echo $this->config->base_url(); ?>
+    /*assets/img/darrow.png) no-repeat right transparent;*/
+    /*    }*/
 </style>
 <script src="<?php echo $this->config->base_url(); ?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 <script type="text/javascript">
-    function setDeficiencyDescription(obj){
-        console.log(obj.id);
-        console.log($(obj).val());
-    }
-    $(document).ready(function () {
+var concern_id_div = 0;
+$(document).ready(function () {
 
 
+        $("#dyTable").on("click", '.del', function () {
+            var delID = $(this).attr('id');
+            row_id = $('#row_' + delID);
+            row_id.remove();
+            an--;
 
-            $("#dyTable").on("click", '.del', function () {
-                var delID = $(this).attr('id');
-                row_id = $('#row_'+delID);
-                row_id.remove();
-                an--;
+        });
 
-            });
+        $("#date").datepicker({
+            format: "<?php echo JS_DATE; ?>",
+            autoclose: true
+        });
 
-            $("#date").datepicker({
-                format: "<?php echo JS_DATE; ?>",
-                autoclose: true
-            });
+        $('#byTab a, #noteTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $('#byTab #select_by_name, #noteTab a:last').tab('show');
+        $("#date").datepicker({
+            format: "<?php echo JS_DATE; ?>",
+            autoclose: true
+        });
+        $("#date").datepicker("setDate", new Date());
+        $('form').form();
 
-            $('#byTab a, #noteTab a').click(function (e) {
+        $('#item_name').bind('keypress', function (e) {
+            if (e.keyCode == 13) {
                 e.preventDefault();
-                $(this).tab('show');
-            });
-            $('#byTab #select_by_name, #noteTab a:last').tab('show');
-            $("#date").datepicker({
-                format: "<?php echo JS_DATE; ?>",
-                autoclose: true
-            });
-            $("#date").datepicker("setDate", new Date());
-            $('form').form();
+                return false;
+            }
+        });
+        $("form").submit(function () {
+            if (an <= 1) {
+                alert("<?php echo $this->lang->line('no_invoice_item'); ?>");
+                return false;
+            }
+        });
 
-            $('#item_name').bind('keypress', function (e) {
-                if (e.keyCode == 13) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            $("form").submit(function () {
-                if (an <= 1) {
-                    alert("<?php echo $this->lang->line('no_invoice_item'); ?>");
-                    return false;
-                }
-            });
+        $("#add_options").draggable({refreshPositions: true});
+        var an = 0;
+        var count = 0;
+        $("#name").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "<?php echo site_url('module=inspection&view=suggestions'); ?>",
+                    data: {
+                <?php echo $this->security->get_csrf_token_name(); ?>:
+                "<?php echo $this->security->get_csrf_hash() ?>", term
+                :
+                $("#name").val()
+            },
+            dataType: "json",
+            type: "get",
+            success: function (data) {
+                response(data);
+            },
+            error: function (result) {
+                alert('<?php echo $this->lang->line('no_suggestions'); ?>');
+                $('.ui-autocomplete-input').removeClass("ui-autocomplete-loading");
+                $('#codes').val('');
+                return false;
+            }
+        });
+    },
+    minLength
+:
+2,
+    select
+:
+function (event, ui) {
+    $(this).removeClass('ui-autocomplete-loading');
 
-            $("#add_options").draggable({refreshPositions: true});
-            var an=0;
-            var count=0;
-            $("#name").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "<?php echo site_url('module=inspection&view=suggestions'); ?>",
-                        data: {
-                    <?php echo $this->security->get_csrf_token_name(); ?>:
-                    "<?php echo $this->security->get_csrf_hash() ?>", term
-                    :
-                    $("#name").val()
-                },
-                dataType: "json",
-                type: "get",
-                success: function (data) {
-                    response(data);
-                },
-                error: function (result) {
-                    alert('<?php echo $this->lang->line('no_suggestions'); ?>');
-                    $('.ui-autocomplete-input').removeClass("ui-autocomplete-loading");
-                    $('#codes').val('');
-                    return false;
-                }
-            });
-        },
-        minLength
-    :
-    2,
-        select
-    :
-    function (event, ui) {
-        $(this).removeClass('ui-autocomplete-loading');
-
-        if (an >=<?php echo TOTAL_ROWS; ?>) {
-            alert("You have reached the max item limit.");
-            return false;
-        }
-        if (count >= 200) {
-            alert("You have reached the max item limit.");
-            return false;
-        }
+    if (an >=<?php echo TOTAL_ROWS; ?>) {
+        alert("You have reached the max item limit.");
+        return false;
+    }
+    if (count >= 200) {
+        alert("You have reached the max item limit.");
+        return false;
+    }
 //        var item_code;
 //        var item_cost;
 //        var pr_tax;
-        var item_name = ui.item.label;
+    var item_name = ui.item.label;
 //        var wh_id = $("#warehouse_s").val();
 
-        console.log(item_name);
+    console.log(item_name);
 
-        $.ajax({
-            type: "get",
-            async: false,
-            url: "<?php echo $this->config->base_url(); ?>index.php?module=inspection&view=add_room",
-            data: {
-        <?php echo $this->security->get_csrf_token_name(); ?>:
-        "<?php echo $this->security->get_csrf_hash() ?>", name
-    :
-        item_name
-    }
-    ,
-    dataType: "json",
-        success
-    :
-    function (data) {
+    $.ajax({
+        type: "get",
+        async: false,
+        url: "<?php echo $this->config->base_url(); ?>index.php?module=inspection&view=add_room",
+        data: {
+    <?php echo $this->security->get_csrf_token_name(); ?>:
+    "<?php echo $this->security->get_csrf_hash() ?>", name
+:
+    item_name
+}
+,
+dataType: "json",
+    success
+:
+function (data) {
 
-        item_code = data.code;
-        item_cost = 0;
-        item_price = 0;
-        pr_tax =0;
+    item_code = data.code;
+    item_cost = 0;
+    item_price = 0;
+    pr_tax = 0;
 
-    }
-    ,
-    error: function () {
-        alert('<?php echo $this->lang->line('code_error'); ?>');
-        $('.ui-autocomplete-loading').removeClass("ui-autocomplete-loading");
-        item_name = false;
-    }
+}
+,
+error: function () {
+    alert('<?php echo $this->lang->line('code_error'); ?>');
+    $('.ui-autocomplete-loading').removeClass("ui-autocomplete-loading");
+    item_name = false;
+}
 
-    })
-    ;
+})
+;
 
-    if (item_name == false) {
-        $(this).val('');
-        return false;
-    }
-    var taxes = pr_tax;
+if (item_name == false) {
+    $(this).val('');
+    return false;
+}
+var taxes = pr_tax;
 
-    var newTr = $('<tr id="row_' + count + '"></tr>');
-    newTr.html('<td><input name="product' + count + '" type="hidden" value="' + item_code + '"><input class="span5 tran" name="item' + count + '" type="text" value="' + item_name.replace(/"/g, "&#034;").replace(/'/g, "&#039;") + ' (' + item_code + ')"></td><?php
+var newTr = $('<tr id="row_' + count + '"></tr>');
+newTr.html('<td><input name="product' + count + '" type="hidden" value="' + item_code + '"><input class="span5 tran" name="item' + count + '" type="text" value="' + item_name.replace(/"/g, "&#034;").replace(/'/g, "&#039;") + ' (' + item_code + ')"></td><?php
     echo '<td><input class="span2 tran2" name="serial\'+ count +\'" type="text" value=""></td>';
 if (DISCOUNT_OPTION == 2) {
-    echo '<td><select class="span4 select_search" onchange="setDeficiencyDescription(this);" data-placeholder="Select..." name="discount\' + item_code + \'" id="discount-\' + count + \'">';
+    echo '<td><select class="span4 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="Category\' + item_code + \'" id="\' + count + \'">';
     echo "<option>Select Deficiency Category</option>";
     foreach ($categories as $category) {
         echo "<option value=" . $category->category_code;
@@ -170,35 +168,82 @@ if (DISCOUNT_OPTION == 2) {
         echo ">" . $category->category_name . "</option>";
     }
     echo '</select></td>';
-} if (TAX1) {
-    ?><td><select class="input-block-level" data-placeholder="Select..." name="tax_rate' + count + '" id="tax_rate-' + count + '">' + taxes + '</select></td><?php }
-?><td><input class="input-block-level text-center" name="quantity' + count + '" type="text" value="1" id="quantity-' + count + '" onClick="this.select();"></td><td><input class="span2 tran" style="text-align:right;" name="unit_price' + count + '" id="price-' + count + '" type="text" value="' + item_price + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td>');
-    newTr.prependTo("#dyTable");
-
-    count++;
-    an++;
-    $("form select").chosen({
-        no_results_text: "<?php echo $this->lang->line('no_results_matched'); ?>",
-        disable_search_threshold: 5,
-        allow_single_deselect: true
-    });
-
-
-    },
-    close: function () {
-        $('#name').val('');
+}  echo '<td><select class="span4 select_search"  data-placeholder="Select..." name="Concern\' + item_code + \'" id="concern-\' + count + \'">';
+    echo "<option>Select Deficiency Concern</option>";
+    foreach ($concerns as $concern) {
+        echo "<option value=" . $concern->concern_code;
+        echo ">" . $concern->concern_name . "</option>";
     }
-    })
-    ;
+    echo '</select></td>';
+?><td id="details_'+count+'"><select class="span4 select_search" id="details_info"><option></option></select></td><td><input class="span2 tran" style="text-align:right;" name="unit_price' + count + '" id="price-' + count + '" type="text" value="' + item_price + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td>');
+newTr.prependTo("#dyTable");
 
-    })
-    ;
-    $(".show_hide").slideDown('slow');
+count++;
+an++;
+$("form select").chosen({
+    no_results_text: "<?php echo $this->lang->line('no_results_matched'); ?>",
+    disable_search_threshold: 5,
+    allow_single_deselect: true
+});
 
-    $('.show_hide').click(function () {
-        $(".item_name").slideToggle();
-    });
 
+},
+close: function () {
+    $('#name').val('');
+}
+})
+;
+
+})
+;
+$(".show_hide").slideDown('slow');
+
+$('.show_hide').click(function () {
+    $(".item_name").slideToggle();
+});
+
+
+//    $('#building_code').change(function () {
+function loadDetails(obj) {
+    var c = $(obj).find(":selected").val();
+    var concern_id = obj.id;
+    concern_id_div = $('#details_' + concern_id);
+    var v = $("#vendor_code").val();
+    $('#loading').show();
+    $.ajax({
+        type: "get",
+        async: false,
+        url: "index.php?module=inspection&view=getDetails",
+        data: {
+    <?php echo $this->security->get_csrf_token_name(); ?>:
+    "<?php echo $this->security->get_csrf_hash() ?>", vendor_id:v, category_code: c
+}
+,
+dataType:"html",
+    success
+:
+function (data) {
+    if (data != "") {
+        console.log(concern_id_div);
+        $('#details_' + concern_id).empty();
+        $('#details_' + concern_id).html(data);
+    } else {
+        (concern_id_div).empty();
+        var default_data = '<select name="details_code" class="select_search span4" id="details_code" data-placeholder="Select Details"></select>';
+        $(concern_id_div).html(default_data);
+    }
+}
+,
+error: function () {
+    bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
+    $('#loading').hide();
+}
+
+})
+;
+
+$('#loading').hide();
+}
 
 
 </script>
@@ -351,8 +396,10 @@ echo form_open("module=sales&view=add", $attrib); ?>
                     class="controls"> <?php echo form_input('dummy_ds', '', 'class="input-block-level text-right" id="tds" disabled'); ?>
                 </div>
             </div>
-        <?php }
-        if (TAX1) { ?>
+        <?php
+        }
+        if (TAX1) {
+            ?>
             <div class="control-group inverse" style="margin-bottom:5px;">
                 <label class="control-label"
                        style="cursor: default;"><?php echo $this->lang->line("product_tax"); ?></label>
@@ -361,8 +408,10 @@ echo form_open("module=sales&view=add", $attrib); ?>
                     class="controls"> <?php echo form_input('dummy_tax1', '', 'class="input-block-level text-right" id="ttax1" disabled'); ?>
                 </div>
             </div>
-        <?php }
-        if (TAX2) { ?>
+        <?php
+        }
+        if (TAX2) {
+            ?>
             <div class="control-group inverse" style="margin-bottom:5px;">
                 <label class="control-label"
                        style="cursor: default;"><?php echo $this->lang->line("invoice_tax"); ?></label>

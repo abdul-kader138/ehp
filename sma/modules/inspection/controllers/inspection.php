@@ -167,7 +167,7 @@ class Inspection extends MX_Controller
             $code = $this->input->post('code');
 
         }
-        if ($this->inspection_model->getDeficiencyCategoryBName(trim($name))) {
+        if ($this->inspection_model->getDeficiencyCategoryByName(trim($name))) {
             $this->session->set_flashdata('message', $this->lang->line("category_name_exist"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=inspection', 'refresh');
@@ -660,6 +660,22 @@ class Inspection extends MX_Controller
 
     }
 
+
+    function getDetails()
+    {
+        $category_code = $this->input->get('category_code', TRUE);
+
+        if ($rows = $this->inspection_model->getDetailsByID($category_code)) {
+            $ct[""] = '';
+            foreach ($rows as $detail) {
+                $ct[$detail->details_code] = $detail->details_name;
+            }
+            $data = form_dropdown('detail_code', $ct, '', 'class="span4 select_search" id="details_code" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
+        } else {
+            $data = "";
+        }
+        echo $data;
+    }
 
 
 }
