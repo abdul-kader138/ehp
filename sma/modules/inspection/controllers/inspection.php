@@ -63,15 +63,135 @@ class Inspection extends MX_Controller
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
             redirect('module=sales', 'refresh');
         }
-        $data['customers'] = $this->inspection_model->getAllCustomers();
-        $data['concerns'] = $this->inspection_model->getAllConcern();
-        $data['categories'] = $this->inspection_model->getAllCategory();
-        $data['buildingList'] = $this->inspection_model->getAllBuildings();
-        $meta['page_title'] = $this->lang->line("add_sale");
-        $data['page_title'] = $this->lang->line("add_sale");
-        $this->load->view('commons/header', $meta);
-        $this->load->view('add', $data);
-        $this->load->view('commons/footer');
+
+//        $this->form_validation->set_message('is_natural_no_zero', $this->lang->line("no_zero_required"));
+        //validate form input
+        $this->form_validation->set_rules('date', $this->lang->line("date"), 'required|xss_clean');
+        $this->form_validation->set_rules('customer', $this->lang->line("customer"), 'required|xss_clean');
+        $this->form_validation->set_rules('building_code', $this->lang->line("building_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('note', $this->lang->line("note"), 'xss_clean');
+//
+        $apt = "apt_";
+        $category = "category_";
+        $concern = "concern_";
+        $details = "detail_";
+        $weight = "weight_";
+        $comments = "comments_";
+
+//        if ($this->form_validation->run() == true) {
+            $date = $this->ion_auth->fsd(trim($this->input->post('date')));
+            $building_code = $this->input->post('building_code');
+            $customer_id = $this->input->post('customer');
+            $note = $this->ion_auth->clear_tags($this->input->post('note'));
+//
+            for ($i = 0; $i <= 500; $i++) {
+                if ($this->input->post($apt . $i) && $this->input->post($category . $i)) {
+//
+//                    $inv_quantity[] = $this->input->post($quantity . $i);
+//                    //$inv_product_code[] = $this->input->post($product.$i);
+                    $apt_id[] = $this->input->post($apt . $i);
+                    $category_id[] = $this->input->post($category . $i);
+                    $concern_id[] = $this->input->post($concern . $i);
+                    $details_id[] = $this->input->post($details . $i);
+                    $weight_id[] = $this->input->post($weight . $i);
+                    $comments_id[] = $this->input->post($comments . $i);
+//
+                }
+            }
+//
+//
+
+            $keys = array("apt_id", "category_id", "concern_id", "details_id", "weight_id", "comments_id");
+//
+            $items = array();
+            foreach (array_map(null, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id) as $key => $value) {
+                $items[] = array_combine($keys, $value);
+            }
+
+            var_dump($items);
+//
+//            if (DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) {
+//
+//                $ds_dts = $this->sales_model->getDiscountByID($inv_discount);
+//                $ds = $ds_dts->discount;
+//                $dsTp = $ds_dts->type;
+//
+//                if ($dsTp == 1 && $ds != 0) {
+//                    $val_discount = (($inv_total_no_tax + $total_tax) * $ds / 100);
+//                } else {
+//                    $val_discount = $ds;
+//                }
+//
+//            }
+//
+//            if (TAX2) {
+//                $tax_dts = $this->sales_model->getTaxRateByID($tax_rate2);
+//                $taxRt = $tax_dts->rate;
+//                $taxTp = $tax_dts->type;
+//                $t_ds = ($total_ds != 0) ? $total_ds : $val_discount;
+//                if ($taxTp == 1 && $taxRt != 0) {
+//                    $val_tax2 = (($inv_total_no_tax + $total_tax - $t_ds) * $taxRt / 100);
+//                } else {
+//                    $val_tax2 = $taxRt;
+//                }
+//
+//            } else {
+//                $val_tax2 = 0;
+//                $tax_rate2 = 0;
+//            }
+//
+//            if (DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) {
+//
+//                $ds_dts = $this->sales_model->getDiscountByID($inv_discount);
+//                $ds = $ds_dts->discount;
+//                $dsTp = $ds_dts->type;
+//
+//                if ($dsTp == 1 && $ds != 0) {
+//                    $val_discount = ((($inv_total_no_tax + $total_tax + $val_tax2) * $ds) / 100);
+//                } else {
+//                    $val_discount = $ds;
+//                }
+//
+//            } elseif (DISCOUNT_OPTION != 1) {
+//                $val_discount = $total_ds;
+//                $inv_discount = 0;
+//            }
+//
+//            $gTotal = $inv_total_no_tax + $total_tax + $val_tax2 - $val_discount;
+//
+//            $saleDetails = array('reference_no' => $reference_no,
+//                'date' => $date,
+//                'biller_id' => $biller_id,
+//                'biller_name' => $biller_name,
+//                'customer_id' => $customer_id,
+//                'customer_name' => $customer_name,
+//                'note' => $note,
+//                'internal_note' => $internal_note,
+//                'inv_total' => $inv_total_no_tax,
+//                'total_tax' => $total_tax,
+//                'total' => $gTotal,
+//                'total_tax2' => $val_tax2,
+//                'tax_rate2_id' => $tax_rate2,
+//                'inv_discount' => $val_discount,
+//                'discount_id' => $inv_discount,
+//                'user' => USER_NAME,
+//                'shipping' => $shipping,
+//                'paid' => $paid
+//            );
+//
+//        }else{
+            $data['customers'] = $this->inspection_model->getAllCustomers();
+            $data['concerns'] = $this->inspection_model->getAllConcern();
+            $data['categories'] = $this->inspection_model->getAllCategory();
+            $data['buildingList'] = $this->inspection_model->getAllBuildings();
+            $meta['page_title'] = 'Add Inspection Details';
+            $data['page_title'] = 'Add Inspection Details';;
+            $this->load->view('commons/header', $meta);
+            $this->load->view('add', $data);
+            $this->load->view('commons/footer');
+//        }
+//
+
     }
 
     function suggestions()
@@ -670,7 +790,7 @@ class Inspection extends MX_Controller
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }
-            $data = form_dropdown('detail_code', $ct, '', 'class="span4 select_search" id="details_code" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
+            $data = form_dropdown('detail_code', $ct, '', 'class="span12 select_search" id="details_code" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
         } else {
             $data = "";
         }
