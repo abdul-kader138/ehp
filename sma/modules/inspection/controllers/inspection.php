@@ -103,16 +103,16 @@ class Inspection extends MX_Controller
                     $details_id[] = $this->input->post($i);
                     $weight_id[] = $this->input->post($weight . $i);
                     $comments_id[] = $this->input->post($comments . $i);
-                    $inspection_code[] =$reference_no;
-                    $building_code_id[] =$building_code;
-                    $vendor_code_id[] =$customer_id;
-                    $date_id[] =$date;
-                    $create_user_id[] =USER_NAME;
-                    $create_date_id[] =date('Y-m-d H:i:s');
+                    $inspection_code[] = $reference_no;
+                    $building_code_id[] = $building_code;
+                    $vendor_code_id[] = $customer_id;
+                    $date_id[] = $date;
+                    $create_user_id[] = USER_NAME;
+                    $create_date_id[] = date('Y-m-d H:i:s');
                 }
             }
         }
-        $weight_val=array_sum($weight_id);
+        $weight_val = array_sum($weight_id);
         $inspection = array(
             'date' => $date,
             'building_code`' => $building_code,
@@ -125,10 +125,10 @@ class Inspection extends MX_Controller
             'created_date' => date('Y-m-d H:i:s'));
 
 
-        $keys = array("inspection_code","building_code","vendor_code","apartment_code", "category_id", "concern_id", "details_id", "weight", "comments_id",'date','created_by','created_date');
+        $keys = array("inspection_code", "building_code", "vendor_code", "apartment_code", "category_id", "concern_id", "details_id", "weight", "comments_id", 'date', 'created_by', 'created_date');
 //
         $items = array();
-        foreach (array_map(null, $inspection_code,$building_code_id,$vendor_code_id,$apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id,$date_id,$create_user_id,$date_id) as $key => $value) {
+        foreach (array_map(null, $inspection_code, $building_code_id, $vendor_code_id, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id, $date_id, $create_user_id, $date_id) as $key => $value) {
             $items[] = array_combine($keys, $value);
         }
 //        if ($this->form_validation->run() == true) { //check to see if we are creating the customer
@@ -161,11 +161,33 @@ class Inspection extends MX_Controller
         $this->datatables
             ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.total_deficiency,i.total_weight")
             ->from("inspection i")
-            ->join("customers c",'i.vendor_code = c.id', 'left')
+            ->join("customers c", 'i.vendor_code = c.id', 'left')
             ->group_by('i.inspection_code')
             ->add_column("Actions",
-                "<center><a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+                "<center><a href='#' onClick=\"MyWindow=window.open('index.php?module=inspection&view=view_details&id=$1', 'MyWindow','toolbar=0,location=0,directories=0,status=0,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;\" title='" . $this->lang->line("view_details") . "' class='tip'><i class='icon-fullscreen'></i></a><a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
         echo $this->datatables->generate();
+
+    }
+
+    function view_details($id = NULL)
+    {
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+//        $inv = $this->inventories_model->getInventoryFromPOByPurchaseID($purchase_id);
+
+        $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
+        $vendor_id = $data['rows'][0]->vendor_code;
+        $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
+
+//        var_dump($data['rows']);
+//        $data['inv'] = $inv;
+//        $data['pid'] = $purchase_id;
+        $data['page_title'] = $this->lang->line("inventory");
+
+        $this->load->view('view_details', $data);
 
     }
 
@@ -763,7 +785,7 @@ class Inspection extends MX_Controller
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }
-            $data = form_dropdown('detail_'+$details_id, $ct, '', 'class="span12 select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
+            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
         } else {
             $data = "";
         }

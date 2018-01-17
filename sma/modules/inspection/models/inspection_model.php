@@ -357,4 +357,37 @@ class Inspection_model extends CI_Model
         return false;
     }
 
+    public function getCustomerByID($id)
+    {
+
+        $q = $this->db->get_where('customers', array('id' => $id), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+
+    }
+
+    public function getAllInspectionDetails($id)
+
+    {
+        $this->db->select('idc.date,idc.inspection_code,idc.apartment_code,idc.building_code,idc.vendor_code,idc.weight,idc.comments_id,dcn.concern_name,dca.category_name,dcd.details_name,idc.comments_id,c.name');
+        $this->db->from('inspection_details idc');
+        $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
+        $this->db->join('deficiency_category dca', 'idc.category_id = dca.category_code', 'left');
+        $this->db->join('deficiency_details dcd', 'idc.details_id = dcd.details_code', 'left');
+        $this->db->join('customers c', 'idc.vendor_code = c.id', 'left');
+        $this->db->where('idc.inspection_code', $id);
+        $this->db->order_by('idc.inspection_code', 'asc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $value[] = $row;
+            }
+            return $value;
+        }
+    }
+
+
 }
