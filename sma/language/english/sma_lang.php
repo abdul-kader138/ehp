@@ -968,6 +968,20 @@ $lang['alert_x_details'] 				= "You are going to remove this Deficiency Details.
 
 
 
+$lang['add_inspection']		            = "Add Inspection";
+$lang['edit_inspection']		        = "Edit Inspection";
+$lang['delete_inspection']		        = "Delete Inspection";
+$lang['inspection_added']        	    = "Inspection Successfully Added.";
+$lang['inspection_edited']        	    = "Inspection Successfully Edited.";
+$lang['inspection_deleted']        	    = "Inspection Successfully Deleted.";
+$lang['inspection_code'] 			    = "Inspection Code";
+$lang['total_deficiency'] 		    	= "Total Deficiency";
+$lang['total_weight'] 		    	    = "Total Weight";
+$lang['concern_name'] 					= "Deficiency Concern";
+$lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";
+$lang['list_concern'] 				    = "List Of Deficiency Concern";
+$lang['alert_x_concern'] 				= "You are going to remove this Deficiency Concern. Press OK to proceed and Cancel to Go Back";
+
 
 
 

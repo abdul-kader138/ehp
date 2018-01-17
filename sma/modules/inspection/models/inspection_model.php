@@ -33,7 +33,7 @@ class Inspection_model extends CI_Model
 
     public function addDeficiencyCategory($data)
     {
-        if($this->db->insert('deficiency_category', $data)) return true;
+        if ($this->db->insert('deficiency_category', $data)) return true;
         else return false;
 
     }
@@ -48,7 +48,6 @@ class Inspection_model extends CI_Model
 
         return FALSE;
     }
-
 
 
     public function getDeficiencyCategoryByCode($name)
@@ -70,6 +69,19 @@ class Inspection_model extends CI_Model
         if ($q->num_rows() > 0) {
             $row = $q->row();
             return "DC" . "-" . sprintf("%05s", $row->id + 1);
+        }
+
+        return FALSE;
+
+    }
+
+    public function getRQNextAIInspection()
+    {
+        $this->db->select_max('id');
+        $q = $this->db->get('inspection');
+        if ($q->num_rows() > 0) {
+            $row = $q->row();
+            return "IC" . "-" . sprintf("%07s", $row->id + 1);
         }
 
         return FALSE;
@@ -111,7 +123,7 @@ class Inspection_model extends CI_Model
 
     public function addDeficiencyDetails($data)
     {
-        if($this->db->insert('deficiency_details', $data)) return true;
+        if ($this->db->insert('deficiency_details', $data)) return true;
         else return false;
 
     }
@@ -181,7 +193,6 @@ class Inspection_model extends CI_Model
     }
 
 
-
     public function getDeficiencyConcernByCode($name)
     {
 
@@ -210,7 +221,7 @@ class Inspection_model extends CI_Model
 
     public function addDeficiencyConcern($data)
     {
-        if($this->db->insert('deficiency_concern', $data)) return true;
+        if ($this->db->insert('deficiency_concern', $data)) return true;
         else return false;
 
     }
@@ -327,6 +338,23 @@ class Inspection_model extends CI_Model
         return FALSE;
     }
 
+    public function addInspection($inspection, $inspectionDetails)
+    {
+        if ($this->db->insert('inspection', $inspection)) {
+            $id = $this->db->insert_id();
+            $addOn = array('inspection_id' => $id);
+            end($addOn);
+            foreach ($inspectionDetails as &$var) {
+                $var = array_merge($addOn, $var);
+            }
 
+            if ($this->db->insert_batch('inspection_details', $inspectionDetails)) {
+                return true;
+            }
+            return true;
+        }
+
+        return false;
+    }
 
 }

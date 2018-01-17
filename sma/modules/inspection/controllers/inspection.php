@@ -52,16 +52,23 @@ class Inspection extends MX_Controller
             redirect('module=home', 'refresh');
         }
 
+        $meta['page_title'] = $this->lang->line("list_details");
+        $data['page_title'] = $this->lang->line("list_details");
+        $this->load->view('commons/header', $meta);
+        $this->load->view('inspection', $data);
+        $this->load->view('commons/footer');
+
     }
 
 
-    function add_inspection(){
+    function add_inspection()
+    {
 
         $groups = array('purchaser', 'viewer');
         if ($this->ion_auth->in_group($groups)) {
             $this->session->set_flashdata('message', $this->lang->line("access_denied"));
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-            redirect('module=sales', 'refresh');
+            redirect('module=home', 'refresh');
         }
 
 //        $this->form_validation->set_message('is_natural_no_zero', $this->lang->line("no_zero_required"));
@@ -69,128 +76,96 @@ class Inspection extends MX_Controller
         $this->form_validation->set_rules('date', $this->lang->line("date"), 'required|xss_clean');
         $this->form_validation->set_rules('customer', $this->lang->line("customer"), 'required|xss_clean');
         $this->form_validation->set_rules('building_code', $this->lang->line("building_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('reference_no', $this->lang->line("inspection_code"), 'required|xss_clean');
         $this->form_validation->set_rules('note', $this->lang->line("note"), 'xss_clean');
 //
         $apt = "apt_";
         $category = "category_";
         $concern = "concern_";
-        $details = "detail_";
         $weight = "weight_";
         $comments = "comments_";
 
-//        if ($this->form_validation->run() == true) {
+        if ($this->form_validation->run() == true) {
             $date = $this->ion_auth->fsd(trim($this->input->post('date')));
             $building_code = $this->input->post('building_code');
+            $reference_no = $this->input->post('reference_no');
             $customer_id = $this->input->post('customer');
             $note = $this->ion_auth->clear_tags($this->input->post('note'));
 //
-            for ($i = 0; $i <= 500; $i++) {
+            $count = 0;
+            $weight_val = 0;
+            for ($i = 0; $i <= 200; $i++) {
                 if ($this->input->post($apt . $i) && $this->input->post($category . $i)) {
-//
-//                    $inv_quantity[] = $this->input->post($quantity . $i);
-//                    //$inv_product_code[] = $this->input->post($product.$i);
+                    $count++;
                     $apt_id[] = $this->input->post($apt . $i);
                     $category_id[] = $this->input->post($category . $i);
                     $concern_id[] = $this->input->post($concern . $i);
-                    $details_id[] = $this->input->post($details . $i);
+                    $details_id[] = $this->input->post($i);
                     $weight_id[] = $this->input->post($weight . $i);
                     $comments_id[] = $this->input->post($comments . $i);
-//
+                    $inspection_code[] =$reference_no;
+                    $building_code_id[] =$building_code;
+                    $vendor_code_id[] =$customer_id;
+                    $date_id[] =$date;
+                    $create_user_id[] =USER_NAME;
+                    $create_date_id[] =date('Y-m-d H:i:s');
                 }
             }
-//
-//
+        }
+        $weight_val=array_sum($weight_id);
+        $inspection = array(
+            'date' => $date,
+            'building_code`' => $building_code,
+            'vendor_code' => $customer_id,
+            'inspection_code' => $reference_no,
+            'note' => $note,
+            'total_weight' => $weight_val,
+            'total_deficiency' => $count,
+            'created_by' => USER_NAME,
+            'created_date' => date('Y-m-d H:i:s'));
 
-            $keys = array("apt_id", "category_id", "concern_id", "details_id", "weight_id", "comments_id");
-//
-            $items = array();
-            foreach (array_map(null, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id) as $key => $value) {
-                $items[] = array_combine($keys, $value);
-            }
 
-            var_dump($items);
+        $keys = array("inspection_code","building_code","vendor_code","apartment_code", "category_id", "concern_id", "details_id", "weight", "comments_id",'date','created_by','created_date');
 //
-//            if (DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) {
-//
-//                $ds_dts = $this->sales_model->getDiscountByID($inv_discount);
-//                $ds = $ds_dts->discount;
-//                $dsTp = $ds_dts->type;
-//
-//                if ($dsTp == 1 && $ds != 0) {
-//                    $val_discount = (($inv_total_no_tax + $total_tax) * $ds / 100);
-//                } else {
-//                    $val_discount = $ds;
-//                }
-//
-//            }
-//
-//            if (TAX2) {
-//                $tax_dts = $this->sales_model->getTaxRateByID($tax_rate2);
-//                $taxRt = $tax_dts->rate;
-//                $taxTp = $tax_dts->type;
-//                $t_ds = ($total_ds != 0) ? $total_ds : $val_discount;
-//                if ($taxTp == 1 && $taxRt != 0) {
-//                    $val_tax2 = (($inv_total_no_tax + $total_tax - $t_ds) * $taxRt / 100);
-//                } else {
-//                    $val_tax2 = $taxRt;
-//                }
-//
-//            } else {
-//                $val_tax2 = 0;
-//                $tax_rate2 = 0;
-//            }
-//
-//            if (DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) {
-//
-//                $ds_dts = $this->sales_model->getDiscountByID($inv_discount);
-//                $ds = $ds_dts->discount;
-//                $dsTp = $ds_dts->type;
-//
-//                if ($dsTp == 1 && $ds != 0) {
-//                    $val_discount = ((($inv_total_no_tax + $total_tax + $val_tax2) * $ds) / 100);
-//                } else {
-//                    $val_discount = $ds;
-//                }
-//
-//            } elseif (DISCOUNT_OPTION != 1) {
-//                $val_discount = $total_ds;
-//                $inv_discount = 0;
-//            }
-//
-//            $gTotal = $inv_total_no_tax + $total_tax + $val_tax2 - $val_discount;
-//
-//            $saleDetails = array('reference_no' => $reference_no,
-//                'date' => $date,
-//                'biller_id' => $biller_id,
-//                'biller_name' => $biller_name,
-//                'customer_id' => $customer_id,
-//                'customer_name' => $customer_name,
-//                'note' => $note,
-//                'internal_note' => $internal_note,
-//                'inv_total' => $inv_total_no_tax,
-//                'total_tax' => $total_tax,
-//                'total' => $gTotal,
-//                'total_tax2' => $val_tax2,
-//                'tax_rate2_id' => $tax_rate2,
-//                'inv_discount' => $val_discount,
-//                'discount_id' => $inv_discount,
-//                'user' => USER_NAME,
-//                'shipping' => $shipping,
-//                'paid' => $paid
-//            );
-//
-//        }else{
+        $items = array();
+        foreach (array_map(null, $inspection_code,$building_code_id,$vendor_code_id,$apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id,$date_id,$create_user_id,$date_id) as $key => $value) {
+            $items[] = array_combine($keys, $value);
+        }
+//        if ($this->form_validation->run() == true) { //check to see if we are creating the customer
+
+//            var_dump($items);
+        if ($this->form_validation->run() == true && $this->inspection_model->addInspection($inspection, $items)) { //check to see if we are creating the customer
+//            redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
+            redirect("module=inspection", 'refresh');
+        } else {
             $data['customers'] = $this->inspection_model->getAllCustomers();
             $data['concerns'] = $this->inspection_model->getAllConcern();
             $data['categories'] = $this->inspection_model->getAllCategory();
             $data['buildingList'] = $this->inspection_model->getAllBuildings();
-            $meta['page_title'] = 'Add Inspection Details';
-            $data['page_title'] = 'Add Inspection Details';;
+            $data['ref'] = $this->inspection_model->getRQNextAIInspection();
+//            $meta['page_title'] = 'Add Inspection Details';
+            $meta['page_title'] = 'Add Sales';
+            $data['page_title'] = 'Add Sales';;
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
-//        }
-//
+        }
+
+    }
+
+    function getDataTableAjaxForInspection()
+    {
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.total_deficiency,i.total_weight")
+            ->from("inspection i")
+            ->join("customers c",'i.vendor_code = c.id', 'left')
+            ->group_by('i.inspection_code')
+            ->add_column("Actions",
+                "<center><a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+        echo $this->datatables->generate();
 
     }
 
@@ -221,7 +196,7 @@ class Inspection extends MX_Controller
         if ($item = $this->inspection_model->getRoomByName($name)) {
 
             $code = $item->room_code;
-            $price =0;
+            $price = 0;
             $product_tax = 0;
 
 //            $tax_rate = $this->sales_model->getTaxRateByID($product_tax);
@@ -234,6 +209,7 @@ class Inspection extends MX_Controller
         echo json_encode($product);
 
     }
+
 //
 
     function deficiency_category()
@@ -419,7 +395,6 @@ class Inspection extends MX_Controller
     }
 
 
-
     function deficiency_details()
     {
 
@@ -445,7 +420,7 @@ class Inspection extends MX_Controller
         $this->datatables
             ->select("deficiency_details.details_code as code,deficiency_details.details_name,deficiency_category.category_name,deficiency_details.details_comment")
             ->from("deficiency_details")
-            ->join("deficiency_category" ,'deficiency_details.category_code = deficiency_category.category_code', 'left')
+            ->join("deficiency_category", 'deficiency_details.category_code = deficiency_category.category_code', 'left')
             ->add_column("Actions",
                 "<center><a href='index.php?module=inspection&amp;view=edit_deficiency_details&amp;name=$1' class='tip' title='" . $this->lang->line("edit_deficiency_details") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_deficiency_details&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_details') . "')\" class='tip' title='" . $this->lang->line("delete_deficiency_details") . "'><i class=\"icon-remove\"></i></a></center>", "code");
         echo $this->datatables->generate();
@@ -498,7 +473,6 @@ class Inspection extends MX_Controller
         }
 
 
-
 //
         if ($this->form_validation->run() == true && $this->inspection_model->addDeficiencyDetails($inspection_details_data)) { //check to see if we are creating the customer
 //            //redirect them back to the admin page
@@ -518,7 +492,6 @@ class Inspection extends MX_Controller
 
         }
     }
-
 
 
     function edit_deficiency_details($name = NULL)
@@ -607,7 +580,6 @@ class Inspection extends MX_Controller
         }
 
     }
-
 
 
     function deficiency_concern()
@@ -784,13 +756,14 @@ class Inspection extends MX_Controller
     function getDetails()
     {
         $category_code = $this->input->get('category_code', TRUE);
+        $details_id = $this->input->get('details_id', TRUE);
 
         if ($rows = $this->inspection_model->getDetailsByID($category_code)) {
             $ct[""] = '';
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }
-            $data = form_dropdown('detail_code', $ct, '', 'class="span12 select_search" id="details_code" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
+            $data = form_dropdown('detail_'+$details_id, $ct, '', 'class="span12 select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
         } else {
             $data = "";
         }
