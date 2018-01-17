@@ -982,7 +982,8 @@ $lang['inspection_date'] 				= "Inspection Date";
 $lang['print_date'] 			    	= "Printing Date";
 $lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";
-$lang['list_concern'] 				    = "List Of Deficiency Concern";
+$lang['inspection_details'] 		    = "Inspection_Details";
+$lang['list_inspection'] 				= "List Of Inspection Details";
 $lang['alert_x_concern'] 				= "You are going to remove this Deficiency Concern. Press OK to proceed and Cancel to Go Back";
 
 

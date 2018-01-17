@@ -52,8 +52,8 @@ class Inspection extends MX_Controller
             redirect('module=home', 'refresh');
         }
 
-        $meta['page_title'] = $this->lang->line("list_details");
-        $data['page_title'] = $this->lang->line("list_details");
+        $meta['page_title'] = $this->lang->line("list_inspection");
+        $data['page_title'] = $this->lang->line("list_inspection");
         $this->load->view('commons/header', $meta);
         $this->load->view('inspection', $data);
         $this->load->view('commons/footer');
@@ -144,9 +144,9 @@ class Inspection extends MX_Controller
             $data['categories'] = $this->inspection_model->getAllCategory();
             $data['buildingList'] = $this->inspection_model->getAllBuildings();
             $data['ref'] = $this->inspection_model->getRQNextAIInspection();
-//            $meta['page_title'] = 'Add Inspection Details';
-            $meta['page_title'] = 'Add Sales';
-            $data['page_title'] = 'Add Sales';;
+            $meta['page_title'] = 'Add Inspection Details';
+            $meta['page_title'] = 'Add Inspection Details';
+//            $data['page_title'] = 'Add Sales';;
             $this->load->view('commons/header', $meta);
             $this->load->view('add', $data);
             $this->load->view('commons/footer');
@@ -235,7 +235,7 @@ class Inspection extends MX_Controller
         $html = str_replace($search, $replace, $html);
 
 
-        $name = $this->lang->line("inventory") . "-" . $inv->id . ".pdf";
+        $name = $this->lang->line("inspection_details") . "-" . $data['rows'][0]->inspection_code . ".pdf";
 
         $mpdf->WriteHTML($html);
 
