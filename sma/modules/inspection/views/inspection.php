@@ -68,7 +68,7 @@
         <th><?php echo $this->lang->line("building_code"); ?></th>
         <th><?php echo $this->lang->line("total_deficiency"); ?></th>
         <th><?php echo $this->lang->line("total_weight"); ?></th>
-        <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
+        <th style="width:200px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>

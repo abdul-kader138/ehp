@@ -164,7 +164,10 @@ class Inspection extends MX_Controller
             ->join("customers c", 'i.vendor_code = c.id', 'left')
             ->group_by('i.inspection_code')
             ->add_column("Actions",
-                "<center><a href='#' onClick=\"MyWindow=window.open('index.php?module=inspection&view=view_details&id=$1', 'MyWindow','toolbar=0,location=0,directories=0,status=0,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;\" title='" . $this->lang->line("view_details") . "' class='tip'><i class='icon-fullscreen'></i></a><a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+                "<center><a href='#' onClick=\"MyWindow=window.open('index.php?module=inspection&view=view_details&id=$1', 'MyWindow','toolbar=0,location=0,directories=0,status=0,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;\" title='" . $this->lang->line("view_details") . "' class='tip'><i class='icon-fullscreen'></i></a>
+                 <a href='index.php?module=inspection&view=details_pdf&id=$1' title='Print Details' class='tip'><i class='icon-download'></i></a>
+                 <a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a>
+                <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
         echo $this->datatables->generate();
 
     }
@@ -188,6 +191,57 @@ class Inspection extends MX_Controller
         $data['page_title'] = $this->lang->line("inventory");
 
         $this->load->view('view_details', $data);
+
+    }
+
+
+    function details_pdf()
+    {
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+//        $inv = $this->inventories_model->getInventoryFromPOByPurchaseID($purchase_id);
+
+        $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
+        $vendor_id = $data['rows'][0]->vendor_code;
+        $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
+
+//        var_dump($data['rows']);
+//        $data['inv'] = $inv;
+//        $data['pid'] = $purchase_id;
+        $data['page_title'] = $this->lang->line("inventory");
+
+        $html = $this->load->view('view_details', $data, TRUE);
+
+
+        $this->load->library('MPDF/mpdf');
+
+        $mpdf = new mPDF('utf-8', 'A4', '12', '', 10, 10, 10, 10, 9, 9);
+        $mpdf->useOnlyCoreFonts = true;
+        $mpdf->SetProtection(array('print'));
+        $mpdf->SetTitle(SITE_NAME);
+        $mpdf->SetAuthor(SITE_NAME);
+        $mpdf->SetCreator(SITE_NAME);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetAutoFont();
+        $stylesheet = file_get_contents('assets/css/bootstrap-' . THEME . '.css');
+        $mpdf->WriteHTML($stylesheet, 1);
+
+        $search = array("<div class=\"row-fluid\">", "<div class=\"span6\">");
+        $replace = array("<div style='width: 100%;'>", "<div style='width: 48%; float: left;'>");
+        $html = str_replace($search, $replace, $html);
+
+
+        $name = $this->lang->line("inventory") . "-" . $inv->id . ".pdf";
+
+        $mpdf->WriteHTML($html);
+
+        $mpdf->Output($name, 'D');
+
+        exit;
 
     }
 
