@@ -29,22 +29,30 @@
     </div>
     <div class="row-fluid">
         <div class="span6">
-           <h3><?php echo $customer->name; ?></h3>
+            <h3><?php echo $customer->name; ?></h3>
+
             <p style="text-align: left"> <?php echo $customer->address . ",<br />" . $customer->city . ", " . $customer->postal_code . ", " . $customer->city . ",<br />" . $customer->state; ?></p>
+
             <p style="text-align: left"><?php echo $this->lang->line("tel") . ": " . $customer->phone . "<br />" . $this->lang->line("email") . ": " . $customer->email; ?></p>
         </div>
 
         <div class="span6">
             <p style="font-weight:bold; text-align:right"><?php echo $this->lang->line("inspection_code"); ?>
-                    : <?php echo $rows[0]->inspection_code; ?></p>
+                : <?php echo $rows[0]->inspection_code; ?></p>
+
             <p style="text-align:right"><?php echo $this->lang->line("inspection_date"); ?>
-                    : <?php echo $rows[0]->date; ?></p>
+                : <?php echo $rows[0]->date; ?></p>
+
             <p style="text-align:right"><?php echo $this->lang->line("print_date"); ?>
-                    : <?php echo date('Y-m-d'); ?></p>
+                : <?php echo date('Y-m-d'); ?></p>
         </div>
         <div style="clear: both;"></div>
     </div>
     <p>&nbsp;</p>
+    <?php
+    $grandTotal = 0;
+    $taxTotal = 0;
+    ?>
     <table class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
 
         <thead>
@@ -65,8 +73,7 @@
 
         <tbody>
 
-        <?php $grandTotal = 0;
-        $taxTotal = 0;
+        <?php
         $r = 1;
         foreach ($rows as $row): ?>
             <tr>
@@ -86,31 +93,71 @@
             $total++;
         endforeach;
         ?>
+        </tbody>
+
+    </table>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </div>
+    </div>
+
+    <table class="table table-condensed" style="margin-bottom: 5px;">
+
+        <thead>
+
         <tr>
-            <td colspan="8" style="text-align:right; padding-right:10px;">
-                <b><?php echo $this->lang->line("total_weight"); ?></b></td>
-            <td style="text-align:middle; padding-right:10px;"><?php echo $grandTotal; ?></td>
+            <th style="padding-left:5px;">&nbsp;&nbsp;&nbsp;</th>
+            <th style="padding-left:5px;">Weighted <br/>Deficiencies</th>
+            <?php
+            foreach ($concern_weights as $concern_weight): ?>
+                <th style="padding-left:5px;"><?php echo $concern_weight->concern_name; ?> </th>
+            <?php endforeach; ?>
+            <th style="padding-left:5px;">Total<br/>Deficiencies</th>
         </tr>
+
+        </thead>
+
+        <tbody>
         <tr>
-            <td colspan="8" style="text-align:right; padding-right:10px;">
-                <b><?php echo $this->lang->line("total_deficiency"); ?></b></td>
-            <td style="text-align:middle; padding-right:10px;"><?php echo $total; ?></td>
+            <td style="vertical-align:middle; text-align: center;">Current Deficiencies</td>
+            <td style="vertical-align:middle;text-align: center;"> <?php echo $grandTotal; ?></td>
+
+            <?php
+            $r = 1;
+            foreach ($concern_weights as $concern_weight): ?>
+                <td style="vertical-align:middle;text-align: center;"><?php echo $concern_weight->count; ?></td>
+            <?php
+            endforeach;
+            ?>
+
+            <td style="vertical-align:middle;text-align: center;"><?php echo $total; ?></td>
         </tr>
+
         </tbody>
 
     </table>
     <div style="clear: both;"></div>
-    <div style="clear: both;"></div>
 
     <div class="row-fluid">
-        <div class="span5">
-            <p>&nbsp;</p>
-
-            <p>&nbsp;</p>
-
-            <p style="border-bottom: 1px solid #666;">&nbsp;</p>
-
-            <p><?php echo $this->lang->line("signature") . " &amp; " . $this->lang->line("stamp");; ?></p>
+        <div class="span12">
+            <br/>
+            <br/>
+            <p><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies : <?php echo ($grandTotal/$total);?></b></p>
+            <p><b>Outcome:
+                    <?php
+                    if(($grandTotal/$total) ==0 )
+                    echo "Very Good";
+                    if(($grandTotal/$total) >=0.1 &&  ($grandTotal/$total) <=3.0)
+                        echo "Goc";
+                    if(($grandTotal/$total) >3.0 &&  ($grandTotal/$total) <=5.0)
+                        echo "Satisfactory";
+                    if(($grandTotal/$total) >10)
+                        echo "Unacceptable";
+                    ?>
+                </b></p>
+            <br/>
         </div>
     </div>
 

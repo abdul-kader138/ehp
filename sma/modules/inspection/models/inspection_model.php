@@ -389,5 +389,22 @@ class Inspection_model extends CI_Model
         }
     }
 
+    public function getAllConcernAndWeight($id)
+
+    {
+        $this->db->select('COUNT(concern_name) as count,concern_name');
+        $this->db->from('inspection_details idc');
+        $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
+        $this->db->where('idc.inspection_code', $id);
+        $this->db->group_by('idc.inspection_code,idc.concern_id');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $value[] = $row;
+            }
+            return $value;
+        }
+    }
+
 
 }

@@ -182,14 +182,11 @@ class Inspection extends MX_Controller
 //        $inv = $this->inventories_model->getInventoryFromPOByPurchaseID($purchase_id);
 
         $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
+        $data['concern_weights']=$this->inspection_model->getAllConcernAndWeight($id);
         $vendor_id = $data['rows'][0]->vendor_code;
         $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
 
-//        var_dump($data['rows']);
-//        $data['inv'] = $inv;
-//        $data['pid'] = $purchase_id;
-        $data['page_title'] = $this->lang->line("inventory");
-
+        $data['page_title'] = "Inspection Details";
         $this->load->view('view_details', $data);
 
     }
@@ -209,11 +206,8 @@ class Inspection extends MX_Controller
         $vendor_id = $data['rows'][0]->vendor_code;
         $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
 
-//        var_dump($data['rows']);
-//        $data['inv'] = $inv;
-//        $data['pid'] = $purchase_id;
         $data['page_title'] = $this->lang->line("inventory");
-
+        $data['concern_weights']=$this->inspection_model->getAllConcernAndWeight($id);
         $html = $this->load->view('view_details', $data, TRUE);
 
 
