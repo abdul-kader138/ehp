@@ -209,28 +209,33 @@ class Inspection extends MX_Controller
 
     }
 
-    function upload_image()
+    function upload_image($id = NULL)
     {
 
         $this->form_validation->set_rules('inspection_image', 'Inspection Image', 'xss_clean');
 
 
 //        https://gist.github.com/zitoloco/1558423
-
-        if ($this->form_validation->run() == true) {
-
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
 
             $this->load->library('upload_photo');
-            $number_of_files_uploaded = count($_FILES['inspection_image']['name']);
-            var_dump($number_of_files_uploaded);
+        if ($this->form_validation->run() == true) {
             $num = 0;
+            $number_of_files_uploaded = count($_FILES['inspection_image']['name']);
             // Faking upload calls to $_FILE
-            for ($i = 0; $i < $number_of_files_uploaded; $i++) :
-                $_FILES['inspection_image']['name'] = $_FILES['upl_files']['name'][$i];
-                $_FILES['inspection_image']['type'] = $_FILES['upl_files']['type'][$i];
-                $_FILES['inspection_image']['tmp_name'] = $_FILES['upl_files']['tmp_name'][$i];
-                $_FILES['inspection_image']['error'] = $_FILES['upl_files']['error'][$i];
-                $_FILES['inspection_image']['size'] = $_FILES['upl_files']['size'][$i];
+            for ($i = 0; $i < $number_of_files_uploaded; $i++) {
+//                var_dump($config);
+                $_FILES['userfile']['name'] = $_FILES['inspection_image']['name'][$i];
+                $_FILES['userfile']['type'] = $_FILES['inspection_image']['type'][$i];
+                $_FILES['userfile']['tmp_name'] = $_FILES['inspection_image']['tmp_name'][$i];
+                $_FILES['userfile']['error'] = $_FILES['inspection_image']['error'][$i];
+                $_FILES['userfile']['size'] = $_FILES['inspection_image']['size'][$i];
+//                if (!is_dir('assets/img/inspection/'.$id)) {
+//                    mkdir('assets/img/inspection/' . $id, 0777, TRUE);
+//
+//                }
                 $config = array(
                     'file_name' => 'test' . $num++,
                     'allowed_types' => 'jpg|jpeg|png|gif',
@@ -242,19 +247,17 @@ class Inspection extends MX_Controller
                     => 'assets/img/'
                 );
                 $this->upload_photo->initialize($config);
-                if ($this->input->get('id')) {
-                    $id = $this->input->get('id');
-                }
+
                 $data['id'] = $id;
-                if (!$this->upload_photo->do_upload()) :
+                if (!$this->upload_photo->do_upload()) {
                     $error = array('error' => $this->upload_photo->display_errors());
                     $this->load->view('add_image', $data);
-                else :
-                    $final_files_data[] = $this->upload->data();
-                    var_dump($final_files_data);
+                } else {
+                    $final_files_data[] = $this->upload_photo->data();
+                    redirect("module=inspection&view=inspection", 'refresh');
                     // Continue processing the uploaded data
-                endif;
-            endfor;
+                }
+            }
         }
 
 
@@ -294,10 +297,11 @@ class Inspection extends MX_Controller
 
 //        }
 
-        if ($this->form_validation->run() == true) {
-            $this->session->set_flashdata('success_message', $this->lang->line('logo_changed'));
-//            redirect("module=settings&view=change_logo", 'refresh');
-        } else {
+//        if ($this->form_validation->run() == true) {
+//            $this->session->set_flashdata('success_message', $this->lang->line('logo_changed'));
+////            redirect("module=settings&view=change_logo", 'refresh');
+//        }
+        else {
 
             if ($this->input->get('id')) {
                 $id = $this->input->get('id');
