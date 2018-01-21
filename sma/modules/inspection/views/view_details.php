@@ -161,6 +161,36 @@
         </div>
     </div>
 
+    <p>&nbsp;</p>
+    <table width="100%">
+        <tr>
+            <td style="width:23%; text-align:center">
+                <div style="float:left; margin:5px 15px">
+                    <p>&nbsp;</p>
+                    <p style="border-top: 1px solid #000;">Inspection Conducted By</p>
+                </div>
+            </td>
+
+            <td style="width:23%; text-align:center">
+                <div style="float:left; margin:5px 15px">
+                    <p>&nbsp;</p>
+                    <p style="border-top: 1px solid #000;">Report Reviwed By</p>
+                </div>
+            </td>
+
+
+            <td style="width:23%; text-align:center">
+
+                <div style="float:left; margin:5px 15px">
+                    <p>&nbsp;</p>
+                    <p style="border-top: 1px solid #000;">Housing Director</p>
+                </div>
+
+            </td>
+
+        </tr>
+    </table>
+
 </div>
 </body>
 </html>
