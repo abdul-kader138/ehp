@@ -150,7 +150,7 @@ $("#name").autocomplete({
 },
 minLength
     :
-    2,
+    1,
         select
 :
 function (event, ui) {

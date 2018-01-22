@@ -361,7 +361,7 @@ class Inspection extends MX_Controller
         $term = $this->input->get('term', TRUE);
         $code = $this->input->get('building_code', TRUE);
 
-        if (strlen($term) < 2) {
+        if (strlen($term) < 1) {
             die();
         }
 
