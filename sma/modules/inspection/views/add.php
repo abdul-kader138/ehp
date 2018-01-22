@@ -21,93 +21,137 @@ var concern_id_div = 0;
 $(document).ready(function () {
 
 
+    $('#customer').change(function () {
+            var v = $(this).find(":selected").val();
+            $('#loading').show();
+            $.ajax({
+                type: "get",
+                async: false,
+                url: "index.php?module=inspection&view=getBuildings",
+                data: {
+            <?php echo $this->security->get_csrf_token_name(); ?>:
+            "<?php echo $this->security->get_csrf_hash() ?>", vendor_id
+            :
+            v
+        },
+        dataType
+    :
+    "html",
+        success
+    :
+    function (data) {
+        if (data != "") {
+            $('#building_code_add').empty();
+            $('#building_code_add').html(data);
+        } else {
+            $('#building_code_add').empty();
+            var default_data = '<select name="building_code" class="span4" id="building_code" data-placeholder="Select Building Code"></select>';
+            $('#building_code_add').html(default_data);
+        }
+    }
 
-    $("#dyTable").on("focus", 'input[id^="weight_"]', function() {
-        oqty = parseFloat($(this).val());
-    });
-    $("#dyTable").on("blur", 'input[id^="weight_"]', function() {
-        var total= parseFloat($("#total").val());
-        var rID = $(this).attr('id');
-        var r_id = rID.split("_");
-        var rw_no = r_id[1];
-        var nqty = parseFloat($(this).val());
-        var oldrowtotal = oqty ;
-        var newrowtotal = nqty;
-        total -= oldrowtotal;
-        total += newrowtotal;
-        $('#total').val(total.toFixed(2));
-    });
+    ,
+    error: function () {
+        bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
+        $('#loading').hide();
+    }
+
+});
+
+$('#loading').hide();
+})
+;
 
 
-        $("#dyTable").on("click", '.del', function () {
-            var delID = $(this).attr('id');
-            var delRowTotal= parseFloat($("#weight_"+delID).val());
-            var total= parseFloat($("#total").val());
-            total -= delRowTotal;
-            $('#total').val(total.toFixed(2));
-            row_id = $('#row_' + delID);
-            row_id.remove();
-            an--;
+$("#dyTable").on("focus", 'input[id^="weight_"]', function () {
+    oqty = parseFloat($(this).val());
+});
+$("#dyTable").on("blur", 'input[id^="weight_"]', function () {
+    var total = parseFloat($("#total").val());
+    var rID = $(this).attr('id');
+    var r_id = rID.split("_");
+    var rw_no = r_id[1];
+    var nqty = parseFloat($(this).val());
+    var oldrowtotal = oqty;
+    var newrowtotal = nqty;
+    total -= oldrowtotal;
+    total += newrowtotal;
+    $('#total').val(total.toFixed(2));
+});
 
-        });
 
-        $("#date").datepicker({
-            format: "<?php echo JS_DATE; ?>",
-            autoclose: true
-        });
+$("#dyTable").on("click", '.del', function () {
+    var delID = $(this).attr('id');
+    var delRowTotal = parseFloat($("#weight_" + delID).val());
+    var total = parseFloat($("#total").val());
+    total -= delRowTotal;
+    $('#total').val(total.toFixed(2));
+    row_id = $('#row_' + delID);
+    row_id.remove();
+    an--;
 
-        $('#byTab a, #noteTab a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-        $('#byTab #select_by_name, #noteTab a:last').tab('show');
+});
 
-        $("#date").datepicker("setDate", new Date());
-        $('form').form();
+$("#date").datepicker({
+    format: "<?php echo JS_DATE; ?>",
+    autoclose: true
+});
 
-        $('#item_name').bind('keypress', function (e) {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
-        $("form").submit(function () {
-            if (an <= 1) {
-                alert("<?php echo $this->lang->line('no_invoice_item'); ?>");
-                return false;
-            }
-        });
+$('#byTab a, #noteTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+$('#byTab #select_by_name, #noteTab a:last').tab('show');
 
-        $("#add_options").draggable({refreshPositions: true});
-        var an = 1;
-        var count = 0;
-        $("#name").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "<?php echo site_url('module=inspection&view=suggestions'); ?>",
-                    data: {
-                <?php echo $this->security->get_csrf_token_name(); ?>:
-                "<?php echo $this->security->get_csrf_hash() ?>", term
-                :
-                $("#name").val()
-            },
-            dataType: "json",
-            type: "get",
-            success: function (data) {
-                response(data);
-            },
-            error: function (result) {
-                alert('<?php echo $this->lang->line('no_suggestions'); ?>');
-                $('.ui-autocomplete-input').removeClass("ui-autocomplete-loading");
-                $('#codes').val('');
-                return false;
-            }
-        });
+$("#date").datepicker("setDate", new Date());
+$('form').form();
+
+$('#item_name').bind('keypress', function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+});
+$("form").submit(function () {
+    if (an <= 1) {
+        alert("<?php echo $this->lang->line('no_invoice_item'); ?>");
+        return false;
+    }
+});
+
+$("#add_options").draggable({refreshPositions: true});
+var an = 1;
+var count = 0;
+$("#name").autocomplete({
+    source: function (request, response) {
+        $.ajax({
+            url: "<?php echo site_url('module=inspection&view=suggestions'); ?>",
+            data: {
+        <?php echo $this->security->get_csrf_token_name(); ?>:
+        "<?php echo $this->security->get_csrf_hash() ?>", term
+        :
+        $("#name").val(),
+            building_code
+        :
+        $("#building_code :selected").val()
     },
-    minLength
-:
-2,
-    select
+    dataType: "json",
+    type: "get",
+    success: function (data) {
+        response(data);
+    },
+    error: function (result) {
+        alert('<?php echo $this->lang->line('no_suggestions'); ?>');
+        $('.ui-autocomplete-input').removeClass("ui-autocomplete-loading");
+        $('#codes').val('');
+        return false;
+    }
+});
+},
+minLength
+    :
+    2,
+        select
 :
 function (event, ui) {
     $(this).removeClass('ui-autocomplete-loading');
@@ -173,7 +217,7 @@ newTr.html('<td><input class="span6 tran" name="apt_' + count + '" id="apt_' + c
         echo ">" . $concern->concern_name . "</option>";
     }
     echo '</select></td>';
-?><td id="details_'+count+'"><select class="span12 select_search" id="detail_'+count+'" name="detail_'+count+'"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td>');
+?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -192,8 +236,23 @@ close: function () {
 })
 ;
 
+$("#customer").change(function () {
+    var tbody = $('#dyTable').find("tbody>tr");
+    if (tbody != undefined && tbody) tbody.remove();
+});
+//
+
+
+$("#building_code_add").change(function () {
+    var tbody = $('#dyTable').find("tbody>tr");
+    if (tbody != undefined && tbody) tbody.remove();
+});
+
+
 })
 ;
+
+
 $(".show_hide").slideDown('slow');
 
 $('.show_hide').click(function () {
@@ -215,7 +274,11 @@ function loadDetails(obj) {
         url: "index.php?module=inspection&view=getDetails",
         data: {
     <?php echo $this->security->get_csrf_token_name(); ?>:
-    "<?php echo $this->security->get_csrf_hash() ?>", details_id:concern_id, category_code: c
+    "<?php echo $this->security->get_csrf_hash() ?>", details_id
+:
+    concern_id, category_code
+:
+    c
 }
 ,
 dataType:"html",
@@ -270,7 +333,8 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
 
 
 <div class="control-group">
-<!--    <label class="control-label" id="customer_l">--><?php //echo $this->lang->line("customer"); ?><!--</label>-->
+    <!--    <label class="control-label" id="customer_l">-->
+    <?php //echo $this->lang->line("customer"); ?><!--</label>-->
     <label class="control-label" id="customer_l">Vendor Name</label>
 
     <div class="controls">  <?php
@@ -282,21 +346,17 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
                 $cu[$customer->id] = $customer->name . " (C)";
             }
         }
-        echo form_dropdown('customer', $cu, (isset($_POST['customer']) ? $_POST['customer'] : ""), 'id="customer" class="span4" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("customer") . '" required="required" data-error="' . $this->lang->line("customer") . ' ' . $this->lang->line("is_required") . '"');
+        echo form_dropdown('customer', $cu, (isset($_POST['customer']) ? $_POST['customer'] : ""), 'id="customer" class="span4" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("vendor_code") . '" required="required" data-error="' . $this->lang->line("vendor_code") . ' ' . $this->lang->line("is_required") . '"');
         ?> </div>
 </div>
 
+
 <div class="control-group">
-<!--    <label class="control-label" id="customer_l">--><?php //echo $this->lang->line("customer"); ?><!--</label>-->
     <label class="control-label" id="customer_l">Building Name</label>
 
-    <div class="controls">  <?php
-        $bu[""] = "";
-        foreach ($buildingList as $building) {
-            $bu[$building->building_code] = $building->building_code;
-        }
-        echo form_dropdown('building_code', $bu, (isset($_POST['building_code']) ? $_POST['building_code'] : ""), 'id="building_code" class="span4" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("customer") . '" required="required" data-error="' . $this->lang->line("customer") . ' ' . $this->lang->line("is_required") . '"');
-        ?> </div>
+    <div class="controls" id="building_code_add"> <?php
+        $sct1[""] = '';
+        echo form_dropdown('building_code', $sct1, '', 'class="span4 select_search" id="building_code"  data-placeholder="Select Building Code" required="required"  data-error="' . $this->lang->line("building_code") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
 
@@ -307,10 +367,12 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
                 <div id="draggable"><?php echo $this->lang->line('draggable'); ?></div>
                 <div class="fancy-tab-container">
                     <ul class="nav nav-tabs three-tabs fancy" id="byTab">
-<!--                               id="select_by_codes">--><?php //echo $this->lang->line("product_code"); ?><!--</a></li>-->
+                        <!--                               id="select_by_codes">-->
+                        <?php //echo $this->lang->line("product_code"); ?><!--</a></li>-->
                         <li><a href="#by_codes"
                                id="select_by_codes">Apartment Code</a></li>
-<!--                        <li><a href="#by_name" id="select_by_name">--><?php //echo $this->lang->line("product_name"); ?><!--</a>-->
+                        <!--                        <li><a href="#by_name" id="select_by_name">-->
+                        <?php //echo $this->lang->line("product_name"); ?><!--</a>-->
                         <li><a href="#by_name" id="select_by_name">Apartment Name</a>
                         </li>
                     </ul>
@@ -333,20 +395,10 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <div class="controls table-controls">
         <table id="dyTable" class="table items table-striped table-bordered table-condensed table-hover">
             <thead>
-<!--            <th class="span5">--><?php //echo $this->lang->line("product_name"); ?><!--</th>-->
             <th class="span6">Apartment Code</th>
-
-            <?php if (DISCOUNT_OPTION == 2) {
-//                echo '<th class="span2">' . $this->lang->line("discount") . '</th>';
-                echo '<th class="span4">Category</th>';
-            } ?>
-            <?php if (TAX1) {
-//                echo '<th class="span2">' . $this->lang->line("tax_rate") . '</th>';
-                echo '<th class="span4">Concern</th>';
-            } ?>
-<!--            <th class="span2">--><?php //echo $this->lang->line("quantity"); ?><!--</th>-->
+            <th class="span4">Category</th>
+            <th class="span4">Concern</th>
             <th class="span12">Deficiency Details</th>
-<!--            <th class="span2">--><?php //echo $this->lang->line("unit_price"); ?><!--</th>-->
             <th class="span12">Status/Comments</th>
             <th class="span2">Weight</th>
             <th style="width: 20px;"><i class="icon-trash" style="opacity:0.5; filter:alpha(opacity=50);"></i></th>
@@ -387,7 +439,8 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <div class="span5">
 
         <div class="control-group inverse" style="margin-bottom:5px; cursor: default;">
-            <label class="control-label" style="cursor: default;"><?php echo $this->lang->line("total_weight"); ?></label>
+            <label class="control-label"
+                   style="cursor: default;"><?php echo $this->lang->line("total_weight"); ?></label>
 
             <div
                 class="controls"> <?php echo form_input('total', '0', 'class="input-block-level text-right" id="total" disabled'); ?>

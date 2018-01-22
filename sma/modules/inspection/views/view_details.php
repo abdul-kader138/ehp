@@ -67,6 +67,7 @@
             <th style="padding-left:5px;">Deficiency <br/>Details</th>
             <th style="padding-left:5px;">Comments</th>
             <th style="padding-left:5px;">Weight</th>
+            <th>Corrective <br/> Action <br/>Plan</th>
         </tr>
 
         </thead>
@@ -86,6 +87,7 @@
                 <td style="text-align:middle; width:150px; padding-right:10px;"><?php echo $row->details_name; ?></td>
                 <td style="text-align:middle; width:150px; padding-right:10px;"><?php echo $row->comments_id; ?></td>
                 <td style="text-align:middle; width:20px; padding-right:10px;"><?php echo $row->weight; ?></td>
+                <td style="text-align:middle; width:150px; padding-right:10px;"></td>
             </tr>
             <?php
             $r++;
@@ -139,27 +141,81 @@
 
     </table>
     <div style="clear: both;"></div>
-
+    <br/>
     <div class="row-fluid">
         <div class="span12">
-            <br/>
-            <br/>
-            <p><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies : <?php echo ($grandTotal/$total);?></b></p>
+            <p><b>Total Number Of Inspection Area Inspected
+                    : <?php echo $inspection_apt[0]->num; ?></b></p>
+        </div>
+    </div>
+
+    <br/>
+    <div class="row-fluid">
+        <div class="span12">
+            <p><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies
+                    : <?php echo($grandTotal / $total); ?></b></p>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row-fluid">
+        <div class="span5">
+            <p><b>Note:<?php echo html_entity_decode($inspection[0]->note); ?>
+            </b></p>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row-fluid">
+        <div class="span6">
             <p><b>Outcome:
                     <?php
-                    if(($grandTotal/$total) ==0 )
-                    echo "Very Good";
-                    if(($grandTotal/$total) >=0.1 &&  ($grandTotal/$total) <=3.0)
-                        echo "Goc";
-                    if(($grandTotal/$total) >3.0 &&  ($grandTotal/$total) <=5.0)
+                    if (($grandTotal / $total) == 0)
+                        echo "Very Good";
+                    if (($grandTotal / $total) >= 0.1 && ($grandTotal / $total) <= 3.01)
+                        echo "Good";
+                    if (($grandTotal / $total) > 3.01 && ($grandTotal / $total) <= 5.01)
                         echo "Satisfactory";
-                    if(($grandTotal/$total) >10)
+                    if (($grandTotal / $total) > 5.01 && ($grandTotal / $total) <= 10.0)
+                        echo "Unsatisfactory";
+                    if (($grandTotal / $total) > 10)
                         echo "Unacceptable";
                     ?>
                 </b></p>
-            <br/>
+        </div>
+        <div class="span6">
+            <p><b>Corrective Action plan Due Date: </b></p>
         </div>
     </div>
+    <br/>
+
+    <p>&nbsp;</p>
+    <table style="border: 1px solid;" width="30%">
+        <tr><td style="text-align: center" colspan="2"><b>Rating</b></td></tr>
+        <tr style="border: 1px solid;">
+            <td style="border: 1px solid; text-align: center;"><b>Very Good</b></td>
+            <td style="border: 1px solid; text-align: center;"><b>0</b></td>
+        </tr>
+        <tr style="border: 1px solid;">
+            <td style="border: 1px solid; text-align: center;"><b>Good</b></td>
+            <td style="border: 1px solid; text-align: center;"><b>0.01-3.0</b></td>
+        </tr>
+        <tr style="border: 1px solid; text-align: center;">
+            <td style="border: 1px solid; text-align: center;"><b>Satisfactory</b></td>
+            <td style="border: 1px solid; text-align: center;"><b>3.01-5.0</b></td>
+        </tr>
+
+        <tr style="border: 1px solid;">
+            <td style="border: 1px solid; text-align: center;"><b>Unsatisfactory</b></td>
+            <td style="border: 1px solid; text-align: center;"><b>5.01-10.0</b></td>
+        </tr>
+        <tr style="border: 1px solid;">
+            <td style="border: 1px solid; text-align: center;"><b>Unacceptable</b></td>
+            <td style="border: 1px solid; text-align: center;"><b> >10</b></td>
+        </tr>
+    </table>
+
 
     <p>&nbsp;</p>
     <table width="100%">
@@ -167,6 +223,9 @@
             <td style="width:23%; text-align:center">
                 <div style="float:left; margin:5px 15px">
                     <p>&nbsp;</p>
+                    <p style="text-transform: capitalize;"><?php echo $inspection[0]->created_by ? $inspection[0]->created_by  : '--'; ?> </p>
+                    <p>&nbsp;</p>
+
                     <p style="border-top: 1px solid #000;">Inspection Conducted By</p>
                 </div>
             </td>
@@ -174,6 +233,9 @@
             <td style="width:23%; text-align:center">
                 <div style="float:left; margin:5px 15px">
                     <p>&nbsp;</p>
+                    <p style="text-transform: capitalize;"> <?php echo $inv->app_name ? $inv->app_name : '--'; ?> </p>
+                    <p>&nbsp;</p>
+
                     <p style="border-top: 1px solid #000;">Report Reviwed By</p>
                 </div>
             </td>
@@ -183,6 +245,9 @@
 
                 <div style="float:left; margin:5px 15px">
                     <p>&nbsp;</p>
+                    <p style="text-transform: capitalize;"> <?php echo $inv->app_name ? $inv->app_name : '--'; ?> </p>
+                    <p>&nbsp;</p>
+
                     <p style="border-top: 1px solid #000;">Housing Director</p>
                 </div>
 
@@ -190,6 +255,8 @@
 
         </tr>
     </table>
+
+
 
 </div>
 </body>

@@ -131,9 +131,6 @@ class Inspection extends MX_Controller
         foreach (array_map(null, $inspection_code, $building_code_id, $vendor_code_id, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id, $date_id, $create_user_id, $date_id) as $key => $value) {
             $items[] = array_combine($keys, $value);
         }
-//        if ($this->form_validation->run() == true) { //check to see if we are creating the customer
-
-//            var_dump($items);
         if ($this->form_validation->run() == true && $this->inspection_model->addInspection($inspection, $items)) { //check to see if we are creating the customer
 //            redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
@@ -142,7 +139,6 @@ class Inspection extends MX_Controller
             $data['customers'] = $this->inspection_model->getAllCustomers();
             $data['concerns'] = $this->inspection_model->getAllConcern();
             $data['categories'] = $this->inspection_model->getAllCategory();
-            $data['buildingList'] = $this->inspection_model->getAllBuildings();
             $data['ref'] = $this->inspection_model->getRQNextAIInspection();
             $meta['page_title'] = 'Add Inspection Details';
             $meta['page_title'] = 'Add Inspection Details';
@@ -179,14 +175,12 @@ class Inspection extends MX_Controller
             $id = $this->input->get('id');
         }
         $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-
-//        $inv = $this->inventories_model->getInventoryFromPOByPurchaseID($purchase_id);
-
         $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
+        $data['inspection'] = $this->inspection_model->getAllInspection($id);
+        $data['inspection_apt'] = $this->inspection_model->getAllInspectionApt($id);
         $data['concern_weights'] = $this->inspection_model->getAllConcernAndWeight($id);
         $vendor_id = $data['rows'][0]->vendor_code;
         $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
-
         $data['page_title'] = "Inspection Details";
         $this->load->view('view_details', $data);
 
@@ -325,15 +319,12 @@ class Inspection extends MX_Controller
             $id = $this->input->get('id');
         }
         $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-
-//        $inv = $this->inventories_model->getInventoryFromPOByPurchaseID($purchase_id);
-
         $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
+        $data['inspection'] = $this->inspection_model->getAllInspection($id);
+        $data['inspection_apt'] = $this->inspection_model->getAllInspectionApt($id);
+        $data['concern_weights'] = $this->inspection_model->getAllConcernAndWeight($id);
         $vendor_id = $data['rows'][0]->vendor_code;
         $data['customer'] = $this->inspection_model->getCustomerByID($vendor_id);
-
-        $data['page_title'] = $this->lang->line("inventory");
-        $data['concern_weights'] = $this->inspection_model->getAllConcernAndWeight($id);
         $html = $this->load->view('view_details', $data, TRUE);
 
 
@@ -368,12 +359,13 @@ class Inspection extends MX_Controller
     function suggestions()
     {
         $term = $this->input->get('term', TRUE);
+        $code = $this->input->get('building_code', TRUE);
 
         if (strlen($term) < 2) {
             die();
         }
 
-        $rows = $this->inspection_model->getRoomsNames($term);
+        $rows = $this->inspection_model->getRoomsNames($term,$code);
 
         $json_array = array();
         foreach ($rows as $row)
@@ -965,6 +957,24 @@ class Inspection extends MX_Controller
         }
         echo $data;
     }
+
+
+    function getBuildings()
+    {
+        $vendor_id = $this->input->get('vendor_id', TRUE);
+
+        if ($rows = $this->inspection_model->getBuildingByVendorID($vendor_id)) {
+            $ct[""] = '';
+            foreach ($rows as $building) {
+                $ct[$building->building_code] = $building->building_code;
+            }
+            $data = form_dropdown('building_code', $ct, '', 'class="span4" id="building_code" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("building_name") . '"');
+        } else {
+            $data = "";
+        }
+        echo $data;
+    }
+
 
 
 }

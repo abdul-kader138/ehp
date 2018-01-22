@@ -271,11 +271,16 @@ class Inspection_model extends CI_Model
     }
 
 
-    public function getRoomsNames($term)
+    public function getRoomsNames($term,$code)
     {
-        $this->db->select('room_name')->limit('10');
-        $this->db->like('room_code', $term, 'both');
-        $q = $this->db->get('rooms');
+        $this->db->select('r.room_name')->limit('10');
+        $this->db->from('building b');
+        $this->db->join('building_details bd', 'b.building_code = bd.building_code', 'left');
+        $this->db->join('level l', 'bd.level_code = l.level_code', 'left');
+        $this->db->join('rooms r', 'l.room_code = r.room_code', 'left');
+        $this->db->like('r.room_code', $term, 'both');
+        $this->db->where('b.building_code', $code);
+        $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
@@ -397,6 +402,62 @@ class Inspection_model extends CI_Model
         $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
         $this->db->where('idc.inspection_code', $id);
         $this->db->group_by('idc.inspection_code,idc.concern_id');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $value[] = $row;
+            }
+            return $value;
+        }
+    }
+
+    public function getBuildingByVendorID($vendor_id)
+    {
+        $vendor_details = $this->getVendorsByCode($vendor_id);
+        $q = $this->db->get_where("building_allocation", array('vendor_id' => $vendor_details->id));
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+
+    public function getAllInspection($id)
+    {
+        $q = $this->db->get_where("inspection", array('inspection_code' => $id));
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+    public function getVendorsByCode($name)
+    {
+        $q = $this->db->get_where('customers', array('id' => $name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
+    public function getAllInspectionApt($id)
+
+    {
+        $this->db->select('COUNT(apartment_code) as num');
+        $this->db->from('inspection_details idc');
+        $this->db->where('idc.inspection_code', $id);
+        $this->db->group_by('idc.inspection_code');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
