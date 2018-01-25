@@ -273,7 +273,7 @@ class Inspection_model extends CI_Model
 
     public function getRoomsNames($term,$code)
     {
-        $this->db->select('r.room_name')->limit('10');
+        $this->db->select('r.room_name')->limit('20');
         $this->db->from('building b');
         $this->db->join('building_details bd', 'b.building_code = bd.building_code', 'left');
         $this->db->join('level l', 'bd.level_code = l.level_code', 'left');
