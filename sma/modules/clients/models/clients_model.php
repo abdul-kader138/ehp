@@ -222,21 +222,21 @@ class Clients_model extends CI_Model
                 array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
                 array('code' => trim($intake_details->client_code)))
             ) {
-                if($this->increaseApartmentCapacity($intake_details->apartment_code)) return true;
+                if($this->increaseApartmentCapacity($intake_details->apartment_code,date('Y-m-d'))) return true;
                 else return false;
             }
             return false;
         }
     }
 
-    public function dischargeClient($data,$code){
+    public function dischargeClient($data,$code,$dob){
         $intake_details=$this->getIntakeByCode($code);
         if($this->db->update("client_intake", $data,array('code'=>$code))) {
             if ($this->db->update("clients",
                 array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
                 array('code' => trim($intake_details->client_code)))
             ) {
-                if($this->increaseApartmentCapacity($intake_details->apartment_code)) return true;
+                if($this->increaseApartmentCapacity($intake_details->apartment_code,$dob)) return true;
                 else return false;
             }
             return false;
@@ -343,7 +343,7 @@ class Clients_model extends CI_Model
             array(
                 'updated_by' => USER_NAME,
                 'vacant_date' => $vacant_date,
-                'isTaggedWithClient' => 'Yes',
+                'isTaggedWithClient' => 'No',
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))
@@ -372,7 +372,7 @@ class Clients_model extends CI_Model
         return FALSE;
     }
 
-    public function increaseApartmentCapacity($code)
+    public function increaseApartmentCapacity($code,$dob=null)
     {
         $apartmentDetails = $this->getApartmentByCode($code);
         $occupied_qty = $apartmentDetails->bed_occupied;
@@ -380,6 +380,7 @@ class Clients_model extends CI_Model
         if ($this->db->update("rooms",
             array(
                 'updated_by' => USER_NAME,
+                'vacant_date' => $dob,
                 'vacant_date' => date('Y-m-d'),
                 'isTaggedWithClient' => 'No',
                 'updated_date' => date('Y-m-d H:i:s'),

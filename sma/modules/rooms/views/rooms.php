@@ -40,6 +40,7 @@
             "aoColumns": [
                 { "bSortable": true },
                 { "bSortable": true },
+                null,
                 { "bSortable": true },
                 null,
                 null
@@ -62,7 +63,8 @@
     <tr>
         <th><?php echo $this->lang->line("room_code"); ?></th>
         <th><?php echo $this->lang->line("room_name"); ?></th>
-        <th>Status</th>
+        <th><?php echo $this->lang->line("status"); ?></th>
+        <th>Days Vacant</th>
         <th><?php echo $this->lang->line("room_rent"); ?><br/>(USD)</th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>

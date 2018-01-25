@@ -66,7 +66,7 @@ class Rooms extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("room_code,room_name,CASE WHEN bed_occupied = '1' THEN 'Occupied' ELSE 'Vacant' END AS status,room_rent", false)
+            ->select("room_code,room_name,CASE WHEN bed_occupied = '1' THEN 'Occupied' ELSE 'Vacant' END AS status,case WHEN vacant_date is  Null then 0 else DATEDIFF( CURDATE(), vacant_date ) end as days, room_rent", false)
             ->from("rooms")
             ->add_column("Actions",
                 "<center><a href='index.php?module=rooms&amp;view=edit&amp;name=$2' class='tip' title='" . $this->lang->line("edit_room") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=rooms&amp;view=delete&amp;name=$2' onClick=\"return confirm('" . $this->lang->line('alert_x_room') . "')\" class='tip' title='" . $this->lang->line("delete_room") . "'><i class=\"icon-remove\"></i></a></center>", "room_code,room_name");

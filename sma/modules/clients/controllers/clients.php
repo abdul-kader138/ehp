@@ -610,7 +610,7 @@ class Clients extends MX_Controller
 //
 //
 
-        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name)) { //check to see if we are creating the customer
+        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name,$dob)) { //check to see if we are creating the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
             redirect("module=clients&view=intake_list", 'refresh');
