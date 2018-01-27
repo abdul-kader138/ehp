@@ -52,7 +52,7 @@ echo form_open("module=clients&view=client_discharge&name=$name", $attrib); ?>
 <div class="control-group">
     <?php
     $originalDate = $client->move_in_date;
-    if($originalDate !=='0000-00-00')$newDate = date("d-m-Y", strtotime($originalDate));
+    if($originalDate !=='0000-00-00')$newDate = date("d/m/Y", strtotime($originalDate));
     else {
         $newDate="";
     }

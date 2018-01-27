@@ -230,6 +230,7 @@ class Clients_model extends CI_Model
     }
 
     public function dischargeClient($data,$code,$dob){
+//        var_dump(array($dob));
         $intake_details=$this->getIntakeByCode($code);
         if($this->db->update("client_intake", $data,array('code'=>$code))) {
             if ($this->db->update("clients",
@@ -241,6 +242,7 @@ class Clients_model extends CI_Model
             }
             return false;
         }
+
     }
 
     public function addClientIntake($data)
@@ -337,7 +339,7 @@ class Clients_model extends CI_Model
     {
         $apartmentDetails = $this->getApartmentByCode($code);
         $occupied_qty = $apartmentDetails->bed_occupied;
-        $new_occupied_qty = ($occupied_qty + 1);
+        $new_occupied_qty =  1;
          $vacant_date=NULL;
         if ($this->db->update("rooms",
             array(
@@ -376,12 +378,11 @@ class Clients_model extends CI_Model
     {
         $apartmentDetails = $this->getApartmentByCode($code);
         $occupied_qty = $apartmentDetails->bed_occupied;
-        $new_occupied_qty = ($occupied_qty - 1);
+        $new_occupied_qty = 0;
         if ($this->db->update("rooms",
             array(
                 'updated_by' => USER_NAME,
                 'vacant_date' => $dob,
-                'vacant_date' => date('Y-m-d'),
                 'isTaggedWithClient' => 'No',
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),

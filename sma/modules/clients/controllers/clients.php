@@ -173,8 +173,8 @@ class Clients extends MX_Controller
         if ($this->form_validation->run() == true) {
 
             $mid = $this->ion_auth->fsd(trim($this->input->post('move_in_date')));
-            $client_details= $this->clients_model->getClientsByCode($this->input->post('client_code'));
-            $client_type_details= $this->clients_model->getClientTypeByCode($client_details->client_type);
+            $client_details = $this->clients_model->getClientsByCode($this->input->post('client_code'));
+            $client_type_details = $this->clients_model->getClientTypeByCode($client_details->client_type);
             $data = array(
                 'client_code' => $this->input->post('client_code'),
                 'vendor_code' => $this->input->post('vendor_code'),
@@ -590,28 +590,36 @@ class Clients extends MX_Controller
         }
 
 
-
         //validate form input
         $this->form_validation->set_rules('move_out_date', $this->lang->line("move_out_date"), 'xss_clean');
 
 
         if ($this->form_validation->run() == true) {
 
-            $dob = $this->ion_auth->fsd(trim($this->input->post('move_out_date')));
+            $mod = $this->ion_auth->fsd(trim($this->input->post('move_out_date')));
+            $mid = $this->ion_auth->fsd(trim($this->input->post('move_in_date')));
             $data = array(
                 'status' => 'Discharged',
-                'move_out_date' => $dob,
+                'move_out_date' => $mod,
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s')
             );
         }
 
+        $dateTimestamp1 = strtotime($mod);
+        $dateTimestamp2 = strtotime($mid);
+
+        if ($dateTimestamp1 < $dateTimestamp2) {
+            $this->session->set_flashdata('message', "Move in date is greater than Move out date.");
+            redirect("module=clients&view=intake_list", 'refresh');
+
+        }
 
 
 //
 
 
-        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name,$dob)) { //check to see if we are creating the customer
+        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name,$mod)) { //check to see if we are creating the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
             redirect("module=clients&view=intake_list", 'refresh');

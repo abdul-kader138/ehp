@@ -776,18 +776,19 @@ $lang['count_variance_quantity']		= "Count Variance Quantity";
 
 
 
-$lang['add_level']		                = "Add Level";
-$lang['edit_level']		                = "Edit Level";
-$lang['delete_level']		            = "Delete Level";
-$lang['new_level'] 					    = "Add New Level";
-$lang['level_added'] 				    = "Level Successfully Added.";
-$lang['level_updated'] 				    = "Level Successfully Updated.";
-$lang['level_deleted'] 				    = "Level Successfully Deleted.";
-$lang['level_code'] 					= "Level Code";
-$lang['level_name'] 					= "Level Name";
-$lang['level_name_exist'] 			    = "Level name already exist.";
-$lang['list_level'] 				    = "List Of Floor/Level";
-$lang['alert_x_level'] 				    = "You are going to remove this Level. Press OK to proceed and Cancel to Go Back";
+$lang['add_level']		                = "Add Floor";
+$lang['edit_level']		                = "Edit Floor";
+$lang['delete_level']		            = "Delete Floor";
+$lang['new_level'] 					    = "Add New Floor";
+$lang['level_added'] 				    = "Floor Successfully Added.";
+$lang['level_updated'] 				    = "Floor Successfully Updated.";
+$lang['level_deleted'] 				    = "Floor Successfully Deleted.";
+$lang['level_code'] 					= "Floor Code";
+$lang['level_name'] 					= "Floor Name";
+$lang['level_name_exist'] 			    = "Floor name already exist.";
+$lang['list_level'] 				    = "List Of Floor";
+$lang['list_levels'] 				    = "List Of Floors";
+$lang['alert_x_level'] 				    = "You are going to remove this Floor. Press OK to proceed and Cancel to Go Back";
 
 
 
@@ -803,6 +804,7 @@ $lang['room_code'] 			    		= "Apartment Code";
 $lang['room_name'] 				    	= "Apartment Name";
 $lang['room_name_exist'] 			    = "Apartment name already exist.";
 $lang['list_room'] 				        = "List Of Apartment";
+$lang['list_rooms'] 				    = "List Of Apartments";
 $lang['alert_x_room'] 				    = "You are going to remove this Apartment. Press OK to proceed and Cancel to Go Back";
 
 
@@ -838,6 +840,7 @@ $lang['buildings_code'] 			    = "Building Code";
 $lang['buildings_name'] 			    = "Building Name";
 $lang['buildings_name_exist'] 			= "Building name already exist.";
 $lang['list_buildings'] 				= "List of Facilities";
+$lang['list_buildings_name'] 			= "List of Facilities Name";
 $lang['alert_x_buildings'] 				= "You are going to remove this Building. Press OK to proceed and Cancel to Go Back";
 
 $lang['min_10'] 						= "Minimum 10 Character";
@@ -902,10 +905,10 @@ $lang['client_deleted']		             = "Client Successfully Deleted.";
 $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
 
 
-$lang['list_intake']		             = "List Of Client Intake";
-$lang['intake']		                     = "Client Intake";
-$lang['client_intake_admission']	     = "Client Intake";
-$lang['add_intake']		                 = "Add Client Intake";
+$lang['list_intake']		             = "List Of Client Admission";
+$lang['intake']		                     = "Client Admission";
+$lang['client_intake_admission']	     = "Client Admission";
+$lang['add_intake']		                 = "Add Client Admission";
 $lang['client_discharge']		         = "Client Discharge";
 $lang['move_in_date']		             = "Date(Move In)";
 $lang['move_out_date']		             = "Date(Move Out)";
@@ -915,13 +918,13 @@ $lang['date_of_birth']		             = "Date Of Birth";
 $lang['status']		                     = "Status";
 $lang['location_info']		             = "Location Management";
 $lang['edit_client']		             = "Edit Client";
-$lang['delete_intake']		             = "Delete Client Intake";
+$lang['delete_intake']		             = "Delete Client Admission";
 $lang['client_type']		             = "Client's Precondition";
-$lang['client_intake_added']		     = "Client Intake Information Successfully updated.";
-$lang['client_intake_deleted']		     = "Client Intake Successfully deleted.";
+$lang['client_intake_added']		     = "Client Admission Information Successfully updated.";
+$lang['client_intake_deleted']		     = "Client Admission Successfully deleted.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
-$lang['alert_x_intake'] 				 = "You are going to remove this Client Intake. Press OK to proceed and Cancel to Go Back";
+$lang['alert_x_intake'] 				 = "You are going to remove this Client Admission. Press OK to proceed and Cancel to Go Back";
 
 
 
@@ -980,6 +983,7 @@ $lang['total_weight'] 		    	    = "Total Weight";
 $lang['view_details'] 		    	    = "View Details";
 $lang['inspection_date'] 				= "Inspection Date";
 $lang['print_date'] 			    	= "Printing Date";
+$lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";
 $lang['inspection_details'] 		    = "Inspection_Details";

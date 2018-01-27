@@ -39,7 +39,6 @@
             "aoColumns": [
                 { "bSortable": true },
                 { "bSortable": true },
-                { "bSortable": true },
                 null,
                 null,
                 null
@@ -61,7 +60,6 @@
     <thead>
     <tr>
         <th><?php echo $this->lang->line("buildings_code"); ?></th>
-        <th><?php echo $this->lang->line("level_name"); ?></th>
         <th>Total Apartment</th>
         <th>Total <br/> Vacant</th>
         <th>Total <br/>Occupied</th>
@@ -70,7 +68,7 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="6" class="dataTables_empty">Loading data from server</td>
+        <td colspan="5" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

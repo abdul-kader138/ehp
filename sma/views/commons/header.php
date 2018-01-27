@@ -133,20 +133,22 @@
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="locationMenu">
 
+
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=rooms"><?php echo $this->lang->line('list_room'); ?></a>
+                        <a href="<?php echo base_url(); ?>index.php?module=buildings"><?php echo $this->lang->line('list_buildings_name'); ?></a>
                     </li>
                     <li class="divider"></li>
 
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=level"><?php echo $this->lang->line('list_level'); ?></a>
+                        <a href="<?php echo base_url(); ?>index.php?module=rooms"><?php echo $this->lang->line('list_rooms'); ?></a>
                     </li>
                     <li class="divider"></li>
 
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=buildings"><?php echo $this->lang->line('list_buildings'); ?></a>
+                        <a href="<?php echo base_url(); ?>index.php?module=level"><?php echo $this->lang->line('list_levels'); ?></a>
                     </li>
                     <li class="divider"></li>
+
 
                     <li>
                         <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_details"><?php echo $this->lang->line('list_level_buildings'); ?></a>
@@ -163,14 +165,16 @@
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="vendorManagementMenu">
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_allocation"><?php echo $this->lang->line('list_building_allocation'); ?></a>
+                        <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('vendor'); ?></a>
                     </li>
                     <li class="divider"></li>
 
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('vendor'); ?></a>
+                        <a href="<?php echo base_url(); ?>index.php?module=buildings&amp;view=building_allocation"><?php echo $this->lang->line('list_building_allocation'); ?></a>
                     </li>
                     <li class="divider"></li>
+
+
                 </ul>
             </li>
 
@@ -181,6 +185,7 @@
                         class="icon-user  icon-white"></i> <?php echo $this->lang->line('client_management'); ?> <b
                         class="caret"></b></a>
                 <ul class="nav nav-tabs nav-stacked sub-menu" id="clientManagementMenu">
+
                     <li>
                         <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=types"><?php echo $this->lang->line('list_type'); ?></a>
                     </li>
@@ -189,6 +194,8 @@
                         <a href="<?php echo base_url(); ?>index.php?module=clients"><?php echo $this->lang->line('clients'); ?></a>
                     </li>
                     <li class="divider"></li>
+
+
                 </ul>
             </li>
 
@@ -199,14 +206,16 @@
                     class="icon-align-justify  icon-white"></i> <?php echo $this->lang->line('client_intake_admission'); ?> <b
                     class="caret"></b></a>
             <ul class="nav nav-tabs nav-stacked sub-menu" id="intakeMenu">
-                    <li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=intake_list"><?php echo $this->lang->line('list_intake'); ?></a>
+                </li>
+                <li class="divider"></li>
+
+                <li>
                         <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=client_intake"><?php echo $this->lang->line('intake'); ?></a>
                     </li>
                     <li class="divider"></li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=clients&amp;view=intake_list"><?php echo $this->lang->line('list_intake'); ?></a>
-                    </li>
-                    <li class="divider"></li>
+
                 </ul>
             </li>
 
@@ -222,6 +231,10 @@
                     </li>
                     <li class="divider"></li>
                     <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_concern"><?php echo $this->lang->line('list_concern'); ?></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
                         <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_category"><?php echo $this->lang->line('list_category'); ?></a>
                     </li>
                     <li class="divider"></li>
@@ -229,10 +242,7 @@
                         <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_details"><?php echo $this->lang->line('list_details'); ?></a>
                     </li>
                     <li class="divider"></li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>index.php?module=inspection&amp;view=deficiency_concern"><?php echo $this->lang->line('list_concern'); ?></a>
-                    </li>
-                    <li class="divider"></li>
+
 
                 </ul>
             </li>

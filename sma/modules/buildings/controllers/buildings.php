@@ -330,10 +330,10 @@ class Buildings extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("p.id as id,p.building_code,PCosts.level_name,PCosts.apt,PCosts.tbq,PCosts.bc")
+            ->select("p.id as id,p.building_code,sum(PCosts.apt) apt1,sum(PCosts.tbq) tbq1 ,sum(PCosts.bc) bc1")
             ->from("building_details p")
-            ->join($pp, 'p.level_code = PCosts.level_code', 'left')
-            ->group_by('p.building_code,p.level_code')
+            ->join($pp, 'p.level_code = PCosts.level_code', 'inner')
+            ->group_by('p.building_code')
             ->add_column("Actions",
 //                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
                 "<center><a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
