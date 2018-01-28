@@ -498,23 +498,25 @@ class Buildings extends MX_Controller
         $this->load->library('datatables');
         if($code !=null){
             $this->datatables
-                ->select("b.id as id,b.building_code,PCosts.apt,c.name,c.address")
+                ->select("b.id as id,b.building_code,sum(PCosts.apt) apt,c.name,CONCAT(c.address,',',c.city) AS address", FALSE)
                 ->from("building_allocation b")
                 ->join("customers c", 'b.vendor_id = c.id', 'inner')
                 ->join("building_details bd", 'b.building_code = bd.building_code', 'left')
                 ->join($pp, 'bd.level_code = PCosts.level_code', 'left')
                 ->where('c.id',$code)
+                ->group_by('b.building_code')
                 ->add_column("Actions",
                     "", "id")
                 ->unset_column('id');
         }
         else{
             $this->datatables
-                ->select("b.id as id,b.building_code,PCosts.apt,c.name,c.address")
+                ->select("b.id as id,b.building_code,sum(PCosts.apt) apt,c.name, CONCAT(c.address,',',c.city) AS address", FALSE)
                 ->from("building_allocation b")
                 ->join("customers c", 'b.vendor_id = c.id', 'left')
                 ->join("building_details bd", 'b.building_code = bd.building_code', 'left')
                 ->join($pp, 'bd.level_code = PCosts.level_code', 'left')
+                ->group_by('b.building_code')
                 ->add_column("Actions",
                     "<center><a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
                 ->unset_column('id');
