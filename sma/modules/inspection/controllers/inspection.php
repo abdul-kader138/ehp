@@ -155,7 +155,7 @@ class Inspection extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.total_deficiency,i.total_weight")
+            ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.total_deficiency,i.total_weight,(i.total_weight/i.total_deficiency) as average")
             ->from("inspection i")
             ->join("customers c", 'i.vendor_code = c.id', 'left')
             ->group_by('i.inspection_code')

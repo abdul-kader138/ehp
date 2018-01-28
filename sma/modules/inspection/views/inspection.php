@@ -44,6 +44,7 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
+                { "bSortable": true },
                 null
             ]
 
@@ -68,12 +69,13 @@
         <th><?php echo $this->lang->line("building_code"); ?></th>
         <th><?php echo $this->lang->line("total_deficiency"); ?></th>
         <th><?php echo $this->lang->line("total_weight"); ?></th>
+        <th>Weighted <br/>Average</th>
         <th style="width:200px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="7" class="dataTables_empty">Loading data from server</td>
+        <td colspan="8" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>
