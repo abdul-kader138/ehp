@@ -993,6 +993,8 @@ $lang['alert_x_concern'] 				= "You are going to remove this Deficiency Concern.
 
 
 
+$lang['vendor_facilities']              = "Vendor Facilities";
+$lang['building_facilities']            = "Facilities Details";
 $lang['building_facilities_reports']    = "Building Details Report";
 /* --------------------------- CUSTOM FIELDS --------------------------------------------- */
 /*

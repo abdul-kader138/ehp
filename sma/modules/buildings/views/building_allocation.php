@@ -7,7 +7,7 @@
             <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
             'bProcessing'    : true,
             'bServerSide'    : true,
-            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=buildings&view=getDataTableAjaxForAllocation',
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=buildings&view=getDataTableAjaxForAllocation&id=<?php echo $id; ?>',
             'fnServerData': function(sSource, aoData, fnCallback)
             {
                 aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );

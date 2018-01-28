@@ -63,7 +63,8 @@ class Customers extends MX_Controller
                 ->join("building_allocation b", "c.id = b.vendor_id", "left")
                 ->group_by('c.code')
                 ->add_column("Actions",
-                    "<center>			<a class=\"tip\" title='" . $this->lang->line("edit_vendor") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
+                    "<center><a class=\"tip\" title='" . $this->lang->line("vendor_facilities") . "' href='index.php?module=buildings&amp;view=building_allocation&amp;id=$1'><i class=\"icon-fullscreen\"></i></a>
+                                <a class=\"tip\" title='" . $this->lang->line("edit_vendor") . "' href='index.php?module=customers&amp;view=edit&amp;id=$1'><i class=\"icon-edit\"></i></a>
 							    <a class=\"tip\" title='" . $this->lang->line("delete_vendor") . "' href='index.php?module=customers&amp;view=delete&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_vendor') . "')\"><i class=\"icon-remove\"></i></a></center>", "id")
                 ->unset_column('id');
 
