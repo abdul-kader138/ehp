@@ -343,8 +343,7 @@ class Buildings extends MX_Controller
                 ->group_by('p.building_code')
                 ->where('p.building_code',$code)
                 ->add_column("Actions",
-//                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
-                    "<center><a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+                    "", "id")
                 ->unset_column('id');
         }else{
             $this->datatables
@@ -353,7 +352,6 @@ class Buildings extends MX_Controller
                 ->join($pp, 'p.level_code = PCosts.level_code', 'left')
                 ->group_by('p.building_code')
                 ->add_column("Actions",
-//                "<center><a href='index.php?module=buildings&amp;view=edit_building_details&amp;id=$1' class='tip' title='" . $this->lang->line("edit_level_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
                     "<center><a href='index.php?module=buildings&amp;view=delete_building_details&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_level_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_level_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "id")
                 ->unset_column('id');
         }
@@ -507,7 +505,7 @@ class Buildings extends MX_Controller
                 ->join($pp, 'bd.level_code = PCosts.level_code', 'left')
                 ->where('c.id',$code)
                 ->add_column("Actions",
-                    "<center><a href='index.php?module=buildings&amp;view=delete_building_allocation&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_allocation') . "')\" class='tip' title='" . $this->lang->line("delete_building_allocation") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+                    "", "id")
                 ->unset_column('id');
         }
         else{
