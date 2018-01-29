@@ -42,6 +42,8 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
+                { "bSortable": true },
+                { "bSortable": true },
                 null
             ]
 
@@ -63,13 +65,15 @@
         <th><?php echo $this->lang->line("details_code"); ?></th>
         <th><?php echo $this->lang->line("details_name"); ?></th>
         <th>Category <br/>Name</th>
+        <th><?php echo $this->lang->line("concern_name"); ?></th>
         <th><?php echo $this->lang->line("details_comment"); ?></th>
+        <th><?php echo $this->lang->line("weight"); ?></th>
         <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="5" class="dataTables_empty">Loading data from server</td>
+        <td colspan="7" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

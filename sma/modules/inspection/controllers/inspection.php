@@ -606,9 +606,11 @@ class Inspection extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("deficiency_details.details_code as code,deficiency_details.details_name,deficiency_category.category_name,deficiency_details.details_comment")
+            ->select("deficiency_details.details_code as code,deficiency_details.details_name,deficiency_category.category_name,deficiency_concern.concern_name,deficiency_details.details_comment,deficiency_details.weight")
             ->from("deficiency_details")
             ->join("deficiency_category", 'deficiency_details.category_code = deficiency_category.category_code', 'left')
+            ->join("deficiency_concern", 'deficiency_details.concern_code = deficiency_concern.concern_code', 'left')
+//            ->order_by('deficiency_details.details_code','ASC')
             ->add_column("Actions",
                 "<center><a href='index.php?module=inspection&amp;view=edit_deficiency_details&amp;name=$1' class='tip' title='" . $this->lang->line("edit_deficiency_details") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=inspection&amp;view=delete_deficiency_details&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_details') . "')\" class='tip' title='" . $this->lang->line("delete_deficiency_details") . "'><i class=\"icon-remove\"></i></a></center>", "code");
         echo $this->datatables->generate();
@@ -631,11 +633,15 @@ class Inspection extends MX_Controller
         $this->form_validation->set_rules('details_comment', $this->lang->line("details_comment"), 'trim|xss_clean');
         $this->form_validation->set_rules('details_name', $this->lang->line("details_name"), 'required|min_length[3]|xss_clean');
         $this->form_validation->set_rules('category_code', $this->lang->line("category_name"), 'required|xss_clean');
+        $this->form_validation->set_rules('concern_code', $this->lang->line("concern_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('weight', $this->lang->line("weight"), 'required|xss_clean');
         if ($this->form_validation->run() == true) {
             $details_code = $this->input->post('details_code');
             $details_comment = $this->input->post('details_comment');
             $details_name = $this->input->post('details_name');
             $category_code = $this->input->post('category_code');
+            $concern_code = $this->input->post('concern_code');
+            $weight = $this->input->post('weight');
 
         }
 
@@ -653,6 +659,8 @@ class Inspection extends MX_Controller
                     'details_comment' => $details_comment,
                     'details_name' => $details_name,
                     'category_code' => $category_code,
+                    'concern_code' => $concern_code,
+                    'weight' => $weight,
                     'created_by' => USER_NAME,
                     'created_date' => date('Y-m-d H:i:s')
                 );
@@ -674,6 +682,7 @@ class Inspection extends MX_Controller
             $data['page_title'] = $this->lang->line("add_deficiency_details");
             $data['rnumber'] = $this->inspection_model->getRQNextAIForDetails();
             $data['categories'] = $this->inspection_model->getAllCategories();
+            $data['concerns'] = $this->inspection_model->getAllConcern();
             $this->load->view('commons/header', $meta);
             $this->load->view('add_deficiency_details', $data);
             $this->load->view('commons/footer');
@@ -701,11 +710,15 @@ class Inspection extends MX_Controller
         $this->form_validation->set_rules('details_comment', $this->lang->line("details_comment"), 'trim|xss_clean');
         $this->form_validation->set_rules('details_name', $this->lang->line("details_name"), 'required|min_length[3]|xss_clean');
         $this->form_validation->set_rules('category_code', $this->lang->line("category_name"), 'required|xss_clean');
+        $this->form_validation->set_rules('concern_code', $this->lang->line("concern_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('weight', $this->lang->line("weight"), 'required|xss_clean');
         if ($this->form_validation->run() == true) {
             $details_code = $this->input->post('details_code');
             $details_comment = $this->input->post('details_comment');
             $details_name = $this->input->post('details_name');
             $category_code = $this->input->post('category_code');
+            $concern_code = $this->input->post('concern_code');
+            $weight = $this->input->post('weight');
 
         }
 
@@ -717,6 +730,8 @@ class Inspection extends MX_Controller
                 'details_comment' => $details_comment,
                 'details_name' => $details_name,
                 'category_code' => $category_code,
+                'concern_code' => $concern_code,
+                'weight' => $weight,
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s')
             );
@@ -731,6 +746,7 @@ class Inspection extends MX_Controller
             $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
             $data['categories'] = $this->inspection_model->getAllCategories();
+            $data['concerns'] = $this->inspection_model->getAllConcern();
             $data['details'] = $this->inspection_model->getDeficiencyDetailsByCode($name);
             $data['name'] = $name;
             $meta['page_title'] = $this->lang->line("edit_deficiency_details");
@@ -951,7 +967,20 @@ class Inspection extends MX_Controller
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }
-            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("apartment_code") . '"');
+            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 onchange="loadConcern(this);" select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
+        } else {
+            $data = "";
+        }
+        echo $data;
+    }
+
+
+    function getDetailsInfo()
+    {
+        $details_id = $this->input->get('details_id', TRUE);
+
+        if ($rows = $this->inspection_model->getDetailsInfoByID($details_id)) {
+            $data=$rows;
         } else {
             $data = "";
         }

@@ -18,9 +18,11 @@
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 <script type="text/javascript">
 var concern_id_div = 0;
+var concern_id_div1 = 0;
+var weight_id_div = 0;
 $(document).ready(function () {
-
-
+    var an = 1;
+    var count = 0;
     $('#customer').change(function () {
             var v = $(this).find(":selected").val();
             $('#loading').show();
@@ -120,8 +122,7 @@ $("form").submit(function () {
 });
 
 $("#add_options").draggable({refreshPositions: true});
-var an = 1;
-var count = 0;
+
 $("#name").autocomplete({
     source: function (request, response) {
         $.ajax({
@@ -217,7 +218,7 @@ newTr.html('<td><input class="span6 tran" name="apt_' + count + '" id="apt_' + c
         echo ">" . $concern->concern_name . "</option>";
     }
     echo '</select></td>';
-?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td>');
+?><td id="details_' + count + '"><select class="span12 select_search" onchange="loadConcern(this);" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -249,8 +250,25 @@ $("#building_code_add").change(function () {
 });
 
 
-})
-;
+$('#addOtherInfo').click(function (){
+    var newTr = $('<tr id="row_' + count + '"></tr>');
+    newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" value=""></td><?php
+    echo '<td><select class="span12 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
+    echo "<option>Select Category</option>";
+    foreach ($categories as $category) {
+        echo "<option value=" . $category->category_code;
+        echo ">" . $category->category_name . "</option>";
+    }
+    echo '</select></td>';
+    echo '<td id="concerns_' + count + '"><input class="span12"  name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td id="weights_' + count + '"><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+    newTr.prependTo("#dyTable");
+
+    count++;
+    an++;
+});
+
+});
 
 
 $(".show_hide").slideDown('slow');
@@ -292,6 +310,54 @@ function (data) {
         (concern_id_div).empty();
         var default_data = '<select name="details_code" class="select_search span12" id="details_code" data-placeholder="Select Details"></select>';
         $(concern_id_div).html(default_data);
+    }
+}
+,
+error: function () {
+    bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
+    $('#loading').hide();
+}
+
+})
+;
+
+$('#loading').hide();
+}
+
+
+
+//    $('#building_code').change(function () {
+function loadConcern(obj) {
+    var c = $(obj).find(":selected").val();
+    var concern_id_div1 = $('#concerns_' + c);
+    var weight_id_div = $('#weights_' + c);
+
+    $('#loading').show();
+    $.ajax({
+        type: "get",
+        async: false,
+        url: "index.php?module=inspection&view=getDetailsInfo",
+        data: {
+    <?php echo $this->security->get_csrf_token_name(); ?>:
+    "<?php echo $this->security->get_csrf_hash() ?>", details_id
+:c
+}
+,
+dataType:"html",
+    success
+:
+function (data) {
+    if (data != "") {
+        $('#concern_' + c).empty();
+        $('#weight_' + c).empty();
+        $('#concern_' + c).html(data);
+        $('#weight_' + c).html(data);
+    } else {
+        $(concern_id_div1).empty();
+        var default_data = '<select name="details_code" class="select_search span12" id="details_code" data-placeholder="Select Details"></select>';
+        var default_data1 = '<select name="details_code" class="select_search span12" id="details_code" data-placeholder="Select Details"></select>';
+        $(concern_id_div1).html(default_data);
+        $(weight_id_div).html(default_data1);
     }
 }
 ,
@@ -401,7 +467,8 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
             <th class="span12">Deficiency Details</th>
             <th class="span12">Status/Comments</th>
             <th class="span2">Weight</th>
-            <th style="width: 20px;"><i class="icon-trash" style="opacity:0.5; filter:alpha(opacity=50);"></i></th>
+            <th style="width: 20px;"><button type="button"><i class="icon-trash" style="opacity:0.5; filter:alpha(opacity=50);"></i></button></th>
+            <th style="width: 20px;"><button type="button" id="addOtherInfo" title="Bathroom/Other Inspection Add"><i class="icon-plus" style="opacity:0.5; filter:alpha(opacity=50);"></i></button></th>
             </thead>
             <tbody></tbody>
         </table>

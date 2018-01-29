@@ -11,7 +11,7 @@
 <?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=inspection&view=edit_deficiency_details&name=".$name, $attrib);?>
 <div class="control-group">
     <label class="control-label" for="code"><?php echo $this->lang->line("details_code"); ?></label>
-    <div class="controls"> <?php echo form_input('details_code', $details->category_code, 'class="span4" readonly="readonly" id="details_code" required="required" pattern="[a-zA-Z0-9_-()]{2,12}" data-error="'.$this->lang->line("details_code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
+    <div class="controls"> <?php echo form_input('details_code', $details->details_code, 'class="span4" readonly="readonly" id="details_code" required="required" pattern="[a-zA-Z0-9_-()]{2,12}" data-error="'.$this->lang->line("details_code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
 </div>
 <div class="control-group">
     <label class="control-label" for="category_name">Category Name</label>
@@ -24,7 +24,21 @@
         echo form_dropdown('category_code', $categoryList,$details->category_code, 'class="select_search span4" data-error="' . $this->lang->line("category_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
+<div class="control-group">
+    <label class="control-label" for="category_name">Concern Name</label>
 
+    <div class="controls"> <?php
+        //        $roomList[''] = "";
+
+        foreach ($concerns as $concern) {
+            $concernList[$concern->concern_code] = $concern->concern_name;
+        }
+        echo form_dropdown('concern_code', $concernList, $details->concern_code, 'class="select_search span4" data-error="' . $this->lang->line("concern_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="name"><?php echo $this->lang->line("weight"); ?></label>
+    <div class="controls"> <?php echo form_input('weight', $details->weight, 'class="span4" id="name"  required="required" type="numeric" data-error="'.$this->lang->line("weight").' '.$this->lang->line("is_required").'"');?> </div>
+</div>
 <div class="control-group">
     <label class="control-label" for="name"><?php echo $this->lang->line("details_name"); ?></label>
     <div class="controls">

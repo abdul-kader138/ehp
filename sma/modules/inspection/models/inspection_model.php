@@ -327,6 +327,20 @@ class Inspection_model extends CI_Model
         }
     }
 
+    public function getDetailsInfoByID($id)
+    {
+        {
+            $q = $this->db->get_where('deficiency_details', array('details_code' => $id), 1);
+            if ($q->num_rows() > 0) {
+                return $q->row();
+            }
+
+            return FALSE;
+
+        }
+
+    }
+
     public function getDetailsByID($id)
     {
         $this->db->select('deficiency_details.details_code,deficiency_details.details_name');

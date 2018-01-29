@@ -23,10 +23,23 @@
         }
         echo form_dropdown('category_code', $categoryList, (isset($_POST['category_code']) ? $_POST['category_code'] : ""), 'class="select_search span4" data-error="' . $this->lang->line("category_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
-
-
 <div class="control-group">
-    <label class="control-label" for="name"><?php echo $this->lang->line("details_name"); ?></label>
+    <label class="control-label" for="category_name">Concern Name</label>
+
+    <div class="controls"> <?php
+        //        $roomList[''] = "";
+
+        foreach ($concerns as $concern) {
+            $concernList[$concern->concern_code] = $concern->concern_name;
+        }
+        echo form_dropdown('concern_code', $concernList, (isset($_POST['concern_code']) ? $_POST['concern_code'] : ""), 'class="select_search span4" data-error="' . $this->lang->line("concern_name") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="name"><?php echo $this->lang->line("weight"); ?></label>
+    <div class="controls"> <?php echo form_input('weight', '', 'class="span4" id="name"  required="required" type="numeric" data-error="'.$this->lang->line("weight").' '.$this->lang->line("is_required").'"');?> </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="name"><?php echo $this->lang->line("details_name");  ?></label>
     <div class="controls">
         <?php echo form_textarea('details_name', (isset($_POST['details_name']) ? $_POST['details_name'] : ''), 'class="input-block-level" required="required" data-error="' . $this->lang->line("details_name") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_10") . '" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"'); ?>
     </div>
