@@ -967,7 +967,9 @@ class Inspection extends MX_Controller
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }
-            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 onchange="loadConcern(this);" select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
+            $js = 'onChange="loadConcern(this);"';
+//            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 onchange="loadConcern(this);" select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
+            $data = form_dropdown('detail_'. $details_id, $ct, $js,'class="span12  select_search" onchange="loadConcern(this);" id="detail_'.$details_id. '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
         } else {
             $data = "";
         }
@@ -984,7 +986,6 @@ class Inspection extends MX_Controller
         } else {
             $data = "";
         }
-        echo $data;
     }
 
 

@@ -305,7 +305,11 @@ class Inspection_model extends CI_Model
 
     public function getAllCategory()
     {
-        $q = $this->db->get('deficiency_category');
+
+        $this->db->select('*');
+        $this->db->from('deficiency_category');
+        $this->db->order_by('category_name','ASC');
+        $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
@@ -332,10 +336,10 @@ class Inspection_model extends CI_Model
         {
             $q = $this->db->get_where('deficiency_details', array('details_code' => $id), 1);
             if ($q->num_rows() > 0) {
-                return $q->row();
+                echo json_encode($q->row());
             }
 
-            return FALSE;
+            echo "";
 
         }
 
@@ -346,6 +350,7 @@ class Inspection_model extends CI_Model
         $this->db->select('deficiency_details.details_code,deficiency_details.details_name');
         $this->db->from('deficiency_details');
         $this->db->where(array('category_code' => $id));
+        $this->db->order_by('deficiency_details.details_name','ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {

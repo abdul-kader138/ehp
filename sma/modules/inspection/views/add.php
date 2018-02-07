@@ -329,8 +329,8 @@ $('#loading').hide();
 //    $('#building_code').change(function () {
 function loadConcern(obj) {
     var c = $(obj).find(":selected").val();
-    var concern_id_div1 = $('#concerns_' + c);
-    var weight_id_div = $('#weights_' + c);
+    var concern_id_div1 = $('#concern_' + c);
+    var weight_id_div = $('#weight_' + c);
 
     $('#loading').show();
     $.ajax({
@@ -348,10 +348,15 @@ dataType:"html",
 :
 function (data) {
     if (data != "") {
-        $('#concern_' + c).empty();
-        $('#weight_' + c).empty();
-        $('#concern_' + c).html(data);
-        $('#weight_' + c).html(data);
+        var result=jQuery.parseJSON(data);
+        var main_id=obj.id;
+        var seq_id= main_id.split("_");
+        $('#concern_' + seq_id[1]).val();
+        $('#weight_' + seq_id[1]).val();
+        $('#concern_' + seq_id[1]).val(result.concern_code);
+        $('#weight_' + seq_id[1]).val(result.weight);
+        console.log(seq_id[1]);
+        console.log(result.weight);
     } else {
         $(concern_id_div1).empty();
         var default_data = '<select name="details_code" class="select_search span12" id="details_code" data-placeholder="Select Details"></select>';
