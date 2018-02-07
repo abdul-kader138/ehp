@@ -249,7 +249,7 @@ $("#building_code_add").change(function () {
 
 $('#addOtherInfo').click(function (){
     var newTr = $('<tr id="row_' + count + '"></tr>');
-    newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" value=""></td><?php
+    newTr.html('<td><input required="required" class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" value=""></td><?php
     echo '<td><select class="span12 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
     echo "<option>Select Category</option>";
     foreach ($categories as $category) {
@@ -257,8 +257,11 @@ $('#addOtherInfo').click(function (){
         echo ">" . $category->category_name . "</option>";
     }
     echo '</select></td>';
-    echo '<td id="concerns_' + count + '"><input class="span12"  name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
-?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td id="weights_' + count + '"><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+    echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
+
+    echo '<td><input class="span6 tran2"   name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+
+?><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
     newTr.prependTo("#dyTable");
 
     count++;
@@ -352,8 +355,10 @@ function (data) {
         $('#weight_' + seq_id[1]).val();
         $('#concern_' + seq_id[1]).val(result.concern_code);
         $('#weight_' + seq_id[1]).val(result.weight);
-        console.log(seq_id[1]);
-        console.log(result.weight);
+        var total = parseFloat($("#total").val());
+        var nQty = parseFloat( $('#weight_' + seq_id[1]).val());
+        total += nQty;
+        $('#total').val(total.toFixed(2));
     } else {
         $(concern_id_div1).empty();
         var default_data = '<select name="details_code" class="select_search span12" id="details_code" data-placeholder="Select Details"></select>';
@@ -463,8 +468,8 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <div class="controls table-controls">
         <table id="dyTable" class="table items table-striped table-bordered table-condensed table-hover">
             <thead>
-            <th class="span6">Apartment Code</th>
-            <th class="span4">Category</th>
+            <th class="span6">Inspection Content</th>
+            <th class="span6">Category</th>
             <th class="span12">Deficiency Details</th>
             <th class="span4">Concern</th>
             <th class="span2">Weight</th>
