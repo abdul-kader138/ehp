@@ -204,21 +204,18 @@ if (item_name == false) {
 
 var newTr = $('<tr id="row_' + count + '"></tr>');
 newTr.html('<td><input class="span6 tran" name="apt_' + count + '" id="apt_' + count + '" type="text" value="' + item_name + '"></td><?php
-    echo '<td><select class="span6 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
+    echo '<td><select class="span4 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
     echo "<option>Select Category</option>";
     foreach ($categories as $category) {
         echo "<option value=" . $category->category_code;
         echo ">" . $category->category_name . "</option>";
     }
     echo '</select></td>';
-    echo '<td><select class="span6 select_search"  data-placeholder="Select..." name="concern_\' + count + \'" id="concern_\' + count + \'">';
-    echo "<option>Select Concern</option>";
-    foreach ($concerns as $concern) {
-        echo "<option value=" . $concern->concern_code;
-        echo ">" . $concern->concern_name . "</option>";
-    }
-    echo '</select></td>';
-?><td id="details_' + count + '"><select class="span12 select_search" onchange="loadConcern(this);" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+    echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
+
+    echo '<td><input class="span6 tran2"   name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+
+?><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -261,7 +258,7 @@ $('#addOtherInfo').click(function (){
     }
     echo '</select></td>';
     echo '<td id="concerns_' + count + '"><input class="span12"  name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
-?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td id="weights_' + count + '"><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td id="details_' + count + '"><select class="span12 select_search" id="detail_' + count + '" name="detail_' + count + '"><option></option></select></td><td id="weights_' + count + '"><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
     newTr.prependTo("#dyTable");
 
     count++;
@@ -468,10 +465,10 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
             <thead>
             <th class="span6">Apartment Code</th>
             <th class="span4">Category</th>
-            <th class="span4">Concern</th>
             <th class="span12">Deficiency Details</th>
-            <th class="span12">Status/Comments</th>
+            <th class="span4">Concern</th>
             <th class="span2">Weight</th>
+            <th class="span12">Status/Comments</th>
             <th style="width: 20px;"><button type="button"><i class="icon-trash" style="opacity:0.5; filter:alpha(opacity=50);"></i></button></th>
             <th style="width: 20px;"><button type="button" id="addOtherInfo" title="Bathroom/Other Inspection Add"><i class="icon-plus" style="opacity:0.5; filter:alpha(opacity=50);"></i></button></th>
             </thead>
