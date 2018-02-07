@@ -25,7 +25,9 @@
 <body>
 <div id="wrap">
     <div class="row-fluid text-center" style="margin-bottom:20px;">
-        <img src="<?php echo base_url() . 'assets/img/' . LOGO2; ?>" alt="<?php echo SITE_NAME; ?>">
+<!--        <img src="--><?php //echo base_url() . 'assets/img/' . LOGO2; ?><!--" alt="--><?php //echo SITE_NAME; ?><!--">-->
+        <h4>CITY OF NEW YORK HUMAN RESOURCES ADMINISTRATION</h4>
+        <h3><u>Inspection Outcome Report</u></h3>
     </div>
     <div class="row-fluid">
         <div class="span6">
