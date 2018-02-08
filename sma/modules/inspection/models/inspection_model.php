@@ -146,6 +146,17 @@ class Inspection_model extends CI_Model
         return FALSE;
     }
 
+    public function closeInspection($name)
+    {
+        if ($this->db->update("inspection",array(
+            'updated_by' => USER_NAME,
+            'close_status'=>'Yes',
+            'updated_date' => date('Y-m-d H:i:s')
+        ), array('inspection_code' => $name))) {
+            return true;
+        }
+        return FALSE;
+    }
 
     public function getDeficiencyDetailsByName($name)
     {
@@ -334,7 +345,12 @@ class Inspection_model extends CI_Model
     public function getDetailsInfoByID($id)
     {
         {
-            $q = $this->db->get_where('deficiency_details', array('details_code' => $id), 1);
+            $this->db->select('*');
+            $this->db->from('deficiency_details');
+            $this->db->where(array('deficiency_details.details_code' => $id));
+            $this->db->join('deficiency_concern c', 'deficiency_details.concern_code = c.concern_code', 'left');
+            $q = $this->db->get();
+//            $q = $this->db->get_where('deficiency_details', array('details_code' => $id), 1);
             if ($q->num_rows() > 0) {
                 echo json_encode($q->row());
             }
@@ -381,6 +397,32 @@ class Inspection_model extends CI_Model
         return false;
     }
 
+
+    public function updateInspection($inspection, $previousData,$inspectionDetails)
+    {
+        $new_weight=$previousData->total_weight +$inspection['total_weight'];
+        $new_deficiency=$previousData->total_deficiency +$inspection['total_deficiency'];
+        $id=$previousData->id;
+        if ($this->db->update('inspection',
+            array(
+                'total_weight' => $new_weight,
+                'total_deficiency' => $new_deficiency,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s'))
+            , array('id'=>$id))){
+            $addOn = array('inspection_id' => $id);
+            end($addOn);
+            foreach ($inspectionDetails as &$var) {
+                $var = array_merge($addOn, $var);
+            }
+            if ($this->db->insert_batch('inspection_details', $inspectionDetails)) {
+                return true;
+            }
+            return true;
+        }
+
+        return false;
+    }
     public function getCustomerByID($id)
     {
 
@@ -396,14 +438,14 @@ class Inspection_model extends CI_Model
     public function getAllInspectionDetails($id)
 
     {
-        $this->db->select('idc.date,idc.inspection_code,idc.apartment_code,idc.building_code,idc.vendor_code,idc.weight,idc.comments_id,dcn.concern_name,dca.category_name,dcd.details_name,idc.comments_id,c.name');
+        $this->db->select('idc.date,idc.inspection_code,idc.apartment_code,idc.building_code,idc.vendor_code,idc.weight,idc.comments_id,idc.concern_id,dca.category_name,dcd.details_name,idc.comments_id,c.name');
         $this->db->from('inspection_details idc');
-        $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
+//        $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
         $this->db->join('deficiency_category dca', 'idc.category_id = dca.category_code', 'left');
         $this->db->join('deficiency_details dcd', 'idc.details_id = dcd.details_code', 'left');
         $this->db->join('customers c', 'idc.vendor_code = c.id', 'left');
         $this->db->where('idc.inspection_code', $id);
-        $this->db->order_by('idc.inspection_code', 'asc');
+        $this->db->order_by('idc.inspection_code', 'ASC');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
@@ -416,9 +458,8 @@ class Inspection_model extends CI_Model
     public function getAllConcernAndWeight($id)
 
     {
-        $this->db->select('COUNT(concern_name) as count,concern_name');
+        $this->db->select('COUNT(concern_id) as count,concern_id');
         $this->db->from('inspection_details idc');
-        $this->db->join('deficiency_concern dcn', 'idc.concern_id = dcn.concern_code', 'left');
         $this->db->where('idc.inspection_code', $id);
         $this->db->group_by('idc.inspection_code,idc.concern_id');
         $q = $this->db->get();
@@ -448,7 +489,12 @@ class Inspection_model extends CI_Model
 
     public function getAllInspection($id)
     {
-        $q = $this->db->get_where("inspection", array('inspection_code' => $id));
+
+        $this->db->select('*');
+        $this->db->from('inspection');
+        $this->db->join('building b', 'inspection.building_code = b.building_code', 'left');
+        $this->db->where('inspection.inspection_code', $id);
+        $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
@@ -487,4 +533,17 @@ class Inspection_model extends CI_Model
     }
 
 
+
+    public function getDetailsInfoByCode($code)
+    {
+        {
+            $q = $this->db->get_where('inspection', array('inspection_code' => $code), 1);
+            if ($q->num_rows() > 0) {
+                return $q->row();
+            }
+            return false;
+
+        }
+
+    }
 }

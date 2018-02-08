@@ -203,7 +203,7 @@ if (item_name == false) {
 }
 
 var newTr = $('<tr id="row_' + count + '"></tr>');
-newTr.html('<td><input class="span6 tran" name="apt_' + count + '" id="apt_' + count + '" type="text" value="' + item_name + '"></td><?php
+newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" readonly="readonly" value="' + item_name + '"></td><?php
     echo '<td><select class="span4 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
     echo "<option>Select Category</option>";
     foreach ($categories as $category) {
@@ -213,9 +213,9 @@ newTr.html('<td><input class="span6 tran" name="apt_' + count + '" id="apt_' + c
     echo '</select></td>';
     echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
 
-    echo '<td><input class="span6 tran2"   name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+    echo '<td><input class="span12" readonly="readonly"  name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" class="span12" style="text-align:right;" value="0" readonly="readonly" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -259,9 +259,9 @@ $('#addOtherInfo').click(function (){
     echo '</select></td>';
     echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
 
-    echo '<td><input class="span6 tran2"   name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+    echo '<td><input class="span12"  readonly="readonly" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" class="span2 tran2" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" class="span12" readonly="readonly" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
     newTr.prependTo("#dyTable");
 
     count++;
@@ -353,7 +353,7 @@ function (data) {
         var seq_id= main_id.split("_");
         $('#concern_' + seq_id[1]).val();
         $('#weight_' + seq_id[1]).val();
-        $('#concern_' + seq_id[1]).val(result.concern_code);
+        $('#concern_' + seq_id[1]).val(result.concern_name);
         $('#weight_' + seq_id[1]).val(result.weight);
         var total = parseFloat($("#total").val());
         var nQty = parseFloat( $('#weight_' + seq_id[1]).val());
@@ -401,8 +401,14 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <label class="control-label" for="reference_no"><?php echo $this->lang->line("inspection_code"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('reference_no', (isset($_POST['reference_no']) ? $_POST['reference_no'] : $ref), 'class="span4 tip" id="reference_no" readonly="readonly" required="required" data-error="' . $this->lang->line("reference_no") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+        class="controls"> <?php echo form_input('reference_no', (isset($_POST['reference_no']) ? $_POST['reference_no'] : $ref), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("reference_no") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
+<!--<div class="control-group">-->
+<!--    <label class="control-label" for="reference_no">--><?php //echo $this->lang->line("inspection_code"); ?><!--Corrective Action Plan Due Date</label>-->
+<!---->
+<!--    <div-->
+<!--        class="controls"> --><?php //echo form_input('due_date', (isset($_POST['due_date']) ? $_POST['due_date'] : $ref), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("reference_no") . ' ' . $this->lang->line("is_required") . '"'); ?><!-- </div>-->
+<!--</div>-->
 
 
 <div class="control-group">

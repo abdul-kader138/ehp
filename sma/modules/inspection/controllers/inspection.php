@@ -82,6 +82,7 @@ class Inspection extends MX_Controller
         $apt = "apt_";
         $category = "category_";
         $concern = "concern_";
+        $detail = "detail_";
         $weight = "weight_";
         $comments = "comments_";
 
@@ -100,10 +101,10 @@ class Inspection extends MX_Controller
                     $apt_id[] = $this->input->post($apt . $i);
                     $category_id[] = $this->input->post($category . $i);
                     $concern_id[] = $this->input->post($concern . $i);
-                    $details_id[] = $this->input->post($i);
+                    $details_id[] = $this->input->post($detail.$i);
                     $weight_id[] = $this->input->post($weight . $i);
                     $comments_id[] = $this->input->post($comments . $i);
-                    $inspection_code[] = $reference_no;
+                    $inspection_code[] = trim($reference_no);
                     $building_code_id[] = $building_code;
                     $vendor_code_id[] = $customer_id;
                     $date_id[] = $date;
@@ -117,7 +118,7 @@ class Inspection extends MX_Controller
             'date' => $date,
             'building_code`' => $building_code,
             'vendor_code' => $customer_id,
-            'inspection_code' => $reference_no,
+            'inspection_code' => trim($reference_no),
             'note' => $note,
             'total_weight' => $weight_val,
             'total_deficiency' => $count,
@@ -131,10 +132,29 @@ class Inspection extends MX_Controller
         foreach (array_map(null, $inspection_code, $building_code_id, $vendor_code_id, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id, $date_id, $create_user_id, $date_id) as $key => $value) {
             $items[] = array_combine($keys, $value);
         }
-        if ($this->form_validation->run() == true && $this->inspection_model->addInspection($inspection, $items)) { //check to see if we are creating the customer
-//            redirect them back to the admin page
-            $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
-            redirect("module=inspection", 'refresh');
+        if ($this->form_validation->run() == true ) { //check to see if we are creating the customer
+            if($inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($reference_no))){
+
+                if($inspection_data->close_status == 'Yes'){
+                    $this->session->set_flashdata('message', $this->lang->line("already_close_inspection"));
+                    redirect("module=inspection", 'refresh');
+                }
+
+                if($inspection_data->building_code == $building_code && $inspection_data->vendor_code == $customer_id){
+                    $this->inspection_model->updateInspection($inspection, $inspection_data,$items);
+                    $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
+                    redirect("module=inspection", 'refresh');
+                }
+                else{
+                    $this->session->set_flashdata('message', $this->lang->line("inspection_wrong_added"));
+                    redirect("module=inspection", 'refresh');
+                }
+            }else{
+                $this->inspection_model->addInspection($inspection, $items);
+                $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
+                redirect("module=inspection", 'refresh');
+            }
+
         } else {
             $data['customers'] = $this->inspection_model->getAllCustomers();
             $data['concerns'] = $this->inspection_model->getAllConcern();
@@ -164,7 +184,7 @@ class Inspection extends MX_Controller
                  <a href='index.php?module=inspection&view=details_pdf&id=$1' title='Print Details' class='tip'><i class='icon-download'></i></a>
                  <a href='index.php?module=inspection&view=add_image&id=$1' title='add Image' class='tip'><i class='icon-download'></i></a>
                  <a href='index.php?module=inspection&amp;view=edit_inspection&amp;name=$1' class='tip' title='" . $this->lang->line("edit_inspection") . "'><i class=\"icon-edit\"></i></a>
-                <a href='index.php?module=inspection&amp;view=delete_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_inspection') . "')\" class='tip' title='" . $this->lang->line("delete_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
+                <a href='index.php?module=inspection&amp;view=close_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_close') . "')\" class='tip' title='" . $this->lang->line("close_inspection") . "'><i class=\"icon-remove\"></i></a></center>", "code");
         echo $this->datatables->generate();
 
     }
@@ -318,7 +338,15 @@ class Inspection extends MX_Controller
         if ($this->input->get('id')) {
             $id = $this->input->get('id');
         }
-        $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        $inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($id));
+
+            if($inspection_data->close_status == 'No'){
+                $this->session->set_flashdata('message', $this->lang->line("already_open_inspection"));
+                redirect("module=inspection", 'refresh');
+            }
+
+
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
         $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
         $data['inspection'] = $this->inspection_model->getAllInspection($id);
         $data['inspection_apt'] = $this->inspection_model->getAllInspectionApt($id);
@@ -330,7 +358,7 @@ class Inspection extends MX_Controller
 
         $this->load->library('MPDF/mpdf');
 
-        $mpdf = new mPDF('utf-8', 'A4', '12', '', 10, 10, 10, 10, 9, 9);
+        $mpdf = new mPDF('utf-8', 'A4', '12', '', 10, 10, 10, 10, 9, 2, 'L');
         $mpdf->useOnlyCoreFonts = true;
         $mpdf->SetProtection(array('print'));
         $mpdf->SetTitle(SITE_NAME);
@@ -338,6 +366,8 @@ class Inspection extends MX_Controller
         $mpdf->SetCreator(SITE_NAME);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->SetAutoFont();
+        $mpdf->SetHTMLFooter('{PAGENO}');
+        $mpdf->setFooter('DATE j-m-Y');
         $stylesheet = file_get_contents('assets/css/bootstrap-' . THEME . '.css');
         $mpdf->WriteHTML($stylesheet, 1);
 
@@ -948,6 +978,7 @@ class Inspection extends MX_Controller
 //            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
 //            redirect("module=shelfs", 'refresh');
 //        }
+
         if ($this->inspection_model->deleteDeficiencyConcern($name)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("deficiency_concern_deleted"));
@@ -1003,6 +1034,40 @@ class Inspection extends MX_Controller
             $data = "";
         }
         echo $data;
+    }
+
+    function close_inspection($name = NULL)
+    {
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+
+        $inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($name));
+
+        if($inspection_data->close_status == 'Yes'){
+            $this->session->set_flashdata('message', $this->lang->line("already_close_inspection"));
+            redirect("module=inspection", 'refresh');
+        }
+
+        if ($this->inspection_model->closeInspection($name)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("inspection_close"));
+            redirect("module=inspection", 'refresh');
+        }
+
     }
 
 

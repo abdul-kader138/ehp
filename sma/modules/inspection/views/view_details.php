@@ -26,28 +26,16 @@
 <div id="wrap">
     <div class="row-fluid text-center" style="margin-bottom:20px;">
 <!--        <img src="--><?php //echo base_url() . 'assets/img/' . LOGO2; ?><!--" alt="--><?php //echo SITE_NAME; ?><!--">-->
-        <h4>CITY OF NEW YORK HUMAN RESOURCES ADMINISTRATION</h4>
-        <h3><u>Inspection Outcome Report</u></h3>
+        <h4 style="color: #000000;">CITY OF NEW YORK HUMAN RESOURCES ADMINISTRATION</h4>
+        <h4 style="color: #000000;"><u>Inspection Outcome Report</u></h4>
+        <p style="color: #000000;">Facility Name : <?php echo $inspection[0]->building_name ?></p>
+        <p style="color: #000000;">Facility Address : <?php echo $inspection[0]->location ?></p>
     </div>
     <div class="row-fluid">
         <div class="span6">
-            <h3><?php echo $customer->name; ?></h3>
-
-            <p style="text-align: left"> <?php echo $customer->address . ",<br />" . $customer->city . ", " . $customer->postal_code . ", " . $customer->city . ",<br />" . $customer->state; ?></p>
-
-            <p style="text-align: left"><?php echo $this->lang->line("tel") . ": " . $customer->phone . "<br />" . $this->lang->line("email") . ": " . $customer->email; ?></p>
-        </div>
-
-        <div class="span6">
-            <p style="font-weight:bold; text-align:right"><?php echo $this->lang->line("inspection_code"); ?>
-                : <?php echo $rows[0]->inspection_code; ?></p>
-
-            <p style="text-align:right"><?php echo $this->lang->line("inspection_date"); ?>
+            <p style="text-align:left;color: #000000;"><?php echo $this->lang->line("inspection_date"); ?>
                 : <?php echo $rows[0]->date; ?></p>
-
-            <p style="text-align:right"><?php echo $this->lang->line("print_date"); ?>
-                : <?php echo date('Y-m-d'); ?></p>
-        </div>
+          </div>
         <div style="clear: both;"></div>
     </div>
     <p>&nbsp;</p>
@@ -60,16 +48,13 @@
         <thead>
 
         <tr>
-            <th><?php echo $this->lang->line("no"); ?></th>
-            <th><?php echo $this->lang->line("vendor_code"); ?> </th>
-            <th><?php echo $this->lang->line("building_code"); ?></th>
+            <th style="padding-left:5px;"><?php echo $this->lang->line("no"); ?></th>
             <th style="padding-left:5px;"><?php echo $this->lang->line("apartment_code"); ?></th>
+            <th style="padding-left:5px;width:300px; ">Deficiency</th>
             <th style="padding-left:5px;">Deficiency <br/>Concern</th>
-            <th style="padding-left:5px;">Deficiency <br/>Category</th>
-            <th style="padding-left:5px;">Deficiency <br/>Details</th>
-            <th style="padding-left:5px;">Comments</th>
             <th style="padding-left:5px;">Weight</th>
-            <th>Corrective <br/> Action <br/>Plan</th>
+            <th style="padding-left:5px;width:300px; ">Status and Comments</th>
+            <th style="text-align:middle; width:400px;  padding-right:10px;">Corrective Action Plan</th>
         </tr>
 
         </thead>
@@ -81,15 +66,12 @@
         foreach ($rows as $row): ?>
             <tr>
                 <td style="text-align:center; width:40px; vertical-align:middle;"><?php echo $r; ?></td>
-                <td style="vertical-align:middle;"><?php echo $row->name; ?></td>
-                <td style="vertical-align:middle;"><?php echo $row->building_code; ?></td>
                 <td style="vertical-align:middle;"><?php echo $row->apartment_code; ?></td>
-                <td style="text-align:middle; width:50px; padding-right:10px;"><?php echo $row->concern_name; ?></td>
-                <td style="text-align:middle; width:50px; padding-right:10px;"><?php echo $row->category_name; ?></td>
-                <td style="text-align:middle; width:150px; padding-right:10px;"><?php echo $row->details_name; ?></td>
-                <td style="text-align:middle; width:150px; padding-right:10px;"><?php echo $row->comments_id; ?></td>
-                <td style="text-align:middle; width:20px; padding-right:10px;"><?php echo $row->weight; ?></td>
-                <td style="text-align:middle; width:150px; padding-right:10px;"></td>
+                <td style="text-align:middle;width:150px; padding-right:10px;"><?php echo $row->details_name; ?></td>
+                <td style="text-align:middle;width:50px; padding-right:10px;"><?php echo $row->concern_id; ?></td>
+                <td style="text-align:middle;width:20px; padding-right:10px;"><?php echo $row->weight; ?></td>
+                <td style="text-align:middle;width:150px; padding-right:10px;"><?php echo $row->comments_id; ?></td>
+                <td style="text-align:middle;width:400px; padding-right:10px;"></td>
             </tr>
             <?php
             $r++;
@@ -111,14 +93,14 @@
 
         <thead>
 
-        <tr>
+        <tr style="font-size: small;">
             <th style="padding-left:5px;">&nbsp;&nbsp;&nbsp;</th>
-            <th style="padding-left:5px;">Weighted <br/>Deficiencies</th>
+            <th style="padding-left:5px;font-size: small;">Weighted <br/>Deficiencies</th>
             <?php
             foreach ($concern_weights as $concern_weight): ?>
-                <th style="padding-left:5px;"><?php echo $concern_weight->concern_name; ?> </th>
+                <th style="padding-left:5px;font-size: small;"><?php echo $concern_weight->concern_id; ?> </th>
             <?php endforeach; ?>
-            <th style="padding-left:5px;">Total<br/>Deficiencies</th>
+            <th style="padding-left:5px; font-size: small;">Total<br/>Deficiencies</th>
         </tr>
 
         </thead>
@@ -145,33 +127,33 @@
     <div style="clear: both;"></div>
     <br/>
     <div class="row-fluid">
-        <div class="span12">
-            <p><b>Total Number Of Inspection Area Inspected
+        <div class="span12" style="font-size: small;">
+            <p style="font-size: small;"><b>Total Number Of Inspection Area Inspected
                     : <?php echo $inspection_apt[0]->num; ?></b></p>
         </div>
     </div>
 
     <br/>
     <div class="row-fluid">
-        <div class="span12">
-            <p><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies
-                    : <?php echo($grandTotal / $total); ?></b></p>
+        <div class="span12" style="font-size: small;">
+            <p style="font-size: small;"><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies
+                    : <?php echo number_format(($grandTotal / $total), 2, '.', ''); ?></b></p>
         </div>
     </div>
 
     <br/>
 
     <div class="row-fluid">
-        <div class="span5">
-            <p><b>Note:<?php echo html_entity_decode($inspection[0]->note); ?>
+        <div class="span5" style="font-size: small;">
+            <p style="font-size: small;"><b>Note:<?php echo html_entity_decode($inspection[0]->note); ?>
             </b></p>
         </div>
     </div>
     <br/>
 
     <div class="row-fluid">
-        <div class="span6">
-            <p><b>Outcome:
+        <div class="span6" style="font-size: small;">
+            <p style="font-size: small;"><b>Outcome:
                     <?php
                     if (($grandTotal / $total) == 0)
                         echo "Very Good";
@@ -186,35 +168,35 @@
                     ?>
                 </b></p>
         </div>
-        <div class="span6">
-            <p><b>Corrective Action plan Due Date: </b></p>
+        <div class="span6" style="font-size: small;">
+            <p style="font-size: small"><b>Corrective Action plan Due Date: </b></p>
         </div>
     </div>
     <br/>
 
     <p>&nbsp;</p>
     <table style="border: 1px solid;" width="30%">
-        <tr><td style="text-align: center" colspan="2"><b>Rating</b></td></tr>
-        <tr style="border: 1px solid;">
+        <tr style="font-size: small;"><td style="text-align: center" colspan="2"><b>Rating</b></td></tr>
+        <tr style="border: 1px solid;font-size: small;;">
             <td style="border: 1px solid; text-align: center;"><b>Very Good</b></td>
-            <td style="border: 1px solid; text-align: center;"><b>0</b></td>
+            <td style="border: 1px solid;font-size: small; text-align: center;"><b>0</b></td>
         </tr>
-        <tr style="border: 1px solid;">
-            <td style="border: 1px solid; text-align: center;"><b>Good</b></td>
-            <td style="border: 1px solid; text-align: center;"><b>0.01-3.0</b></td>
+        <tr style="border: 1px solid;font-size: small;">
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>Good</b></td>
+            <td style="border: 1px solid;font-size: small; text-align: center;"><b>0.01-3.0</b></td>
         </tr>
-        <tr style="border: 1px solid; text-align: center;">
-            <td style="border: 1px solid; text-align: center;"><b>Satisfactory</b></td>
-            <td style="border: 1px solid; text-align: center;"><b>3.01-5.0</b></td>
+        <tr style="border: 1px solid; text-align: center;font-size: small;">
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>Satisfactory</b></td>
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>3.01-5.0</b></td>
         </tr>
 
-        <tr style="border: 1px solid;">
-            <td style="border: 1px solid; text-align: center;"><b>Unsatisfactory</b></td>
-            <td style="border: 1px solid; text-align: center;"><b>5.01-10.0</b></td>
+        <tr style="border: 1px solid;font-size: small;">
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>Unsatisfactory</b></td>
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>5.01-10.0</b></td>
         </tr>
-        <tr style="border: 1px solid;">
-            <td style="border: 1px solid; text-align: center;"><b>Unacceptable</b></td>
-            <td style="border: 1px solid; text-align: center;"><b> >10</b></td>
+        <tr style="border: 1px solid;font-size: small;">
+            <td style="border: 1px solid; font-size: small;text-align: center;"><b>Unacceptable</b></td>
+            <td style="border: 1px solid;font-size: small; text-align: center;"><b> >10</b></td>
         </tr>
     </table>
 
@@ -257,8 +239,6 @@
 
         </tr>
     </table>
-
-
 
 </div>
 </body>

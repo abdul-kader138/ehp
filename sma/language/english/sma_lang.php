@@ -959,7 +959,7 @@ $lang['add_deficiency_details']	    	= "Add Deficiency Details";
 $lang['edit_deficiency_details']		= "Edit Deficiency Details";
 $lang['delete_deficiency_details']		= "Delete Deficiency Details";
 $lang['deficiency_details_added'] 	    = "Deficiency Details Successfully Added.";
-$lang['deficiency_details_deleted'] 	= "Deficiency Details Successfully Deleted.";
+$lang['inspection_close'] 	            = "Inspection Successfully Completed.";
 $lang['deficiency_details_updated'] 	= "Deficiency Details Successfully Updated.";
 $lang['details_code'] 					= "Code";
 $lang['details_name'] 					= "Deficiency Details";
@@ -973,8 +973,11 @@ $lang['alert_x_details'] 				= "You are going to remove this Deficiency Details.
 
 $lang['add_inspection']		            = "Add Inspection";
 $lang['edit_inspection']		        = "Edit Inspection";
-$lang['delete_inspection']		        = "Delete Inspection";
-$lang['inspection_added']        	    = "Inspection Successfully Added.";
+$lang['close_inspection']		        = "Close Inspection";
+$lang['already_close_inspection']		= "This Inspection already close";
+$lang['already_open_inspection']		= "This Inspection still open";
+$lang['inspection_added']        	    = "Building or Vendor code not matched with previous inspection data";
+$lang['inspection_wrong_added']        	= "Inspection Successfully Added.";
 $lang['inspection_edited']        	    = "Inspection Successfully Edited.";
 $lang['inspection_deleted']        	    = "Inspection Successfully Deleted.";
 $lang['inspection_code'] 			    = "Inspection Code";
@@ -989,7 +992,7 @@ $lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";
 $lang['inspection_details'] 		    = "Inspection_Details";
 $lang['list_inspection'] 				= "List Of Inspection Details";
-$lang['alert_x_concern'] 				= "You are going to remove this Deficiency Concern. Press OK to proceed and Cancel to Go Back";
+$lang['alert_x_close'] 			    	= "You are going to complete this Inspection now. Press OK to proceed and Cancel to Go Back";
 
 
 
