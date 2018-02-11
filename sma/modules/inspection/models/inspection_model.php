@@ -400,6 +400,7 @@ class Inspection_model extends CI_Model
 
     public function updateInspection($inspection, $previousData,$inspectionDetails)
     {
+        $new_inspected_area=$previousData->inspected_area +$inspection['inspected_area'];
         $new_weight=$previousData->total_weight +$inspection['total_weight'];
         $new_deficiency=$previousData->total_deficiency +$inspection['total_deficiency'];
         $id=$previousData->id;
@@ -407,6 +408,7 @@ class Inspection_model extends CI_Model
             array(
                 'total_weight' => $new_weight,
                 'total_deficiency' => $new_deficiency,
+                'inspected_area' => $new_inspected_area,
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s'))
             , array('id'=>$id))){

@@ -78,6 +78,7 @@ class Inspection extends MX_Controller
         $this->form_validation->set_rules('date', $this->lang->line("date"), 'required|xss_clean');
         $this->form_validation->set_rules('customer', $this->lang->line("customer"), 'required|xss_clean');
         $this->form_validation->set_rules('building_code', $this->lang->line("building_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('inspected_area', $this->lang->line("inspected_area"), 'required|xss_clean');
         $this->form_validation->set_rules('reference_no', $this->lang->line("inspection_code"), 'required|xss_clean');
         $this->form_validation->set_rules('note', $this->lang->line("note"), 'xss_clean');
 //
@@ -92,6 +93,7 @@ class Inspection extends MX_Controller
             $date = $this->ion_auth->fsd(trim($this->input->post('date')));
             $building_code = $this->input->post('building_code');
             $reference_no = $this->input->post('reference_no');
+            $inspected_area = $this->input->post('inspected_area');
             $customer_id = $this->input->post('customer');
             $note = $this->ion_auth->clear_tags($this->input->post('note'));
 //
@@ -118,7 +120,8 @@ class Inspection extends MX_Controller
         $weight_val = array_sum($weight_id);
         $inspection = array(
             'date' => $date,
-            'building_code`' => $building_code,
+            'building_code' => $building_code,
+            'inspected_area' => $inspected_area,
             'vendor_code' => $customer_id,
             'inspection_code' => trim($reference_no),
             'note' => $note,
@@ -177,7 +180,7 @@ class Inspection extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.total_deficiency,i.total_weight,(i.total_weight/i.total_deficiency) as average")
+            ->select("i.date,i.inspection_code as code,c.name,i.building_code,i.inspected_area,i.total_deficiency,i.total_weight,(((i.total_weight/i.total_deficiency) + (i.total_weight/i.inspected_area))/2) as average")
             ->from("inspection i")
             ->join("customers c", 'i.vendor_code = c.id', 'left')
             ->group_by('i.inspection_code')

@@ -129,7 +129,7 @@
     <div class="row-fluid">
         <div class="span12" style="font-size: small;">
             <p style="font-size: small;"><b>Total Number Of Inspection Area Inspected
-                    : <?php echo $inspection_apt[0]->num; ?></b></p>
+                    : <?php echo $inspection[0]->inspected_area; ?></b></p>
         </div>
     </div>
 
@@ -137,7 +137,7 @@
     <div class="row-fluid">
         <div class="span12" style="font-size: small;">
             <p style="font-size: small;"><b>Weighted Average Deficiencies Per Inspected Area with Deficiencies
-                    : <?php echo number_format(($grandTotal / $total), 2, '.', ''); ?></b></p>
+                    : <?php echo number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', ''); ?></b></p>
         </div>
     </div>
 

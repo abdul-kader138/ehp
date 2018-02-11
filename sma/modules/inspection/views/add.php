@@ -438,6 +438,13 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
         echo form_dropdown('building_code', $sct1, '', 'class="span4 select_search" id="building_code"  data-placeholder="Select Building Code" required="required"  data-error="' . $this->lang->line("building_code") . ' ' . $this->lang->line("is_required") . '"');  ?> </div>
 </div>
 
+<div class="control-group">
+    <label class="control-label" for="reference_no"><?php echo $this->lang->line("inspected_area"); ?></label>
+
+    <div
+        class="controls"> <?php echo form_input('inspected_area', (isset($_POST['reference_no']) ? $_POST['inspected_area'] : ''), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("inspected_area") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
+</div>
+
 
 <div class="control-group">
     <div class="controls">

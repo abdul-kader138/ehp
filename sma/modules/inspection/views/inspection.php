@@ -45,6 +45,7 @@
                 { "bSortable": true },
                 { "bSortable": true },
                 { "bSortable": true },
+                { "bSortable": true },
                 null
             ]
 
@@ -70,6 +71,7 @@
         <th><?php echo $this->lang->line("inspection_code"); ?></th>
         <th><?php echo $this->lang->line("vendor_name"); ?></th>
         <th><?php echo $this->lang->line("building_code"); ?></th>
+        <th><?php echo $this->lang->line("inspected_area"); ?></th>
         <th><?php echo $this->lang->line("total_deficiency"); ?></th>
         <th><?php echo $this->lang->line("total_weight"); ?></th>
         <th>Weighted <br/>Average</th>
@@ -78,7 +80,7 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="8" class="dataTables_empty">Loading data from server</td>
+        <td colspan="9" class="dataTables_empty">Loading data from server</td>
     </tr>
 
     </tbody>

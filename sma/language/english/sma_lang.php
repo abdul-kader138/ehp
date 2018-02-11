@@ -984,6 +984,7 @@ $lang['inspection_code'] 			    = "Inspection Code";
 $lang['total_deficiency'] 		    	= "Total Deficiency";
 $lang['total_weight'] 		    	    = "Total Weight";
 $lang['weight'] 		           	    = "Weight";
+$lang['inspected_area'] 		        = "Total Inspected area";
 $lang['view_details'] 		    	    = "View Details";
 $lang['inspection_date'] 				= "Inspection Date";
 $lang['print_date'] 			    	= "Printing Date";
