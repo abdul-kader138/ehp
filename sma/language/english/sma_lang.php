@@ -988,6 +988,7 @@ $lang['inspected_area'] 		        = "Total Inspected area";
 $lang['view_details'] 		    	    = "View Details";
 $lang['inspection_date'] 				= "Inspection Date";
 $lang['print_date'] 			    	= "Printing Date";
+$lang['action_due_date'] 			    = "Action Due Date";
 $lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name'] 					= "Deficiency Concern";
 $lang['concern_name_exist'] 			= "Deficiency Concern name already exist.";

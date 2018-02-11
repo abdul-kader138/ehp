@@ -99,12 +99,18 @@ $("#date").datepicker({
     autoclose: true
 });
 
+$("#cad").datepicker({
+    format: "<?php echo JS_DATE; ?>",
+    autoclose: true
+});
+
+
 $('#byTab a, #noteTab a').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
 });
 $('#byTab #select_by_name, #noteTab a:last').tab('show');
-
+$("#cad").datepicker("setDate", new Date(new Date().getTime()+(15*24*60*60*1000)));
 $("#date").datepicker("setDate", new Date());
 $('form').form();
 
@@ -403,12 +409,7 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <div
         class="controls"> <?php echo form_input('reference_no', (isset($_POST['reference_no']) ? $_POST['reference_no'] : $ref), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("reference_no") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
-<!--<div class="control-group">-->
-<!--    <label class="control-label" for="reference_no">--><?php //echo $this->lang->line("inspection_code"); ?><!--Corrective Action Plan Due Date</label>-->
-<!---->
-<!--    <div-->
-<!--        class="controls"> --><?php //echo form_input('due_date', (isset($_POST['due_date']) ? $_POST['due_date'] : $ref), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("reference_no") . ' ' . $this->lang->line("is_required") . '"'); ?><!-- </div>-->
-<!--</div>-->
+
 
 
 <div class="control-group">
@@ -425,7 +426,7 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
                 $cu[$customer->id] = $customer->name . " (C)";
             }
         }
-        echo form_dropdown('customer', $cu, (isset($_POST['customer']) ? $_POST['customer'] : ""), 'id="customer" class="span4" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("vendor_code") . '" required="required" data-error="' . $this->lang->line("vendor_code") . ' ' . $this->lang->line("is_required") . '"');
+        echo form_dropdown('customer', $cu, (isset($_POST['customer']) ? $_POST['customer'] : ""), 'id="customer" data-placeholder="Select Vendor Code" class="span4" required="required" data-error="' . $this->lang->line("vendor_code") . ' ' . $this->lang->line("is_required") . '"');
         ?> </div>
 </div>
 
@@ -445,6 +446,12 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
         class="controls"> <?php echo form_input('inspected_area', (isset($_POST['reference_no']) ? $_POST['inspected_area'] : ''), 'class="span4 tip" id="reference_no" required="required" data-error="' . $this->lang->line("inspected_area") . ' ' . $this->lang->line("is_required") . '"'); ?> </div>
 </div>
 
+<div class="control-group">
+    <label class="control-label" for="date"><?php echo $this->lang->line("action_due_date"); ?></label>
+
+    <div
+        class="controls"> <?php echo form_input('cad', (isset($_POST['cad']) ? $_POST['cad'] : ""), 'class="span4" id="cad" required="required" data-error="' . $this->lang->line("action_due_date") . ' ' . $this->lang->line("is_required") . '"'); ?></div>
+</div>
 
 <div class="control-group">
     <div class="controls">

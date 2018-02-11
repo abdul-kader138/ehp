@@ -49,7 +49,7 @@
 
         <tr>
             <th style="padding-left:5px;"><?php echo $this->lang->line("no"); ?></th>
-            <th style="padding-left:5px;"><?php echo $this->lang->line("apartment_code"); ?></th>
+            <th style="padding-left:5px;">Floor/Room/<br/>Apartment</th>
             <th style="padding-left:5px;width:300px; ">Deficiency</th>
             <th style="padding-left:5px;">Deficiency <br/>Concern</th>
             <th style="padding-left:5px;">Weight</th>
@@ -169,7 +169,7 @@
                 </b></p>
         </div>
         <div class="span6" style="font-size: small;">
-            <p style="font-size: small"><b>Corrective Action plan Due Date: </b></p>
+            <p style="font-size: small"><b>Corrective Action plan Due Date: <?php echo $inspection[0]->action_due_date?></b></p>
         </div>
     </div>
     <br/>
@@ -220,7 +220,7 @@
                     <p style="text-transform: capitalize;"> <?php echo $inv->app_name ? $inv->app_name : '--'; ?> </p>
                     <p>&nbsp;</p>
 
-                    <p style="border-top: 1px solid #000;">Report Reviwed By</p>
+                    <p style="border-top: 1px solid #000;">Program Manager</p>
                 </div>
             </td>
 
@@ -232,7 +232,7 @@
                     <p style="text-transform: capitalize;"> <?php echo $inv->app_name ? $inv->app_name : '--'; ?> </p>
                     <p>&nbsp;</p>
 
-                    <p style="border-top: 1px solid #000;">Housing Director</p>
+                    <p style="border-top: 1px solid #000;">Program Director</p>
                 </div>
 
             </td>

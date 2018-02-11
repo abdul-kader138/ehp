@@ -76,11 +76,14 @@ class Inspection extends MX_Controller
 //        $this->form_validation->set_message('is_natural_no_zero', $this->lang->line("no_zero_required"));
         //validate form input
         $this->form_validation->set_rules('date', $this->lang->line("date"), 'required|xss_clean');
+        $this->form_validation->set_rules('cad', $this->lang->line("cad"), 'required|xss_clean');
         $this->form_validation->set_rules('customer', $this->lang->line("customer"), 'required|xss_clean');
         $this->form_validation->set_rules('building_code', $this->lang->line("building_code"), 'required|xss_clean');
         $this->form_validation->set_rules('inspected_area', $this->lang->line("inspected_area"), 'required|xss_clean');
         $this->form_validation->set_rules('reference_no', $this->lang->line("inspection_code"), 'required|xss_clean');
         $this->form_validation->set_rules('note', $this->lang->line("note"), 'xss_clean');
+
+
 //
         $apt = "apt_";
         $category = "category_";
@@ -91,6 +94,7 @@ class Inspection extends MX_Controller
 
         if ($this->form_validation->run() == true) {
             $date = $this->ion_auth->fsd(trim($this->input->post('date')));
+            $ca_date = $this->ion_auth->fsd(trim($this->input->post('cad')));
             $building_code = $this->input->post('building_code');
             $reference_no = $this->input->post('reference_no');
             $inspected_area = $this->input->post('inspected_area');
@@ -102,10 +106,10 @@ class Inspection extends MX_Controller
             for ($i = 0; $i <= 200; $i++) {
                 if ($this->input->post($apt . $i) && $this->input->post($category . $i)) {
                     $count++;
-                    $apt_id[] = $this->input->post($apt . $i);
+                    $apt_id[] = trim($this->input->post($apt . $i));
                     $category_id[] = $this->input->post($category . $i);
                     $concern_id[] = $this->input->post($concern . $i);
-                    $details_id[] = $this->input->post($detail.$i);
+                    $details_id[] = $this->input->post($detail . $i);
                     $weight_id[] = $this->input->post($weight . $i);
                     $comments_id[] = $this->input->post($comments . $i);
                     $inspection_code[] = trim($reference_no);
@@ -117,9 +121,22 @@ class Inspection extends MX_Controller
                 }
             }
         }
+
+
+
+        $dateTimestamp1 = strtotime($date);
+        $dateTimestamp2 = strtotime($ca_date);
+
+        if ($dateTimestamp1 > $dateTimestamp2) {
+            $this->session->set_flashdata('message', "Inspection date is greater than Action due date.");
+            redirect("module=inspection", 'refresh');
+
+        }
+
         $weight_val = array_sum($weight_id);
         $inspection = array(
             'date' => $date,
+            'action_due_date' => $ca_date,
             'building_code' => $building_code,
             'inspected_area' => $inspected_area,
             'vendor_code' => $customer_id,
@@ -137,24 +154,23 @@ class Inspection extends MX_Controller
         foreach (array_map(null, $inspection_code, $building_code_id, $vendor_code_id, $apt_id, $category_id, $concern_id, $details_id, $weight_id, $comments_id, $date_id, $create_user_id, $date_id) as $key => $value) {
             $items[] = array_combine($keys, $value);
         }
-        if ($this->form_validation->run() == true ) { //check to see if we are creating the customer
-            if($inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($reference_no))){
+        if ($this->form_validation->run() == true) { //check to see if we are creating the customer
+            if ($inspection_data = $this->inspection_model->getDetailsInfoByCode(trim($reference_no))) {
 
-                if($inspection_data->close_status == 'Yes'){
+                if ($inspection_data->close_status == 'Yes') {
                     $this->session->set_flashdata('message', $this->lang->line("already_close_inspection"));
                     redirect("module=inspection", 'refresh');
                 }
 
-                if($inspection_data->building_code == $building_code && $inspection_data->vendor_code == $customer_id){
-                    $this->inspection_model->updateInspection($inspection, $inspection_data,$items);
+                if ($inspection_data->building_code == $building_code && $inspection_data->vendor_code == $customer_id) {
+                    $this->inspection_model->updateInspection($inspection, $inspection_data, $items);
                     $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
                     redirect("module=inspection", 'refresh');
-                }
-                else{
+                } else {
                     $this->session->set_flashdata('message', $this->lang->line("inspection_wrong_added"));
                     redirect("module=inspection", 'refresh');
                 }
-            }else{
+            } else {
                 $this->inspection_model->addInspection($inspection, $items);
                 $this->session->set_flashdata('success_message', $this->lang->line("inspection_added"));
                 redirect("module=inspection", 'refresh');
@@ -238,7 +254,7 @@ class Inspection extends MX_Controller
             $id = $this->input->get('id');
         }
 
-            $this->load->library('upload_photo');
+        $this->load->library('upload_photo');
         if ($this->form_validation->run() == true) {
             $num = 0;
             $number_of_files_uploaded = count($_FILES['inspection_image']['name']);
@@ -342,15 +358,15 @@ class Inspection extends MX_Controller
         if ($this->input->get('id')) {
             $id = $this->input->get('id');
         }
-        $inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($id));
+        $inspection_data = $this->inspection_model->getDetailsInfoByCode(trim($id));
 
-            if($inspection_data->close_status == 'No'){
-                $this->session->set_flashdata('message', $this->lang->line("already_open_inspection"));
-                redirect("module=inspection", 'refresh');
-            }
+        if ($inspection_data->close_status == 'No') {
+            $this->session->set_flashdata('message', $this->lang->line("already_open_inspection"));
+            redirect("module=inspection", 'refresh');
+        }
 
 
-            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
         $data['rows'] = $this->inspection_model->getAllInspectionDetails($id);
         $data['inspection'] = $this->inspection_model->getAllInspection($id);
         $data['inspection_apt'] = $this->inspection_model->getAllInspectionApt($id);
@@ -399,7 +415,7 @@ class Inspection extends MX_Controller
             die();
         }
 
-        $rows = $this->inspection_model->getRoomsNames($term,$code);
+        $rows = $this->inspection_model->getRoomsNames($term, $code);
 
         $json_array = array();
         foreach ($rows as $row)
@@ -1004,7 +1020,7 @@ class Inspection extends MX_Controller
             }
             $js = 'onChange="loadConcern(this);"';
 //            $data = form_dropdown('detail_' + $details_id, $ct, '', 'class="span12 onchange="loadConcern(this);" select_search" id="detail_' + $details_id + '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
-            $data = form_dropdown('detail_'. $details_id, $ct, $js,'class="span12  select_search" onchange="loadConcern(this);" id="detail_'.$details_id. '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
+            $data = form_dropdown('detail_' . $details_id, $ct, $js, 'class="span12  select_search" onchange="loadConcern(this);" id="detail_' . $details_id . '" data-placeholder="' . $this->lang->line("select") . " " . $this->lang->line("details_code") . '"');
         } else {
             $data = "";
         }
@@ -1017,7 +1033,7 @@ class Inspection extends MX_Controller
         $details_id = $this->input->get('details_id', TRUE);
 
         if ($rows = $this->inspection_model->getDetailsInfoByID($details_id)) {
-            $data=$rows;
+            $data = $rows;
         } else {
             $data = "";
         }
@@ -1059,9 +1075,9 @@ class Inspection extends MX_Controller
 //            redirect("module=shelfs", 'refresh');
 //        }
 
-        $inspection_data=$this->inspection_model->getDetailsInfoByCode(trim($name));
+        $inspection_data = $this->inspection_model->getDetailsInfoByCode(trim($name));
 
-        if($inspection_data->close_status == 'Yes'){
+        if ($inspection_data->close_status == 'Yes') {
             $this->session->set_flashdata('message', $this->lang->line("already_close_inspection"));
             redirect("module=inspection", 'refresh');
         }
@@ -1073,7 +1089,6 @@ class Inspection extends MX_Controller
         }
 
     }
-
 
 
 }
