@@ -203,10 +203,10 @@ class Inspection extends MX_Controller
             ->add_column("Actions",
                 "<center><a href='#' onClick=\"MyWindow=window.open('index.php?module=inspection&view=view_details&id=$1', 'MyWindow','toolbar=0,location=0,directories=0,status=0,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;\" title='" . $this->lang->line("view_details") . "' class='tip'><i class='icon-fullscreen'></i></a>
                  <a href='index.php?module=inspection&view=details_pdf&id=$1' title='Print Details' class='tip'><i class='icon-download-alt'></i></a>
-                 <a href='index.php?module=inspection&view=add_image&id=$1' title='add Image' class='tip'><i class='icon-upload'></i></a>
                  <a href='index.php?module=inspection&amp;view=close_inspection&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_close') . "')\" class='tip' title='" . $this->lang->line("close_inspection") . "'><i class=\"icon-off\"></i></a></center>", "code");
         echo $this->datatables->generate();
 
+//                 <a href='index.php?module=inspection&view=add_image&id=$1' title='add Image' class='tip'><i class='icon-upload'></i></a>
     }
 
     function view_details($id = NULL)
