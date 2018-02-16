@@ -1,4 +1,5 @@
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
+<link href="<?php echo $this->config->base_url(); ?>assets/css/bootstrap-fileupload.css" rel="stylesheet">
 <script type="text/javascript">
     $(function() {
         $('form').form();
@@ -18,7 +19,7 @@
 <h3 class="title"><?php echo $page_title; ?></h3>
 <p><?php echo $this->lang->line("enter_info"); ?></p>
 
-<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=clients&view=add", $attrib);?>
+<?php $attrib = array('class' => 'form-horizontal'); echo form_open_multipart("module=clients&view=add", $attrib);?>
 
 <div class="control-group">
     <label class="control-label" for="code">Code</label>
@@ -71,6 +72,15 @@
     <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
     <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
     </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="header_image">Upload Document</label>
+    <div class="controls">
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+    <span class="btn btn-file"><span class="fileupload-new"><?php echo $this->lang->line("select_image"); ?></span><span class="fileupload-exists"><?php echo $this->lang->line("chnage"); ?></span>
+      <input type="file" name="userfile" id="userfile" required="required" data-error="Doc. is required" />
+      </span> <span class="fileupload-preview"></span> <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a> </div>
+        <span class="help-block"><?php echo $this->lang->line('new_logo_tip_client'); ?></span> </div>
 </div>
 
 

@@ -288,6 +288,10 @@
                     <a href="<?php echo base_url(); ?>index.php?module=auth&amp;view=users"><?php echo $this->lang->line('list_users'); ?></a>
                 </li>
                 <li class="divider"></li>
+                <li class="divider"></li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=settings&amp;view=backup_database"><?php echo $this->lang->line('backup_database'); ?></a>
+                </li>
             </ul>
         </li>
 

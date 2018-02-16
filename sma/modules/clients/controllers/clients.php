@@ -244,7 +244,35 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'xss_clean');
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
+        $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
 
+
+
+            if($_FILES['userfile']['size'] > 0){
+
+                $this->load->library('upload_photo');
+
+                $config['upload_path'] = 'assets/uploads/client_docs/';
+                $config['allowed_types'] = 'gif|jpg|png|pdf|docs|doc';
+                $config['max_size'] = '2500';
+                $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
+                $config['file_name'] = $new_name;
+//                $config['max_width'] = '800';
+//                $config['max_height'] = '600';
+                $config['overwrite'] = FALSE;
+
+                $this->upload_photo->initialize($config);
+
+                if( ! $this->upload_photo->do_upload()){
+
+                    $error = $this->upload_photo->display_errors();
+                    $this->session->set_flashdata('message', $error);
+                    redirect("module=clients", 'refresh');
+                }
+
+                $photo = $this->upload_photo->file_name;
+
+            }
 
         if ($this->form_validation->run() == true) {
 
@@ -259,6 +287,7 @@ class Clients extends MX_Controller
                 'client_type' => $this->input->post('types'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),
+                'doc' => $photo,
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s')
             );
@@ -381,11 +410,16 @@ class Clients extends MX_Controller
 //            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
 //            redirect("module=shelfs", 'refresh');
 //        }
-        if ($this->clients_model->delete($name)) { //check to see if we are deleting the customer
+
+        $data = $this->clients_model->getClientsByCode($name);
+//        if ($this->clients_model->delete($name)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
+//        unlink(base_url("assets/uploads/client_docs/").$data->doc);
             $this->session->set_flashdata('success_message', $this->lang->line("client_deleted"));
-            redirect("module=clients", 'refresh');
-        }
+        var_dump(base_url("assets/uploads/client_docs/").$data->doc);
+        var_dump(unlink(base_url("assets/uploads/client_docs/").$data->doc));
+//            redirect("module=clients", 'refresh');
+//        }
     }
 
     function add_type()
