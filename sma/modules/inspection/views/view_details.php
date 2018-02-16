@@ -155,15 +155,15 @@
         <div class="span6" style="font-size: small;">
             <p style="font-size: small;"><b>Outcome:
                     <?php
-                    if (($grandTotal / $total) == 0)
+                    if (number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') == 0)
                         echo "Very Good";
-                    if (($grandTotal / $total) >= 0.1 && ($grandTotal / $total) <= 3.01)
+                    if (number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') >= 0.1 && number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') <= 3.01)
                         echo "Good";
-                    if (($grandTotal / $total) > 3.01 && ($grandTotal / $total) <= 5.01)
+                    if (number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') > 3.01 && number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') <= 5.01)
                         echo "Satisfactory";
-                    if (($grandTotal / $total) > 5.01 && ($grandTotal / $total) <= 10.0)
+                    if (number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') > 5.01 && number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') <= 10.0)
                         echo "Unsatisfactory";
-                    if (($grandTotal / $total) > 10)
+                    if (number_format(((($grandTotal / $total)+ ($grandTotal / $inspection[0]->inspected_area)))/2, 2, '.', '') > 10)
                         echo "Unacceptable";
                     ?>
                 </b></p>
