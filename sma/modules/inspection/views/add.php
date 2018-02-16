@@ -447,7 +447,7 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
 </div>
 
 <div class="control-group">
-    <label class="control-label" for="date"><?php echo $this->lang->line("action_due_date"); ?></label>
+    <label class="control-label" for="date">CAP Due Date</label>
 
     <div
         class="controls"> <?php echo form_input('cad', (isset($_POST['cad']) ? $_POST['cad'] : ""), 'class="span4" id="cad" required="required" data-error="' . $this->lang->line("action_due_date") . ' ' . $this->lang->line("is_required") . '"'); ?></div>
