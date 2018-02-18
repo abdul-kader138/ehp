@@ -351,7 +351,33 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'xss_clean');
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
+        $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
 
+
+        $pre_data = $this->clients_model->getClientsByCode($name);
+        $photo=$pre_data->doc;
+        if($_FILES['userfile']['size'] > 0){
+            unlink(realpath('assets/uploads/client_docs/'  .$pre_data->doc));
+            $this->load->library('upload_photo');
+            $config['upload_path'] = 'assets/uploads/client_docs/';
+            $config['allowed_types'] = 'gif|jpg|png|pdf|docs|doc';
+            $config['max_size'] = '2500';
+            $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
+            $config['file_name'] = $new_name;
+            $config['overwrite'] = FALSE;
+
+            $this->upload_photo->initialize($config);
+
+            if( ! $this->upload_photo->do_upload()){
+
+                $error = $this->upload_photo->display_errors();
+                $this->session->set_flashdata('message', $error);
+                redirect("module=clients", 'refresh');
+            }
+
+            $photo = $this->upload_photo->file_name;
+
+        }
 
         if ($this->form_validation->run() == true) {
 
@@ -363,6 +389,7 @@ class Clients extends MX_Controller
                 'email' => $this->input->post('email'),
                 'ssn' => $this->input->post('ssn'),
                 'client_type' => $this->input->post('types'),
+                'doc' => $photo,
 //                'address' => $this->input->post('address'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),
