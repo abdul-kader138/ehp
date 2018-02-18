@@ -88,6 +88,7 @@ class Buildings extends MX_Controller
         $this->form_validation->set_rules('code', $this->lang->line("buildings_code"), 'trim|required|xss_clean');
         $this->form_validation->set_rules('name', $this->lang->line("buildings_name"), 'required|min_length[3]|xss_clean');
         $this->form_validation->set_rules('location', $this->lang->line("buildings_name"), 'required|max_length[200]|xss_clean');
+        $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
         $this->form_validation->set_rules('hasMedicalSupport', 'hasMedicalSupport', 'required|xss_clean');
         $this->form_validation->set_rules('hasHandicapAccess', 'hasHandicapAccess', 'required|xss_clean');
         $this->form_validation->set_rules('isSmokeFreeZone', 'isSmokeFreeZone', 'required|xss_clean');
@@ -100,6 +101,7 @@ class Buildings extends MX_Controller
                 'building_name' => $this->input->post('name'),
                 'building_code' => $this->input->post('code'),
                 'location' => $this->input->post('location'),
+                'comment' => $this->input->post('comments'),
                 'hasMedicalSupport' => $this->input->post('hasMedicalSupport'),
                 'hasHandicapAccess' => $this->input->post('hasHandicapAccess'),
                 'isSmokeFreeZone' => $this->input->post('isSmokeFreeZone'),
@@ -165,6 +167,7 @@ class Buildings extends MX_Controller
         $this->form_validation->set_rules('hasMedicalSupport', 'hasMedicalSupport', 'required|xss_clean');
         $this->form_validation->set_rules('hasHandicapAccess', 'hasHandicapAccess', 'required|xss_clean');
         $this->form_validation->set_rules('isSmokeFreeZone', 'isSmokeFreeZone', 'required|xss_clean');
+        $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
         $this->form_validation->set_rules('hasElevatorSupport', 'hasElevatorSupport', 'required|xss_clean');
 
         if ($this->form_validation->run() == true) {
@@ -173,6 +176,7 @@ class Buildings extends MX_Controller
                 'building_name' => $this->input->post('buildings_name'),
                 'building_code' => $this->input->post('buildings_code'),
                 'location' => $this->input->post('location'),
+                'comment' => $this->input->post('comments'),
                 'hasMedicalSupport' => $this->input->post('hasMedicalSupport'),
                 'hasHandicapAccess' => $this->input->post('hasHandicapAccess'),
                 'isSmokeFreeZone' => $this->input->post('isSmokeFreeZone'),

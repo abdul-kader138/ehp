@@ -77,6 +77,14 @@ echo form_open("module=buildings&view=add", $attrib); ?>
 </div>
 
 <div class="control-group">
+    <label class="control-label" for="location"><?php echo $this->lang->line("comment"); ?></label>
+
+    <div class="controls">
+        <?php echo form_textarea('comments', (isset($_POST['comments']) ? $_POST['comments'] : ''), 'class="input-block-level" data-error="' . $this->lang->line("comment") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_10") . '" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"'); ?>
+    </div>
+</div>
+
+<div class="control-group">
     <div
         class="controls"> <?php echo form_submit('submit', $this->lang->line("add_buildings"), 'class="btn btn-primary"'); ?> </div>
 </div>

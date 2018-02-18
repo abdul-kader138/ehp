@@ -241,11 +241,12 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('last_name', $this->lang->line("last_name"), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'valid_email');
 //        $this->form_validation->set_rules('address', $this->lang->line("address"), 'xss_clean|min_length[15]|max_length[255]');
-        $this->form_validation->set_rules('ssn', $this->lang->line("ssn"), 'required|xss_clean|max_length[16]');
-        $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'xss_clean');
+        $this->form_validation->set_rules('ssn', $this->lang->line("ssn"), 'xss_clean|max_length[16]');
+        $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'required|xss_clean');
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
         $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
+        $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
 
 
 
@@ -285,6 +286,7 @@ class Clients extends MX_Controller
                 'code' => $this->input->post('code'),
                 'ssn' => $this->input->post('ssn'),
                 'email' => $this->input->post('email'),
+                'comment' => $this->input->post('comments'),
                 'client_type' => $this->input->post('types'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),
@@ -347,11 +349,12 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('last_name', $this->lang->line("last_name"), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'valid_email');
 //        $this->form_validation->set_rules('address', $this->lang->line("address"), 'required|xss_clean|min_length[15]|max_length[255]');
-        $this->form_validation->set_rules('ssn', $this->lang->line("ssn"), 'required|xss_clean|max_length[16]');
-        $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'xss_clean');
+        $this->form_validation->set_rules('ssn', $this->lang->line("ssn"), 'xss_clean|max_length[16]');
+        $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'required|xss_clean');
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
         $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
+        $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
 
 
         $pre_data = $this->clients_model->getClientsByCode($name);
@@ -390,6 +393,7 @@ class Clients extends MX_Controller
                 'ssn' => $this->input->post('ssn'),
                 'client_type' => $this->input->post('types'),
                 'doc' => $photo,
+                'comment' => $this->input->post('comments'),
 //                'address' => $this->input->post('address'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),

@@ -42,7 +42,7 @@
 
 <div class="control-group">
     <label class="control-label" for="email_address">SSN</label>
-    <div class="controls"> <input type="ssn" name="ssn" class="span4" required="required" data-error="<?php echo $this->lang->line("ssn").' '.$this->lang->line("is_required"); ?>" />
+    <div class="controls"> <input type="ssn" name="ssn" class="span4"  data-error="<?php echo $this->lang->line("ssn").' '.$this->lang->line("is_required"); ?>" />
     </div>
 </div>
 
@@ -59,7 +59,7 @@
 
 <div class="control-group">
     <label class="control-label" for="start_date">DOB</label>
-    <div class="controls"> <?php echo form_input('date_of_birth', (isset($_POST['date_of_birth']) ? $_POST['date_of_birth'] : ""), 'class="span4" id="date_of_birth"');?> </div>
+    <div class="controls"> <?php echo form_input('date_of_birth', (isset($_POST['date_of_birth']) ? $_POST['date_of_birth'] : ""), 'class="span4" required="required" id="date_of_birth"');?> </div>
 </div>
 
 
@@ -73,6 +73,15 @@
     <div class="controls"> <input type="tel" name="phone" class="span4" pattern="[0-9]{7,15}"  data-error="<?php echo $this->lang->line("phone").' '.$this->lang->line("is_required"); ?>" />
     </div>
 </div>
+
+<div class="control-group">
+    <label class="control-label" for="location"><?php echo $this->lang->line("comment"); ?></label>
+
+    <div class="controls">
+        <?php echo form_textarea('comments', (isset($_POST['comments']) ? $_POST['comments'] : ''), 'class="input-block-level" data-error="' . $this->lang->line("comment") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_10") . '" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"'); ?>
+    </div>
+</div>
+
 <div class="control-group">
     <label class="control-label" for="header_image">Upload Document</label>
     <div class="controls">

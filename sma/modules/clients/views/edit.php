@@ -57,7 +57,7 @@
 
 <div class="control-group">
     <label class="control-label" for="email_address">SSN</label>
-    <div class="controls"> <?php echo form_input('ssn', $client->ssn, 'class="span4" required="required" id="ssn"  data-error="'.$this->lang->line("ssn").' '.$this->lang->line("is_required").'"');?>
+    <div class="controls"> <?php echo form_input('ssn', $client->ssn, 'class="span4" id="ssn"  data-error="'.$this->lang->line("ssn").' '.$this->lang->line("is_required").'"');?>
     </div>
 </div>
 
@@ -81,8 +81,17 @@
     }
     ?>
     <label class="control-label" for="start_date">DOB</label>
-    <div class="controls"> <?php echo form_input('date_of_birth', $newDate, 'class="span4" id="date_of_birth"');?> </div>
+    <div class="controls"> <?php echo form_input('date_of_birth', $newDate, 'class="span4" required="required" id="date_of_birth"');?> </div>
 </div>
+
+<div class="control-group">
+    <label class="control-label" for="location"><?php echo $this->lang->line("comment"); ?></label>
+
+    <div class="controls">
+        <?php echo form_textarea('comments', (isset($_POST['comments']) ? $_POST['comments'] : html_entity_decode($client->comment)), 'class="input-block-level" data-error="' . $this->lang->line("comment") . ' ' . $this->lang->line("is_required") . ' ' . $this->lang->line("min_10") . '" rows="5" cols="5" id="location" style="margin: 10px 0px 0px; height: 106px; width: 415px;"'); ?>
+    </div>
+</div>
+
 
 <div class="control-group">
     <label class="control-label" for="header_image">Upload Document</label>
