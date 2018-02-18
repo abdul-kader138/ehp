@@ -96,14 +96,15 @@ class Clients extends MX_Controller
     function getDataTableClientAjax()
     {
 
+        $url=base_url("/assets/uploads/client_docs/");
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.first_name,c.last_name,c.phone,c.ssn,ct.type_name,c.date_of_birth")
+            ->select("c.code as code,c.doc as doc,c.first_name,c.last_name,c.phone,c.ssn,ct.type_name,c.date_of_birth")
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code");
-
+                "<center><a href='".$url."$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
+        ->unset_column('doc');
         echo $this->datatables->generate();
 
     }
@@ -412,14 +413,12 @@ class Clients extends MX_Controller
 //        }
 
         $data = $this->clients_model->getClientsByCode($name);
-//        if ($this->clients_model->delete($name)) { //check to see if we are deleting the customer
+        if ($this->clients_model->delete($name)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
-//        unlink(base_url("assets/uploads/client_docs/").$data->doc);
+            unlink(realpath('assets/uploads/client_docs/'  .$data->doc));
             $this->session->set_flashdata('success_message', $this->lang->line("client_deleted"));
-        var_dump(base_url("assets/uploads/client_docs/").$data->doc);
-        var_dump(unlink(base_url("assets/uploads/client_docs/").$data->doc));
-//            redirect("module=clients", 'refresh');
-//        }
+            redirect("module=clients", 'refresh');
+        }
     }
 
     function add_type()

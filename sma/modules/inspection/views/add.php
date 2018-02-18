@@ -401,7 +401,7 @@ echo form_open("module=inspection&view=add_inspection", $attrib); ?>
     <label class="control-label" for="date"><?php echo $this->lang->line("date"); ?></label>
 
     <div
-        class="controls"> <?php echo form_input('date', (isset($_POST['date']) ? $_POST['date'] : ""), 'class="span4" id="date" required="required" data-error="' . $this->lang->line("date") . ' ' . $this->lang->line("is_required") . '"'); ?></div>
+        class="controls"> <?php echo form_input('date', (isset($_POST['date']) ? $_POST['date'] : ""), 'class="span4" id="date" readonly="readonly" required="required" data-error="' . $this->lang->line("date") . ' ' . $this->lang->line("is_required") . '"'); ?></div>
 </div>
 <div class="control-group">
     <label class="control-label" for="reference_no"><?php echo $this->lang->line("inspection_code"); ?></label>
