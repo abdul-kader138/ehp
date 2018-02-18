@@ -398,6 +398,7 @@ class Clients extends MX_Controller
             );
         }
 
+
         if ($this->form_validation->run() == true && $this->clients_model->updateClient($name, $data)) { //check to see if we are updateing the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("client_updated"));
