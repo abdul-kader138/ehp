@@ -234,7 +234,7 @@ class Clients_model extends CI_Model
         $intake_details=$this->getIntakeByCode($code);
         if($this->db->update("client_intake", $data,array('code'=>$code))) {
             if ($this->db->update("clients",
-                array('isTaggedWithVendor' => 'No', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                array('isTaggedWithVendor' => 'No','client_type'=>$data['client_type'], 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
                 array('code' => trim($intake_details->client_code)))
             ) {
                 if($this->increaseApartmentCapacity($intake_details->apartment_code,$dob)) return true;
@@ -345,7 +345,7 @@ class Clients_model extends CI_Model
             array(
                 'updated_by' => USER_NAME,
                 'vacant_date' => $vacant_date,
-                'isTaggedWithClient' => 'No',
+                'isTaggedWithClient' => 'Yes',
                 'updated_date' => date('Y-m-d H:i:s'),
                 'bed_occupied' => $new_occupied_qty),
             array("room_code" => $code))

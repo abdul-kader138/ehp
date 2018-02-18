@@ -69,7 +69,7 @@ class Buildings extends MX_Controller
             ->select("building_code,building_name,location,CASE WHEN hasMedicalSupport = '1' THEN 'Yes' ELSE 'No' END AS hasMedicalSupport1,CASE WHEN hasHandicapAccess = '1' THEN 'Yes' ELSE 'No' END AS hasHandicapAccess1,CASE WHEN isSmokeFreeZone = '1' THEN 'Yes' ELSE 'No' END AS isSmokeFreeZone1,CASE WHEN hasElevatorSupport = '1' THEN 'Yes' ELSE 'No' END AS hasElevatorSupport1", FALSE)
             ->from("building")
             ->add_column("Actions",
-                "<center><a href='index.php?module=buildings&amp;view=building_details&amp;id=$1' class='tip' title='" . $this->lang->line("building_facilities") . "'><i class=\"icon-fullscreen\"></i></a> <a href='index.php?module=buildings&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "building_code,building_name");
+                "<center><a href='index.php?module=buildings&amp;view=building_all_apt&amp;id=$1' class='tip' title='" . $this->lang->line("building_facilities") . "'><i class=\"icon-fullscreen\"></i></a> <a href='index.php?module=buildings&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_buildings") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=buildings&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_buildings') . "')\" class='tip' title='" . $this->lang->line("delete_buildings") . "'><i class=\"icon-remove\"></i></a></center>", "building_code,building_name");
 
         echo $this->datatables->generate();
 
@@ -330,6 +330,23 @@ class Buildings extends MX_Controller
         $this->load->view('commons/footer');
     }
 
+    function building_all_apt($id=null)
+    {
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $data['success_message'] = $this->session->flashdata('success_message');
+
+        $meta['page_title'] = $this->lang->line("list_level_buildings");
+        $data['page_title'] = $this->lang->line("list_level_buildings");
+        $this->load->view('commons/header', $meta);
+        $data['id']=$id;
+        $this->load->view('building_all_apt', $data);
+        $this->load->view('commons/footer');
+    }
+
     function getDataTableAjaxForDetails($code=null)
     {
         if ($this->input->get('id')) {
@@ -360,6 +377,30 @@ class Buildings extends MX_Controller
                 ->unset_column('id');
         }
 
+
+        echo $this->datatables->generate();
+
+    }
+
+
+
+    function getDataTableAjaxForAptDetails($code=null)
+    {
+        if ($this->input->get('id')) {
+            $code = $this->input->get('id');
+        }
+
+//        $pp = "(SELECT l.level_code,l.level_name,r.room_code,(sum(r.total_bed_qty) - sum(r.bed_occupied))as tbq,sum(r.bed_occupied) as bc FROM level as l inner join rooms as r on l.room_code=r.room_code group by l.level_code ) PCosts";
+        $pp = "(SELECT l.level_code,l.level_name,r.room_code,r.room_name,r.isTaggedWithClient FROM level as l inner join rooms as r on l.room_code=r.room_code) PCosts";
+
+        $this->load->library('datatables');
+            $this->datatables
+                ->select("p.id as id,p.building_code,PCosts.level_name apt1,PCosts.room_name tbq1, CASE WHEN PCosts.isTaggedWithClient = 'Yes' THEN 'Occupied' ELSE 'Vacant' END AS hasMedicalSupport1", FALSE)
+                ->from("building_details p")
+                ->join($pp, 'p.level_code = PCosts.level_code', 'left')
+                ->group_by('PCosts.room_name')
+                ->where('p.building_code',$code)
+                ->unset_column('id');
 
         echo $this->datatables->generate();
 
