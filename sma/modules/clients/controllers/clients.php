@@ -102,8 +102,6 @@ class Clients extends MX_Controller
             ->select("c.code as code,c.doc as doc,c.first_name,c.last_name,c.phone,c.ssn,ct.type_name,c.date_of_birth")
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
-            ->add_column("Actions",
-                "<center><a href='".$url."$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
         ->unset_column('doc');
         echo $this->datatables->generate();
 
@@ -255,7 +253,7 @@ class Clients extends MX_Controller
                 $this->load->library('upload_photo');
 
                 $config['upload_path'] = 'assets/uploads/client_docs/';
-                $config['allowed_types'] = 'gif|jpg|png|pdf|docs|doc';
+                $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
                 $config['max_size'] = '2500';
                 $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
                 $config['file_name'] = $new_name;
@@ -363,7 +361,7 @@ class Clients extends MX_Controller
             unlink(realpath('assets/uploads/client_docs/'  .$pre_data->doc));
             $this->load->library('upload_photo');
             $config['upload_path'] = 'assets/uploads/client_docs/';
-            $config['allowed_types'] = 'gif|jpg|png|pdf|docs|doc';
+            $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
             $config['max_size'] = '2500';
             $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
             $config['file_name'] = $new_name;
@@ -702,5 +700,44 @@ class Clients extends MX_Controller
         }
 
     }
+
+
+    function client_details($id=null)
+    {
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $data['success_message'] = $this->session->flashdata('success_message');
+
+        $meta['page_title'] = $this->lang->line("client_details");
+        $data['page_title'] = $this->lang->line("client_details");
+        $this->load->view('commons/header', $meta);
+        $data['id']=$id;
+        $this->load->view('client_details', $data);
+        $this->load->view('commons/footer');
+    }
+
+
+    function getDataForClientDetails($code=null)
+    {
+        if ($this->input->get('id')) {
+            $code = $this->input->get('id');
+        }
+
+        $this->load->library('datatables');
+        $this->datatables
+            ->select("c.code as code,c.client_code, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,c.client_type,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  null then DATEDIFF(  CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
+            ->from("client_intake c")
+            ->join('clients cl', 'c.client_code = cl.code', 'left')
+            ->join('customers cu', 'c.vendor_code = cu.code', 'left')
+            ->where('clients.code',$code)
+            ->add_column("Actions",
+                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
+            ->unset_column('code');
+        echo $this->datatables->generate();
+    }
+
 
 }

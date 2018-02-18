@@ -580,6 +580,7 @@ $lang['add_suppliers_by_csv'] 			= "Add Suppliers by CSV";
 $lang['add_customers_by_csv'] 			= "Add Customer by CSV";
 $lang['daily_sales'] 					= "Daily Sales";
 $lang['purchase_report'] 				= "Purchase Report";
+$lang['client_details'] 				= "Client Intake Details";
 $lang['comment'] 				    	= "Comment";
 $lang['admin_comment'] 					= "Admin Comment";
 $lang['update_comment'] 				= "Update Comment";
