@@ -102,6 +102,8 @@ class Clients extends MX_Controller
             ->select("c.code as code,c.doc as doc,c.first_name,c.last_name,c.phone,c.ssn,ct.type_name,c.date_of_birth")
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
+            ->add_column("Actions",
+                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='".$url."$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
         ->unset_column('doc');
         echo $this->datatables->generate();
 
@@ -239,6 +241,7 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('last_name', $this->lang->line("last_name"), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'valid_email');
 //        $this->form_validation->set_rules('address', $this->lang->line("address"), 'xss_clean|min_length[15]|max_length[255]');
+        $this->form_validation->set_rules('medicaid_no', $this->lang->line("medicaid_no"), 'xss_clean|max_length[50]');
         $this->form_validation->set_rules('ssn', $this->lang->line("ssn"), 'xss_clean|max_length[16]');
         $this->form_validation->set_rules('date_of_birth', $this->lang->line("date_of_birth"), 'required|xss_clean');
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'xss_clean');
@@ -285,6 +288,7 @@ class Clients extends MX_Controller
                 'ssn' => $this->input->post('ssn'),
                 'email' => $this->input->post('email'),
                 'comment' => $this->input->post('comments'),
+                'medicaid_no' => $this->input->post('medicaid_no'),
                 'client_type' => $this->input->post('types'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),
@@ -352,6 +356,7 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('types', $this->lang->line("client_type"), 'required|xss_clean');
         $this->form_validation->set_rules('phone', $this->lang->line("phone"), 'xss_clean|min_length[9]|max_length[16]');
         $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
+        $this->form_validation->set_rules('medicaid_no', $this->lang->line("medicaid_no"), 'xss_clean|max_length[50]');
         $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
 
 
@@ -393,6 +398,7 @@ class Clients extends MX_Controller
                 'doc' => $photo,
                 'comment' => $this->input->post('comments'),
 //                'address' => $this->input->post('address'),
+                'medicaid_no' => $this->input->post('medicaid_no'),
                 'date_of_birth' => $dob,
                 'phone' => $this->input->post('phone'),
                 'updated_by' => USER_NAME,
@@ -734,7 +740,7 @@ class Clients extends MX_Controller
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
             ->where('clients.code',$code)
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
+                "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
             ->unset_column('code');
         echo $this->datatables->generate();
     }

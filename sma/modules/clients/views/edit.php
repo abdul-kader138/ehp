@@ -62,6 +62,13 @@
 </div>
 
 <div class="control-group">
+    <label class="control-label" for="email_address">Medicaid No</label>
+    <div class="controls"> <?php echo form_input('medicaid_no', $client->medicaid_no, 'class="span4" id="medicaid_no"  data-error="'.$this->lang->line("ssn").' '.$this->lang->line("is_required").'"');?>
+    </div>
+</div>
+
+
+<div class="control-group">
     <label class="control-label" for="types">Client Type</label>
 
     <div class="controls"> <?php
