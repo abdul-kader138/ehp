@@ -146,7 +146,7 @@ class Clients extends MX_Controller
             ->select("c.code as code,c.client_code, c.doc as doc, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  null then DATEDIFF(  CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
-            ->join('client_type ct', 'cl.client_type = ct.type_code', 'left')
+            ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
             ->add_column("Actions",
                 "<center><a href='".$url."$2' download class='tip' title='Discharge Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")

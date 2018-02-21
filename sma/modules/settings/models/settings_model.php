@@ -58,7 +58,32 @@ class Settings_model extends CI_Model
 			return false;
 		}
 	}
-	
+
+
+    public function getTypes()
+    {
+        $q = $this->db->get("client_type");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+    public function getTypesByCode($name)
+    {
+        $q = $this->db->get_where('client_type', array('type_code' => $name), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+
+        return FALSE;
+    }
+
 	public function getSettings() 
 	{
 				
