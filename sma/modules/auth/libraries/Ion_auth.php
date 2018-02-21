@@ -117,6 +117,7 @@ class Ion_auth
 		define("DEFAULT_TAX2", $SETTING->default_tax_rate2);
 		define("TAX1", $SETTING->tax1);
 		define("TAX2", $SETTING->tax2);
+		define("CLIENT_TYPE", $SETTING->client_type);
 		define("DEFAULT_WAREHOUSE", $SETTING->default_warehouse);
 		define("CURRENCY_PREFIX", $SETTING->currency_prefix);
 		define("NO_OF_ROWS", $SETTING->no_of_rows);

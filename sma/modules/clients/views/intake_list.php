@@ -109,7 +109,7 @@
         <th><?php echo $this->lang->line("move_in_date"); ?></th>
         <th><?php echo $this->lang->line("move_out_date"); ?></th>
         <th>Days Staying</th>
-        <th style="width:65px;"><?php echo $this->lang->line("actions"); ?></th>
+        <th><?php echo $this->lang->line("actions"); ?></th>
     </tr>
     </thead>
     <tbody>

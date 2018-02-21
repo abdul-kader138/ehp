@@ -96,15 +96,15 @@ class Clients extends MX_Controller
     function getDataTableClientAjax()
     {
 
-        $url=base_url("/assets/uploads/client_docs/");
+        $url = base_url("/assets/uploads/client_docs/");
         $this->load->library('datatables');
         $this->datatables
             ->select("c.code as code,c.doc as doc,c.first_name,c.last_name,c.phone,c.ssn,ct.type_name,c.date_of_birth")
             ->from("clients c")
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='".$url."$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
-        ->unset_column('doc');
+                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='" . $url . "$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
+            ->unset_column('doc');
         echo $this->datatables->generate();
 
     }
@@ -128,9 +128,9 @@ class Clients extends MX_Controller
 //            redirect("module=shelfs", 'refresh');
 //        }
         $data = $this->clients_model->getClientsByCode($name);
-            //redirect them back to the admin page
+        //redirect them back to the admin page
         if ($this->clients_model->delete_intake($name)) { //check to see if we are deleting the customer
-            unlink(realpath('assets/uploads/client_discharge_docs/'  .$data->doc));
+            unlink(realpath('assets/uploads/client_discharge_docs/' . $data->doc));
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("client_intake_deleted"));
             redirect("module=clients&view=intake_list", 'refresh');
@@ -140,16 +140,16 @@ class Clients extends MX_Controller
 
     function getDataTableIntakeAjax()
     {
-        $url=base_url("/assets/uploads/client_discharge_docs/");
+        $url = base_url("/assets/uploads/client_discharge_docs/");
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, c.doc as doc, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  null then DATEDIFF(  CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
+            ->select("c.code as code,c.client_code, c.doc as doc, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  NULL then DATEDIFF(CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
             ->add_column("Actions",
-                "<center><a href='".$url."$2' download class='tip' title='Discharge Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
+                "<center><a href='" . $url . "$2' download class='tip' title='Discharge Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a><a href='index.php?module=clients&amp;view=client_transfer&amp;name=$1' class='tip' title='" . $this->lang->line("client_transfer") . "'><i class=\"icon-screenshot\"></i></a><a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
             ->unset_column('code,doc');
         echo $this->datatables->generate();
 
@@ -178,7 +178,7 @@ class Clients extends MX_Controller
 
             $mid = $this->ion_auth->fsd(trim($this->input->post('move_in_date')));
 //            $client_details = $this->clients_model->getClientsByCode($this->input->post('client_code'));
-           // $client_type_details = $this->clients_model->getClientTypeByCode($client_details->client_type);
+            // $client_type_details = $this->clients_model->getClientTypeByCode($client_details->client_type);
             $data = array(
                 'client_code' => $this->input->post('client_code'),
                 'vendor_code' => $this->input->post('vendor_code'),
@@ -186,7 +186,7 @@ class Clients extends MX_Controller
                 'apartment_code' => $this->input->post('apartment_code'),
                 'code' => $this->input->post('code'),
                 'status' => 'Admitted',
-                'client_type' => $this->input->post('client_code'),
+                'client_type' => CLIENT_TYPE,
                 'move_in_date' => $mid,
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s')
@@ -197,12 +197,33 @@ class Clients extends MX_Controller
         if ($this->form_validation->run() == true) {
 //
 //
+
+            $dateTimestamp3 = strtotime(date('Y-m-d'));
+            $dateTimestamp4 = strtotime($mid);
+            if ($dateTimestamp4 > $dateTimestamp3) {
+                $this->session->set_flashdata('message', "Move in Date can't greater than current date.");
+                redirect("module=clients&view=intake_list", 'refresh');
+            }
+
+
             $isExists = $this->clients_model->getClientById(trim($this->lang->line("client_code")));
 
             if ($isExists) {
                 $this->session->set_flashdata('message', "Client already intake");
                 redirect("module=clients", 'refresh');
             }
+
+
+            $isDateConflict = $this->clients_model->getAptTaggedAtDate(trim($this->input->post("apartment_code")), $mid);
+            $dateTimestamp1 = strtotime($isDateConflict->move_out_date);
+            $dateTimestamp2 = strtotime($mid);
+
+            if ($dateTimestamp2 < $dateTimestamp1) {
+                $this->session->set_flashdata('message', "Building already occupied for this date.");
+                redirect("module=clients&view=intake_list", 'refresh');
+
+            }
+
             if ($this->form_validation->run() == true && $this->clients_model->addClientIntake($data)) { //check to see if we are creating the customer
                 //redirect them back to the admin page
                 $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
@@ -253,32 +274,31 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
 
 
+        if ($_FILES['userfile']['size'] > 0) {
 
-            if($_FILES['userfile']['size'] > 0){
+            $this->load->library('upload_photo');
 
-                $this->load->library('upload_photo');
-
-                $config['upload_path'] = 'assets/uploads/client_docs/';
-                $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
-                $config['max_size'] = '2500';
-                $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
-                $config['file_name'] = $new_name;
+            $config['upload_path'] = 'assets/uploads/client_docs/';
+            $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
+            $config['max_size'] = '2500';
+            $new_name = $this->input->post('code') . $_FILES["userfiles"]['name'];
+            $config['file_name'] = $new_name;
 //                $config['max_width'] = '800';
 //                $config['max_height'] = '600';
-                $config['overwrite'] = FALSE;
+            $config['overwrite'] = FALSE;
 
-                $this->upload_photo->initialize($config);
+            $this->upload_photo->initialize($config);
 
-                if( ! $this->upload_photo->do_upload()){
+            if (!$this->upload_photo->do_upload()) {
 
-                    $error = $this->upload_photo->display_errors();
-                    $this->session->set_flashdata('message', $error);
-                    redirect("module=clients", 'refresh');
-                }
-
-                $photo = $this->upload_photo->file_name;
-
+                $error = $this->upload_photo->display_errors();
+                $this->session->set_flashdata('message', $error);
+                redirect("module=clients", 'refresh');
             }
+
+            $photo = $this->upload_photo->file_name;
+
+        }
 
         if ($this->form_validation->run() == true) {
 
@@ -364,20 +384,20 @@ class Clients extends MX_Controller
 
 
         $pre_data = $this->clients_model->getClientsByCode($name);
-        $photo=$pre_data->doc;
-        if($_FILES['userfile']['size'] > 0){
-            unlink(realpath('assets/uploads/client_docs/'  .$pre_data->doc));
+        $photo = $pre_data->doc;
+        if ($_FILES['userfile']['size'] > 0) {
+            unlink(realpath('assets/uploads/client_docs/' . $pre_data->doc));
             $this->load->library('upload_photo');
             $config['upload_path'] = 'assets/uploads/client_docs/';
             $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
             $config['max_size'] = '2500';
-            $new_name = $this->input->post('code').$_FILES["userfiles"]['name'];
+            $new_name = $this->input->post('code') . $_FILES["userfiles"]['name'];
             $config['file_name'] = $new_name;
             $config['overwrite'] = FALSE;
 
             $this->upload_photo->initialize($config);
 
-            if( ! $this->upload_photo->do_upload()){
+            if (!$this->upload_photo->do_upload()) {
 
                 $error = $this->upload_photo->display_errors();
                 $this->session->set_flashdata('message', $error);
@@ -454,7 +474,7 @@ class Clients extends MX_Controller
         $data = $this->clients_model->getClientsByCode($name);
         if ($this->clients_model->delete($name)) { //check to see if we are deleting the customer
             //redirect them back to the admin page
-            unlink(realpath('assets/uploads/client_docs/'  .$data->doc));
+            unlink(realpath('assets/uploads/client_docs/' . $data->doc));
             $this->session->set_flashdata('success_message', $this->lang->line("client_deleted"));
             redirect("module=clients", 'refresh');
         }
@@ -669,21 +689,20 @@ class Clients extends MX_Controller
         $this->form_validation->set_rules('comments', $this->lang->line("comment"), 'max_length[200]|xss_clean');
 
 
-
-        if($_FILES['userfile']['size'] > 0){
+        if ($_FILES['userfile']['size'] > 0) {
 
             $this->load->library('upload_photo');
 
             $config['upload_path'] = 'assets/uploads/client_discharge_docs/';
             $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
             $config['max_size'] = '2500';
-            $new_name = $this->input->post('client_code').'-'.$this->input->post('move_in_date').$_FILES["userfiles"]['name'];
+            $new_name = $this->input->post('client_code') . '-' . $this->input->post('move_in_date') . $_FILES["userfiles"]['name'];
             $config['file_name'] = $new_name;
             $config['overwrite'] = FALSE;
 
             $this->upload_photo->initialize($config);
 
-            if( ! $this->upload_photo->do_upload()){
+            if (!$this->upload_photo->do_upload()) {
 
                 $error = $this->upload_photo->display_errors();
                 $this->session->set_flashdata('message', $error);
@@ -693,7 +712,6 @@ class Clients extends MX_Controller
             $doc = $this->upload_photo->file_name;
 
         }
-
 
 
         if ($this->form_validation->run() == true) {
@@ -724,7 +742,7 @@ class Clients extends MX_Controller
 //
 
 
-        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data,$name,$mod)) { //check to see if we are creating the customer
+        if ($this->form_validation->run() == true && $this->clients_model->dischargeClient($data, $name, $mod)) { //check to see if we are creating the customer
             //redirect them back to the admin page
             $this->session->set_flashdata('success_message', $this->lang->line("client_intake_added"));
             redirect("module=clients&view=intake_list", 'refresh');
@@ -745,7 +763,123 @@ class Clients extends MX_Controller
     }
 
 
-    function client_details($id=null)
+    function client_transfer($name = null)
+    {
+
+
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+        if ($this->input->get('name')) {
+            $name = $this->input->get('name');
+        }
+
+        $isDischarged = $this->clients_model->getClientByIntakeCode($name);
+        $isExists = $this->clients_model->getOpenClientByIntakeCode($name);
+        if ($isDischarged) {
+            $this->session->set_flashdata('message', "Client already discharged.");
+            redirect("module=clients&view=intake_list", 'refresh');
+        }
+
+
+        //validate form input
+        $this->form_validation->set_rules('apartment_code', $this->lang->line("apartment_code"), 'required|xss_clean');
+        $this->form_validation->set_rules('comments', $this->lang->line("comments"), 'required|xss_clean');
+
+
+//        if ($_FILES['userfile']['size'] > 0) {
+//
+//            $this->load->library('upload_photo');
+//
+//            $config['upload_path'] = 'assets/uploads/client_discharge_docs/';
+//            $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
+//            $config['max_size'] = '2500';
+//            $new_name = $this->input->post('client_code') . '-' . $this->input->post('move_in_date') . $_FILES["userfiles"]['name'];
+//            $config['file_name'] = $new_name;
+//            $config['overwrite'] = FALSE;
+//
+//            $this->upload_photo->initialize($config);
+//
+//            if (!$this->upload_photo->do_upload()) {
+//
+//                $error = $this->upload_photo->display_errors();
+//                $this->session->set_flashdata('message', $error);
+//                redirect("module=clients&view=intake_list", 'refresh');
+//            }
+//
+//            $doc = $this->upload_photo->file_name;
+//
+//        }
+
+
+        if ($this->form_validation->run() == true) {
+//
+
+            $isDateConflict = $this->clients_model->getAptTaggedAtDate(trim($this->input->post("apartment_code")), date('Y-m-d'));
+            $dateTimestamp1 = strtotime($isDateConflict->move_out_date);
+            $dateTimestamp2 = strtotime(date('Y-m-d'));
+
+            if ($dateTimestamp2 < $dateTimestamp1) {
+                $this->session->set_flashdata('message', "Building already occupied for this date.");
+                redirect("module=clients&view=intake_list", 'refresh');
+
+            }
+
+            $old_data = array(
+                'status' => 'Transferred',
+                'move_out_date' => date('Y-m-d'),
+                'comment' => $this->input->post("comments"),
+                'doc' => $isDischarged->doc,
+                'client_type' => $isDischarged->client_type,
+                'updated_by' => USER_NAME,
+                'updated_date' => date('Y-m-d H:i:s')
+            );
+
+            $new_data = array(
+                'client_code' => $isDischarged->client_type,
+                'vendor_code' => $isDischarged->client_type,
+                'building_code' => $isDischarged->client_type,
+                'apartment_code' => $this->input->post('apartment_code'),
+                'code' => $this->clients_model->getRQNextAIClientIntake(),
+                'status' => 'Admitted',
+                'client_type' => $isDischarged->client_type,
+                'move_in_date' => date('Y-m-d'),
+                'created_by' => USER_NAME,
+                'created_date' => date('Y-m-d H:i:s')
+            );
+
+        }
+
+
+        if ($this->form_validation->run() == true && $this->clients_model->transferClient($old_data,$old_data, $name)) { //check to see if we are creating the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("client_transfer"));
+            redirect("module=clients&view=intake_list", 'refresh');
+//
+        } else {
+
+
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            $meta['page_title'] = $this->lang->line("client_transfer");
+            $data['page_title'] = $this->lang->line("client_transfer");
+            $data['name'] = $name;
+            $intake_details = $this->clients_model->getIntakeByCode($name);
+            $data['client'] = $intake_details;
+            $data['types'] = $this->clients_model->getApartmentByVendorID("",$intake_details->building_code);
+            $this->load->view('commons/header', $meta);
+            $this->load->view('client_transfer', $data);
+            $this->load->view('commons/footer');
+
+        }
+
+    }
+
+
+
+    function client_details($id = null)
     {
 
         if ($this->input->get('id')) {
@@ -757,13 +891,13 @@ class Clients extends MX_Controller
         $meta['page_title'] = $this->lang->line("client_details");
         $data['page_title'] = $this->lang->line("client_details");
         $this->load->view('commons/header', $meta);
-        $data['id']=$id;
+        $data['id'] = $id;
         $this->load->view('client_details', $data);
         $this->load->view('commons/footer');
     }
 
 
-    function getDataForClientDetails($code=null)
+    function getDataForClientDetails($code = null)
     {
         if ($this->input->get('id')) {
             $code = $this->input->get('id');
@@ -775,7 +909,7 @@ class Clients extends MX_Controller
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
-            ->where('clients.code',$code)
+            ->where('clients.code', $code)
             ->add_column("Actions",
                 "<center><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a> <a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code")
             ->unset_column('code');

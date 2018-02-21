@@ -914,6 +914,7 @@ $lang['intake']		                     = "Client Admission";
 $lang['client_intake_admission']	     = "Client Admission";
 $lang['add_intake']		                 = "Add Client Admission";
 $lang['client_discharge']		         = "Client Discharge";
+$lang['client_transfer']		         = "Client Transfer";
 $lang['move_in_date']		             = "Date(Move In)";
 $lang['move_out_date']		             = "Date(Move Out)";
 $lang['email']		                     = "Email";
@@ -928,6 +929,7 @@ $lang['client_intake_added']		     = "Client Admission Information Successfully 
 $lang['client_intake_deleted']		     = "Client Admission Successfully deleted.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
+$lang['client_transfer']		         = "Client Successfully transferred.";
 $lang['alert_x_intake'] 				 = "You are going to remove this Client Admission. Press OK to proceed and Cancel to Go Back";
 
 
