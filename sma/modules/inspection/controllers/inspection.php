@@ -1014,7 +1014,7 @@ class Inspection extends MX_Controller
         $details_id = $this->input->get('details_id', TRUE);
 
         if ($rows = $this->inspection_model->getDetailsByID($category_code)) {
-            $ct[""] = '';
+//            $ct[""] = '';
             foreach ($rows as $detail) {
                 $ct[$detail->details_code] = $detail->details_name;
             }

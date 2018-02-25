@@ -209,19 +209,19 @@ if (item_name == false) {
 }
 
 var newTr = $('<tr id="row_' + count + '"></tr>');
-newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" readonly="readonly" value="' + item_name + '"></td><?php
-    echo '<td><select class="span4 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
-    echo "<option>Select Category</option>";
+newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" readonly="readonly" data-error="Item name is required" required="required" value="' + item_name + '"></td><?php
+    echo '<td><select class="span4 select_search" data-error="Category is required" required="required" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
+//    echo "<option>Select Category</option>";
     foreach ($categories as $category) {
         echo "<option value=" . $category->category_code;
         echo ">" . $category->category_name . "</option>";
     }
     echo '</select></td>';
-    echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
+    echo '<td id="details_\' + count + \'"><select class="span12 select_search" data-error="Detail is required" required="required" data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
 
-    echo '<td><input class="span12" readonly="readonly"  name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+    echo '<td><input class="span12" readonly="readonly"  data-error="Concern is required" required="required" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" class="span12" style="text-align:right;" value="0" readonly="readonly" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" required="required" data-error="Weight is required" class="span12" style="text-align:right;" value="0" readonly="readonly" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" data-error="Comment is required" required="required" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -255,19 +255,19 @@ $("#building_code_add").change(function () {
 
 $('#addOtherInfo').click(function (){
     var newTr = $('<tr id="row_' + count + '"></tr>');
-    newTr.html('<td><input required="required" class="span12" name="apt_' + count + '" id="apt_' + count + '" type="text" value=""></td><?php
-    echo '<td><select class="span12 select_search" onchange="loadDetails(this);" data-placeholder="Select..."  name="category_\' + count + \'" id="\' + count + \'">';
-    echo "<option>Select Category</option>";
+    newTr.html('<td><input required="required" class="span12" name="apt_' + count + '" id="apt_' + count + '" data-error="Item name is required" type="text" value=""></td><?php
+    echo '<td><select class="span12 select_search" onchange="loadDetails(this);" data-placeholder="Select..." data-error="Category is required" name="category_\' + count + \'" id="\' + count + \'">';
+//    echo "<option>Select Category</option>";
     foreach ($categories as $category) {
         echo "<option value=" . $category->category_code;
         echo ">" . $category->category_name . "</option>";
     }
     echo '</select></td>';
-    echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..."  name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
+    echo '<td id="details_\' + count + \'"><select class="span12 select_search"  data-placeholder="Select..." data-error="Detail is required" name="detail_\' + count + \'" id="detail_\' + count + \'"></select></td>';
 
-    echo '<td><input class="span12"  readonly="readonly" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
+    echo '<td><input class="span12" data-error="Concern is required" readonly="readonly" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" class="span12" readonly="readonly" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" class="span12" data-error="Weight is required" readonly="readonly" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" data-error="Comment is required" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
     newTr.prependTo("#dyTable");
 
     count++;
