@@ -180,7 +180,8 @@ class Inspection extends MX_Controller
             $data['customers'] = $this->inspection_model->getAllCustomers();
             $data['concerns'] = $this->inspection_model->getAllConcern();
             $data['categories'] = $this->inspection_model->getAllCategory();
-            $data['ref'] = $this->inspection_model->getRQNextAIInspection();
+             $num = $this->inspection_model->getRQNextAIInspection();
+            $data['ref'] =  "IC" . "-" . ((rand(2,10)*2)+$num);
             $meta['page_title'] = 'Add Inspection Details';
             $meta['page_title'] = 'Add Inspection Details';
 //            $data['page_title'] = 'Add Sales';;

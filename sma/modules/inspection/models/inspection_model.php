@@ -81,7 +81,7 @@ class Inspection_model extends CI_Model
         $q = $this->db->get('inspection');
         if ($q->num_rows() > 0) {
             $row = $q->row();
-            return "IC" . "-" . sprintf("%07s", $row->id + 1);
+            return sprintf("%07s", $row->id + 1);
         }
 
         return FALSE;
@@ -447,7 +447,7 @@ class Inspection_model extends CI_Model
         $this->db->join('deficiency_details dcd', 'idc.details_id = dcd.details_code', 'left');
         $this->db->join('customers c', 'idc.vendor_code = c.id', 'left');
         $this->db->where('idc.inspection_code', $id);
-        $this->db->order_by('idc.inspection_code', 'ASC');
+        $this->db->order_by('idc.id', 'ASC');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
