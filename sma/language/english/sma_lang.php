@@ -929,7 +929,7 @@ $lang['client_intake_added']		     = "Client Admission Information Successfully 
 $lang['client_intake_deleted']		     = "Client Admission Successfully deleted.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
-$lang['client_transfer']		         = "Client Successfully transferred.";
+//$lang['client_transfer']		         = "Client Successfully transferred.";
 $lang['alert_x_intake'] 				 = "You are going to remove this Client Admission. Press OK to proceed and Cancel to Go Back";
 
 

@@ -114,7 +114,7 @@ echo form_open("module=settings&view=system_setting", $attrib); ?>
                 foreach ($types as $obj) {
                     $typeList[$obj->type_code] = $obj->type_name;
                 }
-                echo form_dropdown('types', $typeList, $settings->client_type, ' required="required" class="span11 tip chzn-select" data-error="Type is required"');  ?> </div>
+                echo form_dropdown('types', $typeList, $settings->client_type, ' required="required" id="types" class="span11 tip chzn-select" data-error="Type is required"');  ?> </div>
         </div>
 
     </div>

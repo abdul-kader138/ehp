@@ -207,7 +207,12 @@
             <td style="width:23%; text-align:center">
                 <div style="float:left; margin:5px 15px">
                     <p>&nbsp;</p>
-                    <p style="text-transform: capitalize;"><?php echo $inspection[0]->created_by ? $inspection[0]->created_by  : '--'; ?> </p>
+                    <p style="text-transform: capitalize;"><?php echo
+                        //var_dump($inspection[0]);
+                        $inspection[0]->inspector ? $inspection[0]->inspector  : '--';
+
+
+                        ?> </p>
                     <p>&nbsp;</p>
 
                     <p style="border-top: 1px solid #000;">Inspection Conducted By</p>

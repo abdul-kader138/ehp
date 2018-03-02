@@ -492,7 +492,7 @@ class Inspection_model extends CI_Model
     public function getAllInspection($id)
     {
 
-        $this->db->select('*');
+        $this->db->select('*,inspection.created_by as inspector');
         $this->db->from('inspection');
         $this->db->join('building b', 'inspection.building_code = b.building_code', 'left');
         $this->db->where('inspection.inspection_code', $id);

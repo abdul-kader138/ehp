@@ -260,20 +260,18 @@ class Clients_model extends CI_Model
     {
         $intake_details = $this->getIntakeByCode($code);
         if ($this->db->update("client_intake", $old_data, array('code' => $code))) {
-                if ($this->increaseApartmentCapacity($intake_details->apartment_code, date('Y-m-d'))) {
-                    if ($this->db->insert("client_intake", $new_data)) {
-                        if ($this->db->update("clients",
-                            array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
-                            array('code' => trim($intake_details->client_code)))
-                        ) {
-                            if ($this->decreaseApartmentCapacity($intake_details->apartment_code)) return true;
-                            else return false;
-                        }
+            if ($this->increaseApartmentCapacity($intake_details->apartment_code, date('Y-m-d'))) {
+                if ($this->db->insert("client_intake", $new_data)) {
+                    if ($this->db->update("clients",
+                        array('isTaggedWithVendor' => 'Yes', 'updated_by' => USER_NAME, 'updated_date' => date('Y-m-d H:i:s')),
+                        array('code' => trim($intake_details->client_code)))
+                    ) {
+                        if ($this->decreaseApartmentCapacity($new_data['apartment_code'])) return true;
+                        else return false;
                     }
-                }
-                return false;
+                } else return false;
             }
-        return false;
+        } else return false;
     }
 
 

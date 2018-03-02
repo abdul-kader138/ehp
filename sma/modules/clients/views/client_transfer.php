@@ -40,6 +40,15 @@ echo form_open_multipart("module=clients&view=client_transfer&name=$name", $attr
         echo form_dropdown('apartment_code', $typeList, (isset($_POST['apartment_code']) ? $_POST['apartment_code'] : ""), 'required="required" class="span4" data-error="Apartment Code is required"');  ?> </div>
 </div>
 
+<div class="control-group">
+    <label class="control-label" for="header_image">Upload Document</label>
+    <div class="controls">
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+    <span class="btn btn-file"><span class="fileupload-new"><?php echo $this->lang->line("select_image"); ?></span><span class="fileupload-exists"><?php echo $this->lang->line("chnage"); ?></span>
+      <input type="file" name="userfile" id="userfile" required="required" data-error="Doc. is required" />
+      </span> <span class="fileupload-preview"></span> <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a> </div>
+        <span class="help-block"><?php echo $this->lang->line('new_logo_tip_client'); ?></span> </div>
+</div>
 
 
 <div class="control-group">

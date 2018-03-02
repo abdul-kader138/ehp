@@ -141,16 +141,17 @@ class Clients extends MX_Controller
     function getDataTableIntakeAjax()
     {
         $url = base_url("/assets/uploads/client_discharge_docs/");
+        $url_transfer = base_url("/assets/uploads/client_transfer_docs/");
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.code as code,c.client_code, c.doc as doc, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  NULL then DATEDIFF(CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
+            ->select("c.code as code,c.client_code, c.doc as doc,c.transfer_doc as t_doc,, CONCAT(cl.first_name,' ',cl.last_name) AS s_name,ct.type_name,cu.name,c.building_code,c.apartment_code,c.status,c.move_in_date,c.move_out_date, case WHEN c.move_out_date is  NULL then DATEDIFF(CURDATE(), c.move_in_date ) else DATEDIFF( c.move_out_date, c.move_in_date ) end as days", FALSE)
             ->from("client_intake c")
             ->join('clients cl', 'c.client_code = cl.code', 'left')
             ->join('client_type ct', 'c.client_type = ct.type_code', 'left')
             ->join('customers cu', 'c.vendor_code = cu.code', 'left')
             ->add_column("Actions",
-                "<center><a href='" . $url . "$2' download class='tip' title='Discharge Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a><a href='index.php?module=clients&amp;view=client_transfer&amp;name=$1' class='tip' title='" . $this->lang->line("client_transfer") . "'><i class=\"icon-screenshot\"></i></a><a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
-            ->unset_column('code,doc');
+                "<center><a href='" . $url . "$2' download class='tip' title='Discharge Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='" . $url_transfer . "$3' download class='tip' title='Transfer Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=client_discharge&amp;name=$1' class='tip' title='" . $this->lang->line("client_discharge") . "'><i class=\"icon-adjust\"></i></a><a href='index.php?module=clients&amp;view=client_transfer&amp;name=$1' class='tip' title='" . $this->lang->line("client_transfer") . "'><i class=\"icon-screenshot\"></i></a><a href='index.php?module=clients&amp;view=delete_intake&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_intake') . "')\" class='tip' title='" . $this->lang->line("delete_intake") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc,t_doc")
+            ->unset_column('code,doc,t_doc');
         echo $this->datatables->generate();
 
     }
@@ -778,7 +779,7 @@ class Clients extends MX_Controller
         }
 
         $isDischarged = $this->clients_model->getClientByIntakeCode($name);
-        $isExists = $this->clients_model->getOpenClientByIntakeCode($name);
+        $isExists = $this->clients_model->getIntakeByCode($name);
         if ($isDischarged) {
             $this->session->set_flashdata('message', "Client already discharged.");
             redirect("module=clients&view=intake_list", 'refresh');
@@ -788,31 +789,32 @@ class Clients extends MX_Controller
         //validate form input
         $this->form_validation->set_rules('apartment_code', $this->lang->line("apartment_code"), 'required|xss_clean');
         $this->form_validation->set_rules('comments', $this->lang->line("comments"), 'required|xss_clean');
+        $this->form_validation->set_rules('userfile', 'Logo Image', 'xss_clean');
 
 
-//        if ($_FILES['userfile']['size'] > 0) {
-//
-//            $this->load->library('upload_photo');
-//
-//            $config['upload_path'] = 'assets/uploads/client_discharge_docs/';
-//            $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
-//            $config['max_size'] = '2500';
-//            $new_name = $this->input->post('client_code') . '-' . $this->input->post('move_in_date') . $_FILES["userfiles"]['name'];
-//            $config['file_name'] = $new_name;
-//            $config['overwrite'] = FALSE;
-//
-//            $this->upload_photo->initialize($config);
-//
-//            if (!$this->upload_photo->do_upload()) {
-//
-//                $error = $this->upload_photo->display_errors();
-//                $this->session->set_flashdata('message', $error);
-//                redirect("module=clients&view=intake_list", 'refresh');
-//            }
-//
-//            $doc = $this->upload_photo->file_name;
-//
-//        }
+        if ($_FILES['userfile']['size'] > 0) {
+
+            $this->load->library('upload_photo');
+
+            $config['upload_path'] = 'assets/uploads/client_transfer_docs/';
+            $config['allowed_types'] = 'gif|jpg|png|pdf|txt';
+            $config['max_size'] = '2500';
+            $new_name = $this->input->post('client_code') . '-' .date('Y-m-d') . $_FILES["userfiles"]['name'];
+            $config['file_name'] = $new_name;
+            $config['overwrite'] = FALSE;
+
+            $this->upload_photo->initialize($config);
+
+            if (!$this->upload_photo->do_upload()) {
+
+                $error = $this->upload_photo->display_errors();
+                $this->session->set_flashdata('message', $error);
+                redirect("module=clients&view=intake_list", 'refresh');
+            }
+
+            $doc = $this->upload_photo->file_name;
+
+        }
 
 
         if ($this->form_validation->run() == true) {
@@ -832,20 +834,20 @@ class Clients extends MX_Controller
                 'status' => 'Transferred',
                 'move_out_date' => date('Y-m-d'),
                 'comment' => $this->input->post("comments"),
-                'doc' => $isDischarged->doc,
-                'client_type' => $isDischarged->client_type,
+                'transfer_doc' =>$doc,
+                'client_type' => $isExists->client_type,
                 'updated_by' => USER_NAME,
                 'updated_date' => date('Y-m-d H:i:s')
             );
 
             $new_data = array(
-                'client_code' => $isDischarged->client_type,
-                'vendor_code' => $isDischarged->client_type,
-                'building_code' => $isDischarged->client_type,
+                'client_code' => $isExists->client_code,
+                'vendor_code' => $isExists->vendor_code,
+                'building_code' => $isExists->building_code,
                 'apartment_code' => $this->input->post('apartment_code'),
                 'code' => $this->clients_model->getRQNextAIClientIntake(),
                 'status' => 'Admitted',
-                'client_type' => $isDischarged->client_type,
+                'client_type' => $isExists->client_type,
                 'move_in_date' => date('Y-m-d'),
                 'created_by' => USER_NAME,
                 'created_date' => date('Y-m-d H:i:s')
@@ -854,8 +856,10 @@ class Clients extends MX_Controller
         }
 
 
-        if ($this->form_validation->run() == true && $this->clients_model->transferClient($old_data,$old_data, $name)) { //check to see if we are creating the customer
-            //redirect them back to the admin page
+//        var_dump($isExists);
+//        var_dump($new_data);
+        if ($this->form_validation->run() == true && $this->clients_model->transferClient($old_data,$new_data, $name)) { //check to see if we are creating the customer
+//        if ($this->form_validation->run() == true) { //check to see if we are creating the customer
             $this->session->set_flashdata('success_message', $this->lang->line("client_transfer"));
             redirect("module=clients&view=intake_list", 'refresh');
 //
