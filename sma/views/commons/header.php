@@ -303,6 +303,9 @@
                 <li>
                     <a href="<?php echo base_url(); ?>index.php?module=reports&view=building_facilities"><?php echo $this->lang->line('building_facilities_reports'); ?></a>
                 </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>index.php?module=reports&view=invoice_view">Invoice </a>
+                </li>
             </ul>
         </li>
     </ul>

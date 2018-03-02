@@ -46,4 +46,17 @@ class Reports_model extends CI_Model
     }
 
 
+    public function getAllBuildingForInvoice()
+    {
+        $q = $this->db->get("building");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
 }

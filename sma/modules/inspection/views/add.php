@@ -221,7 +221,7 @@ newTr.html('<td><input class="span12" name="apt_' + count + '" id="apt_' + count
 
     echo '<td><input class="span12" readonly="readonly"  data-error="Concern is required" required="required" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" required="required" data-error="Weight is required" class="span12" style="text-align:right;" value="0" readonly="readonly" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" data-error="Comment is required" required="required" style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" required="required" data-error="Weight is required" class="span12" style="text-align:right;" value="0" readonly="readonly" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" data-error="Comment is required"  style="text-align:right;" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
 newTr.prependTo("#dyTable");
 
 count++;
@@ -267,7 +267,7 @@ $('#addOtherInfo').click(function (){
 
     echo '<td><input class="span12" data-error="Concern is required" readonly="readonly" name="concern_\' + count + \'" id="concern_\' + count + \'"></td>';
 
-?><td><input type="text" class="span12" data-error="Weight is required" readonly="readonly" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" required="required" class="span12 tran2" style="text-align:right;" data-error="Comment is required" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
+?><td><input type="text" class="span12" data-error="Weight is required" readonly="readonly" style="text-align:right;" value="0" name="weight_' + count + '" id="weight_' + count + '"></td><td><input type="text" class="span12 tran2" style="text-align:right;" data-error="Comment is required" name="comments_' + count + '" id="comments_' + count + '"></td><td><i class="icon-trash tip del" id="' + count + '" title="Remove this Item" style="cursor:pointer;" data-placement="right"></i></td><td><input class="span2 tran" type="text" value=""></td>');
     newTr.prependTo("#dyTable");
 
     count++;

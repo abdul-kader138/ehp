@@ -842,6 +842,7 @@ $lang['buildings_updated'] 				= "Facility Successfully Updated.";
 $lang['buildings_deleted'] 				= "Facility Successfully Deleted.";
 $lang['buildings_code'] 			    = "Building Code";
 $lang['buildings_name'] 			    = "Building Name";
+$lang['show'] 			                = "Show";
 $lang['buildings_name_exist'] 			= "Building name already exist.";
 $lang['list_buildings'] 				= "List of Facilities";
 $lang['list_buildings_name'] 			= "List of Facilities Name";
