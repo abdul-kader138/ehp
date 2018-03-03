@@ -97,8 +97,8 @@ class Reports extends MX_Controller
 
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         $data['buildings'] = $this->reports_model->getAllBuildingForInvoice();
-        $meta['page_title'] = $this->lang->line("sale_reports");
-        $data['page_title'] = $this->lang->line("sale_reports");
+        $meta['page_title'] = $this->lang->line("invoice");
+        $data['page_title'] = $this->lang->line("invoice");
         $this->load->view('commons/header', $meta);
         $this->load->view('invoice_view', $data);
         $this->load->view('commons/footer');
@@ -133,20 +133,9 @@ class Reports extends MX_Controller
 
         $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
         $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate,$eBuildingCode);
-//        $inv = $this->reports_model->getInvoiceBySaleID($startDate, $endDate);
-//        $data['inv'] = $inv;
-//        $data['sale_start_date'] = $sale_start_date;
-//        $data['sale_end_date'] = $sale_end_date;
-//        $data['inv'] = $inv;
-
-
         $data['sDate'] = $this->input->get('sDate');
         $data['eDate'] = $this->input->get('eDate');
         $data['page_title'] = $this->lang->line("invoice");
-//        $data['sid'] = $sale_id;
-
-//        var_dump($data['rows']);
-
         $this->load->view('invoice_view_details', $data);
 
     }

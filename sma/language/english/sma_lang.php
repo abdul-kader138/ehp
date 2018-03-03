@@ -72,7 +72,7 @@ $lang['upload_biller_logo'] 			= "Upload Biller Logo";
 $lang['install'] 						= "You must delete the 'install' folder from";
 $lang['purchases'] 						= "Purchases";
 $lang['invoices'] 						= "Invoices";
-$lang['invoice'] 						= "Invoice";
+$lang['invoice'] 						= "Invoice Print";
 $lang['product_alerts'] 				= "Product Alerts";
 $lang['settings'] 						= "Settings";
 $lang['peoples'] 						= "Peoples";
@@ -288,7 +288,7 @@ $lang['code_not_found'] 				= "System couldn't find any product with this code";
 
 $lang['sales'] 							= "Sales";
 $lang['total_sales'] 					= "Total Sales";
-$lang['invoice'] 						= "Invoice";
+$lang['invoice'] 						= "Invoice Print";
 $lang['invoice_type'] 					= "Invoice Type";
 $lang['tax_rate'] 						= "Tax Rate";
 $lang['reference_no'] 					= "Reference No";
