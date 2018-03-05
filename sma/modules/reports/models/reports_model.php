@@ -3,22 +3,22 @@
 
 /*
 | -----------------------------------------------------
-| PRODUCT NAME: 	SCHOOL MANAGER 
+    | PRODUCT NAME: 	EHP
 | -----------------------------------------------------
-| AUTHER:			MIAN SALEEM 
+    | AUTHER:			Abdul Kader
 | -----------------------------------------------------
-| EMAIL:			saleem@tecdiary.com 
+    | EMAIL:			babu313136@gmail.com
+    | -----------------------------------------------------
+    | COPYRIGHTS:		RESERVED BY One Click SOLUTIONS
 | -----------------------------------------------------
-| COPYRIGHTS:		RESERVED BY TECDIARY IT SOLUTIONS
+    | WEBSITE:
+    | -----------------------------------------------------
+    |
+    | MODULE: 			Report
 | -----------------------------------------------------
-| WEBSITE:			http://tecdiary.net
-| -----------------------------------------------------
-|
-| MODULE: 			Reports
-| -----------------------------------------------------
-| This is reports module model file.
-| -----------------------------------------------------
-*/
+    | This is level module model file.
+    | -----------------------------------------------------
+    */
 
 
 class Reports_model extends CI_Model
@@ -71,6 +71,52 @@ class Reports_model extends CI_Model
 
             return $data;
         }
+
+    }
+
+    function getValidInvoiceItemsWithDetails($sDate,$eDate,$code)
+    {
+
+        $qry = "select a.building_code,a.building_name,a.location,sum(a.room_rent) as rents,customers.name as c_name
+               from (SELECT building.building_name,building.building_code,building.location,rooms.room_code,
+                rooms.room_name,rooms.room_rent FROM `building` inner join building_details on
+                building.building_code=building_details.building_code INNER join level on
+                building_details.level_code=level.level_code inner join rooms on
+                level.room_code=rooms.room_code where building.building_code='" . $code . "'
+                GROUP by rooms.room_code order by rooms.room_name ASC ) as a inner join
+                client_intake on a.building_code=client_intake.building_code and
+                 a.room_code=client_intake.apartment_code and client_intake.move_in_date
+                 BETWEEN '" . $sDate . "' and '" . $eDate . "'
+                 and client_intake.move_in_date is not null INNER join
+                 customers on client_intake.vendor_code=customers.code";
+        $q = $this->db->query($qry);
+        if($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+    }
+
+    public function getRQNextInvoice()
+    {
+        $this->db->select_max('id');
+        $q = $this->db->get('invoice');
+        if ($q->num_rows() > 0) {
+            $row = $q->row();
+            return "INV" . "-" . sprintf("%05s", $row->id + 1);
+        }
+
+        return FALSE;
+
+    }
+
+    public function add_invoice($obj){
+        var_dump($obj);
+        if($this->db->insert('invoice',$obj)) return true;
+        else return false;
 
     }
 }

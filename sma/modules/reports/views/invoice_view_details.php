@@ -91,7 +91,7 @@
 <div id="wrapper">
     <h3>CITY OF NEW YORK HUMAN RESOURCES ADMINISTRATION</h3>
 
-    <h3>HASA FAMILY BILLING INVOICE</h3>
+    <h3><?php echo $c_name;?></h3>
     <br/>
     <?php
     echo "<span class=\"left\">Building Code: " . $rows[0]->building_code . "</span>";
@@ -119,7 +119,11 @@
             <?php $r = 1;
             $totalCount = 0;
             $getBuy = 0;
+
+
+                var_dump($eDate);
             foreach ($rows as $row):
+
 
                 if ($row->move_in_date) {
                     $now = time(); // or your date as well
@@ -129,7 +133,8 @@
                         $o_date = strtotime($row->move_out_date);
                         $datediff = $o_date - $m_date;
                     } else {
-                        $datediff = (strtotime($eDate) - $m_date);
+                        $o_date=strtotime($eDate);
+                        $datediff = ($o_date - $m_date);
                     }
                     $days = round($datediff / (60 * 60 * 24));
                 } else {
