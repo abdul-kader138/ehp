@@ -93,50 +93,32 @@ class Reports extends MX_Controller
     function invoice_view()
     {
 
-//        var_dump("test");
-
-        $this->form_validation->set_rules('start_date', $this->input->get('start_date'), 'required|xss_clean');
-        $this->form_validation->set_rules('end_date', $this->input->get('end_date'), 'required|xss_clean');
-        $this->form_validation->set_rules('building_code', $this->input->get('building_code'), 'required|xss_clean');
+        $this->form_validation->set_rules('start_date', $this->input->post('start_date'), 'required|xss_clean');
+        $this->form_validation->set_rules('end_date', $this->input->post('end_date'), 'required|xss_clean');
+        $this->form_validation->set_rules('building_code', $this->input->post('building_code'), 'required|xss_clean');
 
 
         if ($this->form_validation->run() == true) {
-            if ($this->input->get('start_date')) {
-                $startDate = $this->input->get('start_date');
-                $startDate = $this->ion_auth->fsd($startDate);
-            } else {
-                $startDate = NULL;
-            }
-            if ($this->input->get('end_date')) {
-                $endDate = $this->input->get('end_date');
-                $endDate = $this->ion_auth->fsd($endDate);
-            } else {
-                $endDate = NULL;
-            }
-            if ($this->input->get('building_code')) {
-                $eBuildingCode = $this->input->get('building_code');
-            } else {
-                $eBuildingCode = NULL;
+            $startDate1 = $this->input->post('start_date');
+            $startDate = $this->ion_auth->fsd($startDate1);
+            $endDate1 = $this->input->post('end_date');
+            $endDate = $this->ion_auth->fsd($endDate1);
+            $eBuildingCode = $this->input->post('building_code');
+
+
+            $valid_invoice = $this->reports_model->getValidInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
+
+
+            if (!$valid_invoice) { //check to see if we are creating the customer
+                $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
+                redirect("module=home", 'refresh');
             }
 
-        }
-
-
-        $valid_invoice = $this->reports_model->getValidInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
-
-        if (!$valid_invoice) { //check to see if we are creating the customer
-            $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
-            redirect("module=home", 'refresh');
-        }
-
-
-        if ($this->form_validation->run() == true) {
-            //         $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-            //         $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
-//            $reference_no = $this->reports_model->getRQNextInvoice();
+            $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
+            $reference_no = $this->reports_model->getRQNextInvoice();
             $inv_data = array(
                 'reference_no' => $reference_no,
-                'Vendor_name' => $valid_invoice[0]->c_name,
+                'vendor_name' => $valid_invoice[0]->c_name,
                 'building_name' => $valid_invoice[0]->building_name,
                 'building_location' => $valid_invoice[0]->location,
                 'inv_val' => $valid_invoice[0]->rents,
@@ -145,14 +127,31 @@ class Reports extends MX_Controller
                 'date' => date('Y-m-d'),
                 'created_by' => USER_NAME,
                 'created_on' => date('Y-m-d H:i:s'));
-
-            if ($this->reports_model->add_invoice($inv_data)) {
-                $this->session->set_flashdata('success_message', "Invoice Successfully created.");
-                redirect("module=reports&view=invoice_list", 'refresh');
+            for ($i = 0; $i < count($data['rows']); $i++) {
+                $reference_no1[] = $reference_no;
+                $vendor_name[] = $data['rows'][$i]->name;
+                $ssn[] = $data['rows'][$i]->ssn;
+                $room_name[] = $data['rows'][$i]->room_name;
+                $building_name[] = $data['rows'][$i]->building_name;
+                $building_code[] = $data['rows'][$i]->building_code;
+                $location[] = $data['rows'][$i]->location;
+                $room_rent[] = $data['rows'][$i]->room_rent;
+                $move_in_date[] = $data['rows'][$i]->move_in_date;
+                $move_out_date[] = $data['rows'][$i]->move_out_date;
             }
-
+            $keys = array("reference_no", "vendor_name", "ssn", "room_name", "building_name", "building_code", "location", "room_rent", "move_in_date", 'move_out_date');
+//
+            $items = array();
+            foreach (array_map(null, $reference_no1, $vendor_name, $ssn, $room_name, $building_name, $building_code, $location, $room_rent, $move_in_date, $move_out_date) as $key => $value) {
+                $items[] = array_combine($keys, $value);
+            }
+        }
+//        if ($this->form_validation->run() == true ) {
+        if ($this->form_validation->run() == true && $this->reports_model->add_invoice($inv_data, $items)) {
+            $this->session->set_flashdata('success_message', "Invoice Successfully created.");
+//            var_dump($data['rows'] );
+            redirect("module=reports&view=invoice_list", 'refresh');
         } else {
-
             $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
             $data['buildings'] = $this->reports_model->getAllBuildingForInvoice();
             $meta['page_title'] = $this->lang->line("invoice");
@@ -168,67 +167,18 @@ class Reports extends MX_Controller
 
     function invoice_view_details()
     {
-//        if ($this->input->get('sDate')) {
-//            $startDate = $this->input->get('sDate');
-//            $startDate = $this->ion_auth->fsd($startDate);
-//        } else {
-//            $startDate = NULL;
-//        }
-//        if ($this->input->get('eDate')) {
-//            $endDate = $this->input->get('eDate');
-//            $endDate = $this->ion_auth->fsd($endDate);
-//        } else {
-//            $endDate = NULL;
-//        }
-//        if ($this->input->get('eID')) {
-//            $eBuildingCode = $this->input->get('eID');
-//        } else {
-//            $eBuildingCode = NULL;
-//        }
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        } else {
+            $id = NULL;
+        }
 //
-//
-//        $valid_invoice=$this->reports_model->getValidInvoiceItemsWithDetails($startDate, $endDate,$eBuildingCode);
-////
-//        if (!$valid_invoice) { //check to see if we are creating the customer
-//            $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
-//            redirect("module=home", 'refresh');
-//        }
-//
-//
-//
-//        $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-//        $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate,$eBuildingCode);
-//        $reference_no = $this->reports_model->getRQNextInvoice();
-//        $inv_data = array(
-//            'reference_no' => $reference_no,
-//            'Vendor_name' =>  $valid_invoice[0]->c_name,
-//            'building_name' => $valid_invoice[0]->building_name,
-//            'building_location' =>  $valid_invoice[0]->location,
-//            'inv_val' => $valid_invoice[0]->rents,
-//            'inv_start_date' => $startDate,
-//            'inv_end_date' =>$endDate,
-//            'date' => date('Y-m-d'),
-//            'created_by' => USER_NAME,
-//            'created_on' => date('Y-m-d H:i:s'));
-////
-////        if($this->reports_model->add_invoice($inv_data)){
-////            $data['sDate'] = $this->input->get('sDate');
-////            $data['eDate'] = $endDate;
-////            $data['c_name'] = $valid_invoice[0]->c_name;
-////            $data['page_title'] = $this->lang->line("invoice");
-////            $this->load->view('invoice_view_details', $data);
-////        }
-//
-//
-//        if($this->reports_model->add_invoice($inv_data)){
-//            $this->session->set_flashdata('success_message', "Invoice Successfully created.");
-//            redirect("module=reports&view=invoice_list", 'refresh');
-//        }
-//        else{
-//            $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
-//            redirect("module=reports", 'refresh');
-//        }
-
+        $inv = $this->reports_model->getValidInvoiceById($id);
+        $inv_details = $this->reports_model->getValidInvoiceItemsWithDetailsById($id);
+        $data['inv'] = $inv;
+        $data['rows'] = $inv_details;
+        $data['page_title'] = $this->lang->line("invoice");
+        $this->load->view('invoice_view_details', $data);
 
     }
 
@@ -242,10 +192,10 @@ class Reports extends MX_Controller
         $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         $data['success_message'] = $this->session->flashdata('success_message');
 
-        $meta['page_title'] = $this->lang->line("clients");
-        $data['page_title'] = $this->lang->line("clients");
+        $meta['page_title'] = $this->lang->line("invoice_list");
+        $data['page_title'] = $this->lang->line("invoice_list");
         $this->load->view('commons/header', $meta);
-        $this->load->view('clients', $data);
+        $this->load->view('invoice_list', $data);
         $this->load->view('commons/footer');
     }
 
@@ -255,15 +205,42 @@ class Reports extends MX_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("c.date as date,c.reference_no as doc,c.vendor_name,c.building_name,c.building_location,c.inv_val,c.date_of_birth")
+            ->select("c.id as id,c.date,c.reference_no as doc,c.vendor_name,c.building_name,c.building_location,c.inv_start_date,c.inv_end_date,c.inv_val", false)
             ->from("invoice c")
-            ->gourp_by('c.id')
+//            ->gourp_by('c.id')
             ->add_column("Actions",
-                "<center><a href='index.php?module=clients&amp;view=client_details&amp;name=$1' class='tip' title='Client Intake Details'><i class=\"icon-fullscreen\"></i></a><a href='" . $url . "$2' download class='tip' title='Doc. Download'><i class=\"icon-download-alt\"></i></a><a href='index.php?module=clients&amp;view=edit&amp;name=$1' class='tip' title='" . $this->lang->line("edit_client") . "'><i class=\"icon-edit\"></i></a> <a href='index.php?module=clients&amp;view=delete&amp;name=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_client') . "')\" class='tip' title='" . $this->lang->line("delete_client") . "'><i class=\"icon-remove\"></i></a></center>", "code,doc")
-            ->unset_column('doc');
+                "<center><a href='#' onClick=\"MyWindow=window.open('index.php?module=reports&view=invoice_view_details&id=$1', 'MyWindow','toolbar=0,location=0,directories=0,status=0,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;\" title='Print Invoice' class='tip'><i class='icon-fullscreen'></i></a>
+                <a href='index.php?module=reports&amp;view=delete&amp;id=$1' onClick=\"return confirm('" . $this->lang->line('alert_x_invoice') . "')\" class='tip' title='" . $this->lang->line("delete_invoice") . "'><i class=\"icon-remove\"></i></a></center>", "id")
+            ->unset_column('id');
         echo $this->datatables->generate();
 
     }
 
+
+    function delete($id = NULL)
+    {
+
+        if ($this->input->get('id')) {
+            $id = $this->input->get('id');
+        }
+        if (!$this->ion_auth->in_group('owner')) {
+            $this->session->set_flashdata('message', $this->lang->line("access_denied"));
+            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            redirect('module=home', 'refresh');
+        }
+
+//        @todo need to implement later
+//
+//        if($this->level->getRackByShelfID($id)) {
+//            $this->session->set_flashdata('message', $this->lang->line("Shelf Has Rack"));
+//            redirect("module=shelfs", 'refresh');
+//        }
+        if ($this->reports_model->deleteInvoice($id)) { //check to see if we are deleting the customer
+            //redirect them back to the admin page
+            $this->session->set_flashdata('success_message', $this->lang->line("invoice_deleted"));
+            redirect("module=reports&view=invoice_list", 'refresh');
+        }
+
+    }
 }
 

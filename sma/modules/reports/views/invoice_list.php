@@ -7,7 +7,7 @@
             <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
             'bProcessing'    : true,
             'bServerSide'    : true,
-            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=reportd&view=getDataTableInvoiceAjax',
+            'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=reports&view=getDataTableInvoiceAjax',
             'fnServerData': function(sSource, aoData, fnCallback)
             {
                 aoData.push( { "name": "<?php echo $this->security->get_csrf_token_name(); ?>", "value": "<?php echo $this->security->get_csrf_hash() ?>" } );
@@ -63,7 +63,7 @@
 <table id="fileData" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-hover table-striped" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th>Creation Date</th>
+        <th>Creation <br/>Date</th>
         <th><?php echo $this->lang->line("code"); ?></th>
         <th>Vendor Name</th>
         <th>Building Name</th>

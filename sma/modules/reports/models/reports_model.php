@@ -113,10 +113,63 @@ class Reports_model extends CI_Model
 
     }
 
-    public function add_invoice($obj){
-        var_dump($obj);
-        if($this->db->insert('invoice',$obj)) return true;
+    public function add_invoice($obj,$inspectionDetails){
+
+        if($this->db->insert('invoice',$obj)){
+            $id = $this->db->insert_id();
+            $addOn = array('invoice_id' => $id);
+            end($addOn);
+            foreach ($inspectionDetails as &$var) {
+                $var = array_merge($addOn, $var);
+            }
+
+            if ($this->db->insert_batch('invoice_details', $inspectionDetails)) {
+                return true;
+            }
+            return true;
+        }
+
         else return false;
 
     }
+
+    public function getValidInvoiceById($id)
+    {
+        $q = $this->db->get_where("invoice",array('id'=>$id));
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+    public function getValidInvoiceItemsWithDetailsById($id)
+    {
+        $q = $this->db->get_where("invoice_details",array('invoice_id'=>$id));
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+
+        return FALSE;
+    }
+
+    public function deleteInvoice($id)
+    {
+        if ($this->db->delete("invoice", array('id' => $id))) {
+            if ($this->db->delete("invoice_details", array('invoice_id' => $id))) {
+                return true;
+            }
+        }
+        return FALSE;
+    }
+
+
 }

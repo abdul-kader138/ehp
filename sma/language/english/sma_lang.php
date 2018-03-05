@@ -366,6 +366,7 @@ $lang['new_warehouse'] 					= "Add New Warehouse";
 $lang['warehouse_updated'] 				= "Warehouse Successfully Updated!";
 $lang['update_warehouse'] 				= "Update Warehouse";
 $lang['update_package'] 				= "Update Package";
+$lang['invoice_list'] 			    	= "Invoice List";
 $lang['invoice_title_tip'] 				= "Please give a name to invoice type.";
 $lang['invoice_type_tip'] 				= "Please select type. <strong>Real</strong> will deduct product from stock but <strong>Draft</strong> won't.";
 $lang['tax_rate_title_tip'] 			= "Please give a name to tax rate.";
@@ -903,11 +904,14 @@ $lang['ssn']		                     = "SSN";
 $lang['new_client']		                 = "Add New Client";
 $lang['edit_client']		             = "Edit Client";
 $lang['delete_client']		             = "Delete Client";
+$lang['delete_invoice']		             = "Delete Invoice";
 $lang['client_type']		             = "Client's Precondition";
 $lang['client_added']		             = "Client Successfully Added.";
 $lang['client_updated']		             = "Client Successfully Updated.";
 $lang['client_deleted']		             = "Client Successfully Deleted.";
+$lang['invoice_deleted']		             = "Invoice Successfully Deleted.";
 $lang['alert_x_client'] 				 = "You are going to remove this Client. Press OK to proceed and Cancel to Go Back";
+$lang['alert_x_invoice'] 				 = "You are going to remove this Invoice. Press OK to proceed and Cancel to Go Back";
 
 
 $lang['list_intake']		             = "List Of Client Admission";

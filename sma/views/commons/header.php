@@ -247,24 +247,24 @@
                 </ul>
             </li>
 
-<!--            <li class="dropdown"><a class="showSubMenus" href="#salesMenu"><i-->
-<!--                        class="icon-heart  icon-white"></i> --><?php //echo $this->lang->line('sales'); ?><!-- <b-->
-<!--                        class="caret"></b></a>-->
-<!--                <ul class="nav nav-tabs nav-stacked sub-menu" id="salesMenu">-->
-<!--                    <li>-->
-<!--                        <a href="--><?php //echo base_url(); ?><!--index.php?module=sales">--><?php //echo $this->lang->line('list_invoices'); ?><!--</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="--><?php //echo base_url(); ?><!--index.php?module=sales&amp;view=add">-->
-<!--                            --><?php //echo $this->lang->line('add_invoice'); ?><!--</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="-->
-<!--            --><?php //echo base_url(); ?><!--index.php?module=sales&amp;view=deliveries">-->
-<!--                            --><?php //echo $this->lang->line('list_deliveries'); ?><!--</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </li>-->
+<!--            	Billing Invoices-->
+
+            <li class="dropdown"><a class="showSubMenus" href="#invoiceMenu"><i
+                        class="icon-tasks icon-white"></i>Billing Invoices<b
+                        class="caret"></b></a>
+                <ul class="nav nav-tabs nav-stacked sub-menu" id="invoiceMenu">
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=reports&view=invoice_list">
+                            Invoice List</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>index.php?module=reports&view=invoice_view">Create Invoice</a>
+                    </li>
+                    <li class="divider"></li>
+
+                </ul>
+            </li>
 
         <?php } ?>
 
