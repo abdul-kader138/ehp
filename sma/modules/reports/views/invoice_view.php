@@ -1,13 +1,5 @@
-
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
-<style type="text/css">
-    .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
-    .select_filter { width: 100% !important; padding:0 !important; height: auto !important; margin:0 !important;}
-    .table td { width: 12.5%; display: table-cell; }
-    .table th { text-align: center; }
-    .table td:nth-child(5) { font-size:90%; }
-    .table td:nth-child(6), .table tfoot th:nth-child(6), .table td:nth-child(7), .table tfoot th:nth-child(7), .table td:nth-child(8), .table tfoot th:nth-child(8) { text-align:right; }
-</style>
+
 <link href="<?php echo $this->config->base_url(); ?>assets/css/datepicker.css" rel="stylesheet">
 <script src="<?php echo $this->config->base_url(); ?>assets/js/query-ui.js"></script>
 <script type="text/javascript">
@@ -21,12 +13,7 @@
             format: "<?php echo JS_DATE; ?>",
             autoclose: true
         });
-        $(".toggle_form").slideDown('slow');
 
-        $('.toggle_form').click(function(){
-            $(".form").slideToggle();
-            return false;
-        });
 //        $("#show").click(function(){
 //            var sDate=$("#start_date").val();
 //            var eDate=$("#end_date").val();
@@ -65,7 +52,7 @@
 <h3 class="title"><?php echo $page_title; ?></h3>
 <p><?php echo $this->lang->line("enter_info"); ?></p>
 
-<?php $attrib = array('class' => 'form-horizontal'); echo form_open_multipart("module=reports&view=invoice_view", $attrib);?>
+<?php $attrib = array('class' => 'form-horizontal'); echo form_open("module=reports&view=invoice_view", $attrib);?>
 
 <div class="control-group">
     <label class="control-label" for="customer"><?php echo $this->lang->line("buildings_name"); ?></label>

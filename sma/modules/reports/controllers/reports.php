@@ -30,7 +30,7 @@ class Reports extends MX_Controller
         if (!$this->ion_auth->logged_in()) {
             redirect('module=auth&view=login');
         }
-
+        $this->load->library('form_validation');
         $this->load->model('reports_model');
 
     }
@@ -93,6 +93,7 @@ class Reports extends MX_Controller
     function invoice_view()
     {
 
+//        var_dump("test");
 
         $this->form_validation->set_rules('start_date', $this->input->get('start_date'), 'required|xss_clean');
         $this->form_validation->set_rules('end_date', $this->input->get('end_date'), 'required|xss_clean');
@@ -121,36 +122,37 @@ class Reports extends MX_Controller
         }
 
 
-     //   $valid_invoice = $this->reports_model->getValidInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
-//
-//        if (!$valid_invoice) { //check to see if we are creating the customer
-//            $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
-//            redirect("module=home", 'refresh');
-//        }
+        $valid_invoice = $this->reports_model->getValidInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
+
+        if (!$valid_invoice) { //check to see if we are creating the customer
+            $this->session->set_flashdata('message', 'No Valid info are available for creating invoice');
+            redirect("module=home", 'refresh');
+        }
 
 
         if ($this->form_validation->run() == true) {
+            //         $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+            //         $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
+//            $reference_no = $this->reports_model->getRQNextInvoice();
+            $inv_data = array(
+                'reference_no' => $reference_no,
+                'Vendor_name' => $valid_invoice[0]->c_name,
+                'building_name' => $valid_invoice[0]->building_name,
+                'building_location' => $valid_invoice[0]->location,
+                'inv_val' => $valid_invoice[0]->rents,
+                'inv_start_date' => $startDate,
+                'inv_end_date' => $endDate,
+                'date' => date('Y-m-d'),
+                'created_by' => USER_NAME,
+                'created_on' => date('Y-m-d H:i:s'));
 
-            $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-            $data['rows'] = $this->reports_model->getAllInvoiceItemsWithDetails($startDate, $endDate, $eBuildingCode);
-            $reference_no = $this->reports_model->getRQNextInvoice();
-//            $inv_data = array(
-//                'reference_no' => $reference_no,
-//                'Vendor_name' => $valid_invoice[0]->c_name,
-//                'building_name' => $valid_invoice[0]->building_name,
-//                'building_location' => $valid_invoice[0]->location,
-//                'inv_val' => $valid_invoice[0]->rents,
-//                'inv_start_date' => $startDate,
-//                'inv_end_date' => $endDate,
-//                'date' => date('Y-m-d'),
-//                'created_by' => USER_NAME,
-//                'created_on' => date('Y-m-d H:i:s'));
+            if ($this->reports_model->add_invoice($inv_data)) {
+                $this->session->set_flashdata('success_message', "Invoice Successfully created.");
+                redirect("module=reports&view=invoice_list", 'refresh');
+            }
 
-//            if ($this->reports_model->add_invoice($inv_data)) {
-//                $this->session->set_flashdata('success_message', "Invoice Successfully created.");
-//                redirect("module=reports&view=invoice_list", 'refresh');
-//            }
         } else {
+
             $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
             $data['buildings'] = $this->reports_model->getAllBuildingForInvoice();
             $meta['page_title'] = $this->lang->line("invoice");
